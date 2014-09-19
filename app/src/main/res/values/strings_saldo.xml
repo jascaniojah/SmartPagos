@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fecha_de_consulta">Fecha de Consulta:</string>
+    <string name="hora_de_consulta">Hora de Consulta:</string>
+    <string name="fecha_ult_trans">Fecha de Ult. Transaccion:</string>
+    <string name="hora_ult_trans">Hora de Ult. Transaccion:</string>
+    <string name="saldo_actual">Saldo Actual:</string>
+    <string name="boton_consultar">Consultar</string>
+</resources>

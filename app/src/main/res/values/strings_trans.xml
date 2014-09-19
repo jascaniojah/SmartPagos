@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="desde_fecha">Desde:</string>
+    <string name="hasta_fecha">Hasta:</string>
+    <string name="fecha_hora_actual">Fecha:</string>
+    <string name="abonado">Telefono Abonado:</string>
+    <string name="monto_abonado">Monto Abonado:</string>
+    <string name="id_trans">Id de Transaccion</string>
+    <string name="fecha_hora_recarga">Fecha y Hora de Recarga</string>
+</resources>
