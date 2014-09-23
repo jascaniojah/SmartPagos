@@ -21,14 +21,10 @@ public class Saldo extends Fragment {
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.saldo_frag, container, false);
         fecha_consulta= (TextView) view.findViewById(R.id.fecha_consulta);
-        hora_consulta = (TextView) view.findViewById(R.id.hora_consulta);
         fecha_ult_trans= (TextView)view.findViewById(R.id.fecha_ult_trans);
-        hora_ult_trans= (TextView)view.findViewById(R.id.hora_ult_trans);
         saldo_actual= (TextView)view.findViewById(R.id.saldo);
         resp_fecha_consulta=(TextView)view.findViewById(R.id.resp_fecha_consulta);
-        resp_hora_consulta=(TextView)view.findViewById(R.id.resp_hora_consulta);
         resp_fecha_ult_trans=(TextView)view.findViewById(R.id.resp_fecha_ult_trans);
-        resp_hora_ult_trans=(TextView)view.findViewById(R.id.resp_hora_ult_trans);
         resp_saldo_actual=(TextView)view.findViewById(R.id.resp_saldo_actual);
 
         saldo_boton = (Button) view.findViewById(R.id.boton_saldo);

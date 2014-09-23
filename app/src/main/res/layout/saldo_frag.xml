@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <TableLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tabla"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:stretchColumns="1" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
 
         <TextView
             android:id="@+id/fecha_consulta"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="5px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text="@string/fecha_de_consulta"
             android:textSize="20sp"
             />
@@ -23,72 +17,35 @@
             android:id="@+id/resp_fecha_consulta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5px"
             android:textSize="20sp"
+            android:layout_alignParentRight="true"
+            android:padding="5dp"
+            android:layout_toEndOf="@+id/fecha_consulta"
+            android:layout_toRightOf="@+id/fecha_consulta"
             />
-    </TableRow>
 
-    <TableRow android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/hora_consulta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5px"
-            android:text="@string/hora_de_consulta"
-            android:textSize="20sp"
-            />
-        <TextView
-            android:id="@+id/resp_hora_consulta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5px"
-            android:textSize="20sp"
-             />
-    </TableRow>
-    <TableRow android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/fecha_ult_trans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5px"
+            android:padding="5dp"
             android:text="@string/fecha_ult_trans"
             android:textSize="20sp"
+            android:layout_below="@+id/fecha_consulta"
+
             />
         <TextView
             android:id="@+id/resp_fecha_ult_trans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5px"
+            android:padding="5dp"
             android:textSize="20sp"
-                        />
-    </TableRow>
-
-    <TableRow android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/hora_ult_trans"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5px"
-            android:text="@string/hora_ult_trans"
-            android:textSize="20sp"
-            />
-        <TextView
-            android:id="@+id/resp_hora_ult_trans"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5px"
-            android:textSize="20sp"
-             />
-    </TableRow>
-
-    <TableRow android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+            android:layout_below="@+id/resp_fecha_consulta"
+            android:layout_toEndOf="@+id/fecha_ult_trans"
+            android:layout_toRightOf="@+id/fecha_ult_trans"
+            android:layout_alignRight="@+id/resp_fecha_consulta"
+            android:layout_alignEnd="@+id/resp_fecha_consulta" />
 
 
         <TextView
@@ -98,6 +55,8 @@
             android:padding="5dp"
             android:text="@string/saldo_actual"
             android:textSize="20sp"
+            android:layout_below="@+id/fecha_ult_trans"
+
             />
         <TextView
             android:id="@+id/resp_saldo_actual"
@@ -105,21 +64,27 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:textSize="20sp"
-             />
-    </TableRow>
+            android:layout_below="@+id/resp_fecha_ult_trans"
+            android:layout_toEndOf="@+id/saldo"
+            android:layout_toRightOf="@+id/saldo"
+            android:layout_alignRight="@+id/resp_fecha_ult_trans"
+            android:layout_alignEnd="@+id/resp_fecha_ult_trans" />
 
     <Button
         android:id="@+id/boton_saldo"
         style="?android:textAppearanceSmall"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/boton_consultar"
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="#ffffffff"
-        android:textSize="30dp" />
+        android:textSize="30sp"
+        android:layout_below="@+id/saldo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20sp"
+        />
 
-
-</TableLayout>
+</RelativeLayout>
 
 
