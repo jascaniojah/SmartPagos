@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nombre">Nombre: </string>
+    <string name="apellido">Apellido: </string>
+    <string name="email">Email: </string>
+    <string name="usuario">Usuario: </string>
+    <string name="password">Contraseña: </string>
+    </resources>

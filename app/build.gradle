@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets { main { java.srcDirs = ['src/main/java', 'src/main/java/libraries'] } }
 }
 
 dependencies {
@@ -24,5 +25,4 @@ dependencies {
     compile 'com.google.android.gms:play-services:5.2.08'
     compile 'com.android.support:appcompat-v7:20.0.0'
     compile 'com.android.support:support-v4:20.0.0'
-    compile 'com.android.support:appcompat-v7:18.0'
 }
