@@ -13,86 +13,87 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "test_login";
+    private static final String DATABASE_NAME = "smartpagos";
     // Login table name
-    private static final String TABLE_LOGIN = "login";
+    private static final String TABLE_CUENTA = "cuenta";
     // Login Table Columns names
-    private static final String KEY_ID = "id";
-    private static final String KEY_FIRSTNAME = "fname";
-    private static final String KEY_LASTNAME = "lname";
-    private static final String KEY_EMAIL = "email";
-    private static final String KEY_USERNAME = "uname";
-    private static final String KEY_UID = "uid";
-    private static final String KEY_CREATED_AT = "created_at";
+    private static final String KEY_UID = "UID";
+    private static final String KEY_TLF = "telefono";
+    private static final String KEY_IMEI = "imei";
+    private static final String KEY_FECHA_DISP = "fechahora_disp";
+    private static final String KEY_PASSWORD = "password";
+    private static final String KEY_USER = "usuario";
+    private static final String KEY_FECHA_SERV = "fechahora_server";
+    private static final String KEY_FECHA_TRANS = "fechahora_trans";
+    private static final String KEY_SALDO = "saldo";
     public DataBaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_LOGIN + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_FIRSTNAME + " TEXT,"
-                + KEY_LASTNAME + " TEXT,"
-                + KEY_EMAIL + " TEXT UNIQUE,"
-                + KEY_USERNAME + " TEXT,"
-                + KEY_UID + " TEXT,"
-                + KEY_CREATED_AT + " TEXT" + ")";
-        db.execSQL(CREATE_LOGIN_TABLE);
+        String CREATE_CUENTA_TABLE = "CREATE TABLE " + TABLE_CUENTA + "("
+                + KEY_UID + "INTEGER PRIMARY KEY,"
+                + KEY_TLF + " TEXT UNIQUE,"
+                + KEY_IMEI + " TEXT UNIQUE,"
+                + KEY_FECHA_DISP + " DATETIME,"
+                + KEY_PASSWORD + " TEXT ,"
+                + KEY_USER + " TEXT,"
+                + KEY_FECHA_SERV + " DATETIME,"
+                + KEY_FECHA_TRANS + " DATETIME ,"
+                + KEY_SALDO + " FLOAT "+ ")";
+        db.execSQL(CREATE_CUENTA_TABLE);
     }
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CUENTA);
         // Create tables again
         onCreate(db);
     }
     /**
      * Storing user details in database
      * */
-    public void addUser(String fname, String lname, String email, String uname, String uid, String created_at) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void addUser(String telefono, String imei,String fecha_server, String uid, String saldo, String fecha_trans) {
+      SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_FIRSTNAME, fname); // FirstName
-        values.put(KEY_LASTNAME, lname); // LastName
-        values.put(KEY_EMAIL, email); // Email
-        values.put(KEY_USERNAME, uname); // UserName
-        values.put(KEY_UID, uid); // Email
-        values.put(KEY_CREATED_AT, created_at); // Created At
-        // Inserting Row
-        db.insert(TABLE_LOGIN, null, values);
+        values.put(KEY_UID,uid);//Identificador
+        values.put(KEY_IMEI, imei); // IMEI
+        values.put(KEY_TLF, telefono); // Telefono
+        values.put(KEY_FECHA_SERV, fecha_server); // Fecha servidor
+      values.put(KEY_FECHA_TRANS, fecha_trans); // Fecha trans
+        values.put(KEY_SALDO, saldo); // Saldo
+       //  Inserting Row
+        db.insert(TABLE_CUENTA, null, values);
         db.close(); // Closing database connection
     }
     /**
      * Getting user data from database
      * */
-    public HashMap getUserDetails(){
+    public HashMap getSaldo(){
         HashMap user = new HashMap();
-        String selectQuery = "SELECT  * FROM " + TABLE_LOGIN;
+        String selectQuery = "SELECT  * FROM " + TABLE_CUENTA;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // Move to first row
         cursor.moveToFirst();
         if(cursor.getCount() > 0){
-            user.put("fname", cursor.getString(1));
-            user.put("lname", cursor.getString(2));
-            user.put("email", cursor.getString(3));
-            user.put("uname", cursor.getString(4));
-            user.put("uid", cursor.getString(5));
-            user.put("created_at", cursor.getString(6));
-        }
+            user.put("fecha_server", cursor.getString(3));
+           user.put("fecha_trans", cursor.getString(4));
+            user.put("saldo", cursor.getString(5));
+                    }
         cursor.close();
         db.close();
-        // return user
-        return user;
+         return user;
+
     }
     /**
      * Getting user login status
      * return true if rows are there in table
      * */
     public int getRowCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_LOGIN;
+        String countQuery = "SELECT  * FROM " + TABLE_CUENTA;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int rowCount = cursor.getCount();
@@ -108,7 +109,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void resetTables(){
         SQLiteDatabase db = this.getWritableDatabase();
         // Delete All Rows
-        db.delete(TABLE_LOGIN, null, null);
+        db.delete(TABLE_CUENTA, null, null);
         db.close();
     }
 }

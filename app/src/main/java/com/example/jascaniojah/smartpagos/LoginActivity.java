@@ -33,11 +33,14 @@ public class LoginActivity extends Activity {
 
     private static String KEY_SUCCESS = "success";
     private static String KEY_UID = "uid";
-    private static String KEY_USERNAME = "uname";
-    private static String KEY_FIRSTNAME = "fname";
-    private static String KEY_LASTNAME = "lname";
-    private static String KEY_EMAIL = "email";
-    private static String KEY_CREATED_AT = "created_at";
+    private static String KEY_TLF = "telefono";
+    private static String KEY_IMEI = "imei";
+    private static String KEY_FECHA_DISP = "fecha_disp";
+    private static String KEY_PASSWORD = "password";
+    private static String KEY_USER = "usuario";
+    private static String KEY_FECHA_SERV = "fecha_server";
+    private static String KEY_FECHA_TRANS = "fecha_trans";
+    private static String KEY_SALDO = "saldo";
 
     private EditText Usuario;
     private EditText Password;
@@ -158,13 +161,13 @@ public class LoginActivity extends Activity {
  **/
  private class ProcessLogin extends AsyncTask <String,Void,JSONObject> {
     private ProgressDialog pDialog;
-    String email,password;
+    String usuario,password;
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         Usuario = (EditText) findViewById(R.id.usuario);
         Password = (EditText) findViewById(R.id.password);
-        email = Usuario.getText().toString();
+        usuario = Usuario.getText().toString();
         password = Password.getText().toString();
         pDialog = new ProgressDialog(LoginActivity.this);
         pDialog.setTitle("Contacting Servers");
@@ -176,7 +179,7 @@ public class LoginActivity extends Activity {
 
     protected JSONObject doInBackground(String... args) {
         UserFunctions userFunction = new UserFunctions();
-        JSONObject json = userFunction.loginUser(email, password);
+        JSONObject json = userFunction.loginUser(usuario, password);
         return json;
     }
 
@@ -188,19 +191,19 @@ public class LoginActivity extends Activity {
                     pDialog.setMessage("Loading User Space");
                     pDialog.setTitle("Getting Data");
                     DataBaseHandler db = new DataBaseHandler(getApplicationContext());
-                    JSONObject json_user = json.getJSONObject("user");
+                    JSONObject json_user = json.getJSONObject("cuenta");
                     /**
                      * Clear all previous data in SQlite database.
                      **/
                     UserFunctions logout = new UserFunctions();
                     logout.logoutUser(getApplicationContext());
-                    db.addUser(json_user.getString(KEY_FIRSTNAME),json_user.getString(KEY_LASTNAME),json_user.getString(KEY_EMAIL),json_user.getString(KEY_USERNAME),json_user.getString(KEY_UID),json_user.getString(KEY_CREATED_AT));
+                    db.addUser(json_user.getString(KEY_TLF),json_user.getString(KEY_IMEI),json_user.getString(KEY_FECHA_SERV),json_user.getString(KEY_UID),json_user.getString(KEY_SALDO),json_user.getString(KEY_FECHA_TRANS));
                     /**
                      *If JSON array details are stored in SQlite it launches the User Panel.
                      **/
+                    pDialog.dismiss();
                     Intent upanel = new Intent(getApplicationContext(), Principal.class);
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    pDialog.dismiss();
                     startActivity(upanel);
                     /**
                      * Close Login Screen

@@ -22,11 +22,11 @@ public class UserFunctions {
     /**
      * Function to Login
      **/
-    public JSONObject loginUser(String email, String password){
+    public JSONObject loginUser(String usuario, String password){
         // Building Parameters
         List params = new ArrayList();
         params.add(new BasicNameValuePair("tag", login_tag));
-        params.add(new BasicNameValuePair("email", email));
+        params.add(new BasicNameValuePair("usuario", usuario));
         params.add(new BasicNameValuePair("password", password));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
         return json;
@@ -42,6 +42,7 @@ public class UserFunctions {
     /**
      * Function to  Register
      **/
+
     public JSONObject registerUser(String fname, String lname, String email, String uname, String password){
         // Building Parameters
         List params = new ArrayList();
@@ -54,6 +55,7 @@ public class UserFunctions {
         JSONObject json = jsonParser.getJSONFromUrl(registerURL,params);
         return json;
     }
+
     /**
      * Function to logout user
      * Resets the temporary data stored in SQLite Database

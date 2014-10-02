@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.jascaniojah.libraries.DataBaseHandler;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class Saldo extends Fragment {
     Calendar c = Calendar.getInstance();
@@ -17,6 +20,7 @@ public class Saldo extends Fragment {
     TextView fecha_consulta,hora_consulta,fecha_ult_trans,hora_ult_trans,saldo_actual;
     TextView resp_fecha_consulta,resp_hora_consulta,resp_fecha_ult_trans,resp_hora_ult_trans,resp_saldo_actual;
     Button saldo_boton;
+
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.saldo_frag, container, false);
@@ -35,14 +39,18 @@ public class Saldo extends Fragment {
                 //startActivity(i);
                 //attemptLogin();
                 Rellenar();
+
             }
         });
 
         return view;
     }
     public void Rellenar(){
-    String fecha = df1.format(c.getTime());
-    resp_fecha_consulta.setText(fecha);
-    resp_saldo_actual.setText("3500,00");
+        DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
+        HashMap cuenta = new HashMap();
+        cuenta = db.getSaldo();
+        resp_fecha_consulta.setText((CharSequence) cuenta.get("fecha_server"));
+        resp_saldo_actual.setText((CharSequence)cuenta.get("saldo"));
+        resp_fecha_ult_trans.setText((CharSequence)cuenta.get("fecha_trans"));
     }
 }
