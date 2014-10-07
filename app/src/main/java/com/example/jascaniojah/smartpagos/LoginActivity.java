@@ -82,16 +82,6 @@ public class LoginActivity extends Activity {
         //startActivity(i);
         //attemptLogin();
 
-        Registro = (TextView) findViewById(R.id.registro);
-
-        Registro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), Registro.class);
-                startActivityForResult(myIntent, 0);
-                finish();
-            }
-        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -197,7 +187,7 @@ public class LoginActivity extends Activity {
                      **/
                     UserFunctions logout = new UserFunctions();
                     logout.logoutUser(getApplicationContext());
-                    db.addUser(json_user.getString(KEY_TLF),json_user.getString(KEY_IMEI),json_user.getString(KEY_FECHA_SERV),json_user.getString(KEY_UID),json_user.getString(KEY_SALDO),json_user.getString(KEY_FECHA_TRANS));
+                    db.addUser(json_user.getString(KEY_TLF),json_user.getString(KEY_IMEI),json_user.getString(KEY_FECHA_SERV),json_user.getString(KEY_SALDO),json_user.getString(KEY_FECHA_TRANS));
                     /**
                      *If JSON array details are stored in SQlite it launches the User Panel.
                      **/

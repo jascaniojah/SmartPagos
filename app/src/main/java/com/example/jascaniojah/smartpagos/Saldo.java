@@ -46,11 +46,12 @@ public class Saldo extends Fragment {
         return view;
     }
     public void Rellenar(){
+
         DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
         HashMap cuenta = new HashMap();
         cuenta = db.getSaldo();
         resp_fecha_consulta.setText((CharSequence) cuenta.get("fecha_server"));
         resp_saldo_actual.setText((CharSequence)cuenta.get("saldo"));
-        resp_fecha_ult_trans.setText((CharSequence)cuenta.get("fecha_trans"));
+        resp_fecha_ult_trans.setText((CharSequence) cuenta.get("fecha_trans"));
     }
 }

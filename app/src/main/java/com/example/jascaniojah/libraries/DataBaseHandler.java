@@ -17,7 +17,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     // Login table name
     private static final String TABLE_CUENTA = "cuenta";
     // Login Table Columns names
-    private static final String KEY_UID = "UID";
+    private static final String KEY_UID = "uid";
     private static final String KEY_TLF = "telefono";
     private static final String KEY_IMEI = "imei";
     private static final String KEY_FECHA_DISP = "fechahora_disp";
@@ -55,10 +55,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     /**
      * Storing user details in database
      * */
-    public void addUser(String telefono, String imei,String fecha_server, String uid, String saldo, String fecha_trans) {
+    public void addUser(String telefono, String imei,String fecha_server, String saldo, String fecha_trans) {
       SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_UID,uid);//Identificador
+        //Identificador
         values.put(KEY_IMEI, imei); // IMEI
         values.put(KEY_TLF, telefono); // Telefono
         values.put(KEY_FECHA_SERV, fecha_server); // Fecha servidor
@@ -79,9 +79,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         // Move to first row
         cursor.moveToFirst();
         if(cursor.getCount() > 0){
-            user.put("fecha_server", cursor.getString(3));
-           user.put("fecha_trans", cursor.getString(4));
-            user.put("saldo", cursor.getString(5));
+            user.put("fecha_server", cursor.getString(6));
+           user.put("fecha_trans", cursor.getString(7));
+            user.put("saldo", cursor.getString(8));
                     }
         cursor.close();
         db.close();

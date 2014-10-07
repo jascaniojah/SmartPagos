@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".LoginActivity"
     android:weightSum="1"
-    android:background="#ffff9809">
+    android:background="#fffff8f9">
 
     <!-- Login progress -->
     <ProgressBar
@@ -32,7 +32,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:weightSum="1">
+
+
+                <ImageView
+                    android:src="@drawable/smartpagos"
+                    android:layout_width="344dp"
+                    android:layout_height="101dp"
+                    android:id="@+id/imageView" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -62,7 +70,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
-                    android:imeActionId="@+id/email"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
@@ -81,17 +88,6 @@
                     android:gravity="center"
                     android:textColor="#ffffffff"
                     android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/registro"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/registrar"
-                    android:textColor="#ff010101"
-                    android:textSize="30dp"
-                    android:layout_marginTop="20dp"
-                    android:clickable="true" />
 
             </LinearLayout>
     </ScrollView>

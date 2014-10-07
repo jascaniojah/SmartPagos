@@ -22,10 +22,6 @@
             android:label="@string/title_activity_principal"
             android:theme="@style/Theme.AppCompat.Light" >
         </activity>
-        <activity
-            android:name=".Registro"
-            android:label="@string/title_activity_registro" >
-        </activity>
     </application>
 
     <uses-sdk
