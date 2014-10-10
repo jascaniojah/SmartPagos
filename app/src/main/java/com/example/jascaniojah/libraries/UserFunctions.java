@@ -10,8 +10,8 @@ import java.util.List;
 public class UserFunctions {
     private JSONParser jsonParser;
     //URL of the PHP API
-    private static String loginURL = "http://10.0.2.2/smartpagos_api/";
-    private static String registerURL = "http://10.0.2.2/smartpagos_api/";
+    private static String loginURL = "http://smartpagos.webege.com/";
+    private static String registerURL = "http://smartpagos.webege.com/";
     private static String login_tag = "login";
     private static String register_tag = "register";
 
