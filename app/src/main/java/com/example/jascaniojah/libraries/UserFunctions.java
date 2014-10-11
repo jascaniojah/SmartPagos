@@ -22,12 +22,14 @@ public class UserFunctions {
     /**
      * Function to Login
      **/
-    public JSONObject loginUser(String usuario, String password){
+    public JSONObject loginUser(String usuario, String password, String imei, String numero){
         // Building Parameters
         List params = new ArrayList();
         params.add(new BasicNameValuePair("tag", login_tag));
         params.add(new BasicNameValuePair("usuario", usuario));
         params.add(new BasicNameValuePair("password", password));
+        params.add(new BasicNameValuePair("imei", imei));
+        params.add(new BasicNameValuePair("numero", numero));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
         return json;
     }

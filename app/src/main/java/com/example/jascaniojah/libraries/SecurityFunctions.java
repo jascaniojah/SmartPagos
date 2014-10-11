@@ -11,20 +11,15 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 
-public final class SecurityFunctions {
+public class SecurityFunctions {
 
     public KeySpec keySpec;
     public SecretKey key;
     public IvParameterSpec iv;
 
-    SecurityFunctions()
-    {
-
-    }
-    SecurityFunctions(String keyString, String ivString) {
+    public SecurityFunctions(String keyString, String ivString) {
         try {
             final MessageDigest md = MessageDigest.getInstance("md5");
             final byte[] digestOfPassword = md.digest(Base64.decodeBase64(keyString.getBytes("utf-8")));

@@ -8,12 +8,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.example.jascaniojah.libraries.SecurityFunctions;
 import com.example.jascaniojah.libraries.DataBaseHandler;
 import com.example.jascaniojah.libraries.UserFunctions;
 
@@ -30,7 +32,7 @@ import java.net.URL;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends Activity {
-
+    private static final String TAG="LoginActivity.java";
     private static String KEY_SUCCESS = "success";
     private static String KEY_UID = "uid";
     private static String KEY_TLF = "telefono";
@@ -151,15 +153,22 @@ public class LoginActivity extends Activity {
  **/
  private class ProcessLogin extends AsyncTask <String,Void,JSONObject> {
     private ProgressDialog pDialog;
-    String usuario,password;
+    String usuario,password,imei,numero;
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        SecurityFunctions securityFunctions= new SecurityFunctions("0e2ec11cdf82fa49b5c35dfd9d6a654923ee36db","72355628");
         Usuario = (EditText) findViewById(R.id.usuario);
         Password = (EditText) findViewById(R.id.password);
         usuario = Usuario.getText().toString();
         password = Password.getText().toString();
+        password=securityFunctions.encrypt(password);
         pDialog = new ProgressDialog(LoginActivity.this);
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        imei=telephonyManager.getDeviceId();
+        numero=telephonyManager.getLine1Number();
+        Log.i(TAG,"imei: "+imei);
+        Log.i(TAG,"Numero: "+numero);
         pDialog.setTitle("Contacting Servers");
         pDialog.setMessage("Logging in ...");
         pDialog.setIndeterminate(false);
@@ -169,7 +178,7 @@ public class LoginActivity extends Activity {
 
     protected JSONObject doInBackground(String... args) {
         UserFunctions userFunction = new UserFunctions();
-        JSONObject json = userFunction.loginUser(usuario, password);
+        JSONObject json = userFunction.loginUser(usuario, password,imei,numero);
         return json;
     }
 
