@@ -153,16 +153,17 @@ public class LoginActivity extends Activity {
  **/
  private class ProcessLogin extends AsyncTask <String,Void,JSONObject> {
     private ProgressDialog pDialog;
-    String usuario,password,imei,numero;
+    String usuario,password,imei,numero,cadena;
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         SecurityFunctions securityFunctions= new SecurityFunctions("0e2ec11cdf82fa49b5c35dfd9d6a654923ee36db","72355628");
-        Usuario = (EditText) findViewById(R.id.usuario);
-        Password = (EditText) findViewById(R.id.password);
+        //Usuario = (EditText) findViewById(R.id.usuario);
+        //Password = (EditText) findViewById(R.id.password);
         usuario = Usuario.getText().toString();
         password = Password.getText().toString();
         password=securityFunctions.encrypt(password);
+        Log.i(TAG,"pass: "+password);
         pDialog = new ProgressDialog(LoginActivity.this);
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         imei=telephonyManager.getDeviceId();
@@ -178,7 +179,7 @@ public class LoginActivity extends Activity {
 
     protected JSONObject doInBackground(String... args) {
         UserFunctions userFunction = new UserFunctions();
-        JSONObject json = userFunction.loginUser(usuario, password,imei,numero);
+        JSONObject json = userFunction.loginUser(usuario,password,imei,numero);
         return json;
     }
 

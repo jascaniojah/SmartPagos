@@ -40,11 +40,11 @@ public class SecurityFunctions {
 
     public  String encrypt(String value) {
         try {
-            Cipher ecipher = Cipher.getInstance("DESede/CBC/PKCS5Padding","SunJCE");
+            Cipher ecipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
             ecipher.init(Cipher.ENCRYPT_MODE, key, iv);
 
-            if(value==null)
-                return null;
+            if(value==null){
+                return null;}
 
             // Encode the string into bytes using utf-8
             byte[] utf8 = value.getBytes("UTF8");
@@ -57,7 +57,8 @@ public class SecurityFunctions {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+
+       return null;
     }
 
     public String decrypt(String value) {
