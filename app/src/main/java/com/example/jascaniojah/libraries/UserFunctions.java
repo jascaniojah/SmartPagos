@@ -6,16 +6,18 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 public class UserFunctions {
     private JSONParser jsonParser;
     //URL of the PHP API
-    private static String loginURL = "http://10.0.2.2/smartpagos_webservice/";
+    private static String loginURL = "http://10.0.2.2/smartpagosapi/";
     //private static String registerURL = "http://smartpagos.webege.com/";
     private static String login_tag = "login";
     //private static String register_tag = "register";
-    private static String saldoURL = "http://10.0.2.2/smartpagos_webservice/";
+    private static String saldoURL = "http://10.0.2.2/smartpagosapi/";
     private static String saldo_tag = "consulta";
+    private static final String TAG="UserFunctions";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -26,12 +28,19 @@ public class UserFunctions {
     public JSONObject loginUser(String usuario, String password, String imei, String numero){
         // Building Parameters
         List params = new ArrayList();
+
+        Calendar c =Calendar.getInstance();
+        String fecha_disp = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
         params.add(new BasicNameValuePair("tag", login_tag));
         params.add(new BasicNameValuePair("usuario", usuario));
         params.add(new BasicNameValuePair("password", password));
         params.add(new BasicNameValuePair("imei", imei));
         params.add(new BasicNameValuePair("numero", numero));
+        params.add(new BasicNameValuePair("fecha_disp", fecha_disp));
+        params.add(new BasicNameValuePair("origen", "004"));
+        params.add(new BasicNameValuePair("servicio", "001"));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+        android.util.Log.i(TAG, "Fecha:  "+fecha_disp );
         return json;
     }
 
