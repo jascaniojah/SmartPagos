@@ -166,8 +166,12 @@ public class LoginActivity extends Activity {
         Log.i(TAG,"pass: "+password);
         pDialog = new ProgressDialog(LoginActivity.this);
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        imei=telephonyManager.getDeviceId();
-        numero=telephonyManager.getLine1Number();
+        imei=telephonyManager.getDeviceId().toString();
+        numero=telephonyManager.getLine1Number().toString();
+        if (numero==null)
+        {
+            numero="000000000";
+        }
         Log.i(TAG,"imei: "+imei);
         Log.i(TAG,"Numero: "+numero);
         pDialog.setTitle("Contacting Servers");
