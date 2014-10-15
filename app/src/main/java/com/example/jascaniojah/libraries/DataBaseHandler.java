@@ -55,7 +55,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     /**
      * Storing user details in database
      * */
-    public void addUser(String telefono, String imei,String fecha_server, String saldo, String fecha_trans) {
+    public void addUser(String telefono, String imei,String fecha_server, String saldo, String fecha_trans, String user) {
       SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         //Identificador
@@ -63,7 +63,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         values.put(KEY_TLF, telefono); // Telefono
         values.put(KEY_FECHA_SERV, fecha_server); // Fecha servidor
       values.put(KEY_FECHA_TRANS, fecha_trans); // Fecha trans
-        values.put(KEY_SALDO, saldo); // Saldo
+        values.put(KEY_SALDO, saldo);
+         values.put(KEY_USER,user);// Saldo
        //  Inserting Row
         db.insert(TABLE_CUENTA, null, values);
         db.close(); // Closing database connection
@@ -71,7 +72,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     /**
      * Getting user data from database
      * */
-    public HashMap getSaldo(){
+
+    public HashMap getUserDetails(){
         HashMap user = new HashMap();
         String selectQuery = "SELECT  * FROM " + TABLE_CUENTA;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -79,14 +81,26 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         // Move to first row
         cursor.moveToFirst();
         if(cursor.getCount() > 0){
-            user.put("fecha_server", cursor.getString(6));
-           user.put("fecha_trans", cursor.getString(7));
-            user.put("saldo", cursor.getString(8));
-                    }
+            user.put("usuario", cursor.getString(5));
+            user.put("imei", cursor.getString(2));
+        }
         cursor.close();
         db.close();
-         return user;
+        // return user
+        return user;
+    }
 
+
+     public void setSaldo(String usuario, String fecha_server, String fecha_trans, String saldo ){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Move to first row
+        ContentValues values = new ContentValues();
+        values.put(KEY_FECHA_SERV, fecha_server); // Fecha servidor
+        values.put(KEY_FECHA_TRANS, fecha_trans); // Fecha trans
+        values.put(KEY_SALDO, saldo);
+        db.update(TABLE_CUENTA,values, KEY_USER+ " = '" + usuario +"'" ,null);
+db.close();
     }
     /**
      * Getting user login status
@@ -95,6 +109,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public int getRowCount() {
         String countQuery = "SELECT  * FROM " + TABLE_CUENTA;
         SQLiteDatabase db = this.getReadableDatabase();
+
+        ContentValues values = new ContentValues();
         Cursor cursor = db.rawQuery(countQuery, null);
         int rowCount = cursor.getCount();
         db.close();

@@ -201,7 +201,7 @@ public class LoginActivity extends Activity {
                      **/
                     UserFunctions logout = new UserFunctions();
                     logout.logoutUser(getApplicationContext());
-                    db.addUser(json_user.getString(KEY_TLF),json_user.getString(KEY_IMEI),json_user.getString(KEY_FECHA_SERV),json_user.getString(KEY_SALDO),json_user.getString(KEY_FECHA_TRANS));
+                    db.addUser(json_user.getString(KEY_TLF),json_user.getString(KEY_IMEI),json_user.getString(KEY_FECHA_SERV),json_user.getString(KEY_SALDO),json_user.getString(KEY_FECHA_TRANS),usuario);
                     /**
                      *If JSON array details are stored in SQlite it launches the User Panel.
                      **/

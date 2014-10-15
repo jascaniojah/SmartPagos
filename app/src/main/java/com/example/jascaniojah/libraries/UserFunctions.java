@@ -10,11 +10,12 @@ import java.util.List;
 public class UserFunctions {
     private JSONParser jsonParser;
     //URL of the PHP API
-    private static String loginURL = "http://10.0.2.2/smartpagosapi";
-    private static String registerURL = "http://10.0.2.2/smartpagosapi";
+    private static String loginURL = "http://10.0.2.2/smartpagos_webservice/";
+    //private static String registerURL = "http://smartpagos.webege.com/";
     private static String login_tag = "login";
-    private static String register_tag = "register";
-
+    //private static String register_tag = "register";
+    private static String saldoURL = "http://10.0.2.2/smartpagos_webservice/";
+    private static String saldo_tag = "consulta";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -33,6 +34,15 @@ public class UserFunctions {
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
         return json;
     }
+
+    public JSONObject getSaldo(String usuario, String imei ){
+        List params = new ArrayList();
+        params.add(new BasicNameValuePair("tag", saldo_tag));
+        params.add(new BasicNameValuePair("usuario", usuario));
+        params.add(new BasicNameValuePair("imei", imei));
+        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+        return json;
+    }
     /**
      * Function to change password
      **/
@@ -44,7 +54,7 @@ public class UserFunctions {
     /**
      * Function to  Register
      **/
-
+/*/
     public JSONObject registerUser(String fname, String lname, String email, String uname, String password){
         // Building Parameters
         List params = new ArrayList();
