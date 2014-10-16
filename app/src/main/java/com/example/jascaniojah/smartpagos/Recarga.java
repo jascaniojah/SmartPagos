@@ -1,6 +1,11 @@
 package com.example.jascaniojah.smartpagos;
 
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,14 +14,31 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.jascaniojah.libraries.DataBaseHandler;
+import com.example.jascaniojah.libraries.UserFunctions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class Recarga extends Fragment {
+    private static String KEY_SUCCESS = "success";
+    private static String KEY_IMEI = "imei";
+    private static String KEY_USER = "usuario";
+    private static String KEY_ERROR = "error";
+
     Calendar c = Calendar.getInstance();
-    SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy");
-    TextView numero_recarga,monto,fecha_consulta,estado,id_recarga,resp_fecha,resp_estado_recarga,resp_id;
+    SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
+    TextView numero_recarga,monto,fecha_consulta,id_recarga,resp_fecha,resp_id,registerErrorMsg;
     EditText numero_a_recargar,monto_recarga;
     Button boton_recarga;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,31 +47,162 @@ public class Recarga extends Fragment {
         fecha_consulta= (TextView) view.findViewById(R.id.fecha_consulta);
         numero_recarga = (TextView) view.findViewById(R.id.numero_recarga);
         monto= (TextView)view.findViewById(R.id.monto);
-        estado= (TextView)view.findViewById(R.id.estado);
+
         id_recarga= (TextView)view.findViewById(R.id.id_recarga);
         resp_fecha=(TextView)view.findViewById(R.id.resp_fecha);
-        resp_estado_recarga=(TextView)view.findViewById(R.id.resp_estado_recarga);
+
         resp_id=(TextView)view.findViewById(R.id.resp_id);
         numero_a_recargar = (EditText) view.findViewById(R.id.numero_a_recargar);
         monto_recarga = (EditText) view.findViewById(R.id.monto_recarga);
-
+        registerErrorMsg = (TextView) view.findViewById(R.id.recarga_error);
         boton_recarga = (Button) view.findViewById(R.id.boton_recarga);
         boton_recarga.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                // Intent i = new Intent(getApplicationContext(), Principal.class);
-                //startActivity(i);
-                //attemptLogin();
-                Rellenar();
+                if (  ( !numero_a_recargar.getText().toString().equals("")) && ( !monto_recarga.getText().toString().equals("")))
+                {
+                    if ( numero_a_recargar.getText().toString().length() > 10 ){
+                        NetAsync(view);
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Ingrese numero completo (Ejemplo: 04XX1234567", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Uno de los campos esta vacio", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
         return view;
     }
-    public void Rellenar(){
-        String fecha = df1.format(c.getTime());
-        resp_fecha.setText(fecha);
-        resp_estado_recarga.setText("Aprobado");
-        resp_id.setText("123456");
+
+    protected class NetCheck extends AsyncTask<String,Void,Boolean>
+    {
+        private ProgressDialog nDialog;
+        protected void  onPreExecute(){
+            super.onPreExecute();
+            nDialog = new ProgressDialog(getActivity());
+            nDialog.setTitle("Checking Network");
+            nDialog.setMessage("Loading..");
+            nDialog.setIndeterminate(false);
+            nDialog.setCancelable(true);
+            nDialog.show();
+
+        }
+        @Override
+        protected Boolean doInBackground(String... args) {
+            ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            if(netInfo != null && netInfo.isConnected()) {
+                try {
+                    URL url = new URL("http://www.google.com");
+                    HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
+                    urlc.setConnectTimeout(3000);
+                    urlc.connect();
+                    if (urlc.getResponseCode() == 200) {
+                        return true;
+                    }
+                } catch (MalformedURLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Gets current device state and checks for working internet connection by trying Google.
+         **/
+        protected void onPostExecute(Boolean th){
+            if(th == true){
+                nDialog.dismiss();
+                new ProcessRecarga().execute();
+            }
+            else{
+                nDialog.dismiss();
+
+            }
+        }
     }
-}
+
+    private class ProcessRecarga extends AsyncTask<String,Void,JSONObject> {
+        /**
+         * Defining Process dialog
+         **/
+        private ProgressDialog pDialog;
+        String numero,monto,usuario,imei,fecha;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
+            HashMap cuenta = new HashMap();
+            cuenta = db.getUser();
+            usuario = cuenta.get("usuario").toString();
+            imei= cuenta.get("imei").toString();
+            //numero_a_recargar = (EditText) view.findViewById(R.id.numero_a_recargar);
+            //monto_recarga = (EditText) view.findViewById(R.id.monto_recarga);
+            numero = numero_a_recargar.getText().toString();
+            monto = monto_recarga.getText().toString();
+            fecha = df1.format(c.getTime());
+            pDialog = new ProgressDialog(getActivity());
+            pDialog.setTitle("Contacting Servers");
+            pDialog.setMessage("Registering ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            UserFunctions userFunction = new UserFunctions();
+            JSONObject json = userFunction.registrarVenta(usuario, imei, monto, fecha, numero);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            /**
+             * Checks for success message.
+             **/
+            try {
+                if (json.getString(KEY_ERROR) != null) {
+                    registerErrorMsg.setText("");
+                    String red = json.getString(KEY_ERROR);
+                    if(Integer.parseInt(red) == 0){
+                        pDialog.dismiss();
+                        resp_id.setText((CharSequence) json.getString("code"));
+                        resp_fecha.setText(fecha);
+
+                        registerErrorMsg.setText(json.getString("error_msg"));
+                        /**
+                         * Removes all the previous data in the SQlite database
+                         **/
+
+                    }
+                    else if (Integer.parseInt(red) ==1){
+                        pDialog.dismiss();
+                        registerErrorMsg.setText(json.getString("error_msg"));
+                    }
+                    else if (Integer.parseInt(red) ==2){
+                        pDialog.dismiss();
+                        registerErrorMsg.setText(json.getString("error_msg"));
+                    }
+                }
+                else{
+                    pDialog.dismiss();
+                    registerErrorMsg.setText("Error de Registro ");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }}
+    public void NetAsync(View view){
+        new NetCheck().execute();
+    }}

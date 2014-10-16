@@ -80,6 +80,26 @@
         android:layout_toRightOf="@+id/tipo"
         />
 
+    <TextView
+        android:id="@+id/origen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Origen:"
+        android:textSize="30sp"
+        android:layout_below="@+id/spinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:id="@+id/cuenta_origen"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:inputType="date"
+        android:layout_below="@+id/spinner"
+        android:layout_toEndOf="@+id/origen"
+        android:layout_toRightOf="@+id/origen"/>
+    />
+
 
     <Button
         android:id="@+id/boton_notificar"
@@ -91,8 +111,18 @@
         android:gravity="center"
         android:textColor="#ffffffff"
         android:textSize="30dp"
-    android:layout_below="@+id/spinner"
+    android:layout_below="@+id/cuenta_origen"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="20sp"
         />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp"
+        android:textColor="#000000"
+        android:id="@+id/notificar_error"
+        android:layout_below="@+id/boton_notificar"
+        android:layout_alignParentRight="true"/>
+
 </RelativeLayout>

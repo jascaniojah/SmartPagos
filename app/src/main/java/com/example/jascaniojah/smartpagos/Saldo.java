@@ -131,7 +131,7 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
         super.onPreExecute();
         DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
         HashMap cuenta = new HashMap();
-        cuenta = db.getUserDetails();
+        cuenta = db.getUser();
         usuario = cuenta.get("usuario").toString();
         imei= cuenta.get("imei").toString();
         pDialog = new ProgressDialog(getActivity());

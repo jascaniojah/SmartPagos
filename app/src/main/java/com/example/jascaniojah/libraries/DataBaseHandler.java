@@ -55,15 +55,11 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     /**
      * Storing user details in database
      * */
-    public void addUser(String telefono, String imei,String fecha_server, String saldo, String fecha_trans, String user) {
+    public void addUser( String user,String imei) {
       SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         //Identificador
-        values.put(KEY_IMEI, imei); // IMEI
-        values.put(KEY_TLF, telefono); // Telefono
-        values.put(KEY_FECHA_SERV, fecha_server); // Fecha servidor
-      values.put(KEY_FECHA_TRANS, fecha_trans); // Fecha trans
-        values.put(KEY_SALDO, saldo);
+        values.put(KEY_IMEI,imei);
          values.put(KEY_USER,user);// Saldo
        //  Inserting Row
         db.insert(TABLE_CUENTA, null, values);
@@ -73,9 +69,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
      * Getting user data from database
      * */
 
-    public HashMap getUserDetails(){
+    public HashMap getUser(){
         HashMap user = new HashMap();
-        String selectQuery = "SELECT  * FROM " + TABLE_CUENTA;
+        String selectQuery = "SELECT * FROM " + TABLE_CUENTA;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // Move to first row

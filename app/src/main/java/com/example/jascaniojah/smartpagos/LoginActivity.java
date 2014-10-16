@@ -189,9 +189,9 @@ public class LoginActivity extends Activity {
 
     protected void onPostExecute(JSONObject json) {
         try {
-            if (json.getString(KEY_SUCCESS) != null) {
-                String res = json.getString(KEY_SUCCESS);
-                if(Integer.parseInt(res) == 1){
+            if (json.getString("code") != null) {
+                String res = json.getString("code");
+                if(Integer.parseInt(res) == 000){
                     pDialog.setMessage("Loading User Space");
                     pDialog.setTitle("Getting Data");
                     DataBaseHandler db = new DataBaseHandler(getApplicationContext());
@@ -201,7 +201,7 @@ public class LoginActivity extends Activity {
                      **/
                     UserFunctions logout = new UserFunctions();
                     logout.logoutUser(getApplicationContext());
-                    db.addUser(json_user.getString(KEY_TLF),json_user.getString(KEY_IMEI),json_user.getString(KEY_FECHA_SERV),json_user.getString(KEY_SALDO),json_user.getString(KEY_FECHA_TRANS),usuario);
+                    db.addUser(json_user.getString(KEY_USER),imei);
                     /**
                      *If JSON array details are stored in SQlite it launches the User Panel.
                      **/

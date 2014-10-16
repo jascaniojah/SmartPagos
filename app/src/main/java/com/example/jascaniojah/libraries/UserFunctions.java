@@ -6,18 +6,20 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 public class UserFunctions {
     private JSONParser jsonParser;
     //URL of the PHP API
-    private static String loginURL = "http://10.0.2.2/smartpagosapi/";
+    private static String loginURL = "http://www.tufuturo.com.ve/smartpagos_webs/";
     //private static String registerURL = "http://smartpagos.webege.com/";
     private static String login_tag = "login";
     //private static String register_tag = "register";
-    private static String saldoURL = "http://10.0.2.2/smartpagosapi/";
+    private static String saldoURL = "http://www.tufuturo.com.ve/smartpagos_webs/";
     private static String saldo_tag = "consulta";
-    private static final String TAG="UserFunctions";
+    private static String recargaURL = "http://www.tufuturo.com.ve/smartpagos_webs/";
+    private static String recarga_tag = "recarga";
+    private static String notificar_tag = "notificacion";
+    private static String notificarURL = "http://www.tufuturo.com.ve/smartpagos_webs/";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -28,19 +30,12 @@ public class UserFunctions {
     public JSONObject loginUser(String usuario, String password, String imei, String numero){
         // Building Parameters
         List params = new ArrayList();
-
-        Calendar c =Calendar.getInstance();
-        String fecha_disp = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
         params.add(new BasicNameValuePair("tag", login_tag));
         params.add(new BasicNameValuePair("usuario", usuario));
         params.add(new BasicNameValuePair("password", password));
         params.add(new BasicNameValuePair("imei", imei));
         params.add(new BasicNameValuePair("numero", numero));
-        params.add(new BasicNameValuePair("fecha_disp", fecha_disp));
-        params.add(new BasicNameValuePair("origen", "004"));
-        params.add(new BasicNameValuePair("servicio", "001"));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
-        android.util.Log.i(TAG, "Fecha:  "+fecha_disp );
         return json;
     }
 
@@ -63,17 +58,35 @@ public class UserFunctions {
     /**
      * Function to  Register
      **/
-/*/
-    public JSONObject registerUser(String fname, String lname, String email, String uname, String password){
+
+    public JSONObject registrarVenta(String usuario, String imei, String monto, String fechahora, String telefono){
         // Building Parameters
         List params = new ArrayList();
-        params.add(new BasicNameValuePair("tag", register_tag));
-        params.add(new BasicNameValuePair("fname", fname));
-        params.add(new BasicNameValuePair("lname", lname));
-        params.add(new BasicNameValuePair("email", email));
-        params.add(new BasicNameValuePair("uname", uname));
-        params.add(new BasicNameValuePair("password", password));
-        JSONObject json = jsonParser.getJSONFromUrl(registerURL,params);
+        params.add(new BasicNameValuePair("tag", recarga_tag));
+        params.add(new BasicNameValuePair("usuario", usuario));
+        params.add(new BasicNameValuePair("imei", imei));
+        params.add(new BasicNameValuePair("monto", monto));
+        params.add(new BasicNameValuePair("fechahora", fechahora));
+        params.add(new BasicNameValuePair("telefono", telefono));
+        params.add(new BasicNameValuePair("producto", "04"));
+        params.add(new BasicNameValuePair("modo_pago", "01"));
+        params.add(new BasicNameValuePair("medio_pago", "04"));
+        JSONObject json = jsonParser.getJSONFromUrl(recargaURL,params);
+        return json;
+    }
+
+    public JSONObject notificarDeposito(String cuenta, String imei, String monto, String fechahora, String referencia, String tipo, String cuenta_origen){
+        // Building Parameters
+        List params = new ArrayList();
+        params.add(new BasicNameValuePair("tag", notificar_tag));
+        params.add(new BasicNameValuePair("cuenta_id", cuenta));
+        params.add(new BasicNameValuePair("imei", imei));
+        params.add(new BasicNameValuePair("monto", monto));
+        params.add(new BasicNameValuePair("fechahora", fechahora));
+        params.add(new BasicNameValuePair("referencia", referencia));
+        params.add(new BasicNameValuePair("tipo_deposito", tipo));
+        params.add(new BasicNameValuePair("cuenta_origen", cuenta_origen));
+        JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
         return json;
     }
 

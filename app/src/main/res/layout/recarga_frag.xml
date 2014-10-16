@@ -83,27 +83,6 @@
             />
     </TableRow>
 
-    <TableRow
-        android:layout_marginTop="5dp"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <TextView
-            android:id="@+id/estado"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="5px"
-            android:text="@string/estado"
-            android:textSize="30sp"
-            />
-        <TextView
-            android:id="@+id/resp_estado_recarga"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5px"
-            android:textSize="30sp"
-            />
-    </TableRow>
 
     <TableRow
         android:layout_marginTop="5dp"
@@ -126,5 +105,14 @@
             android:textSize="30sp"
             />
     </TableRow>
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp"
+        android:textColor="#000000"
+        android:id="@+id/recarga_error"
+        android:layout_alignParentRight="true"/>
+
 
 </TableLayout>
