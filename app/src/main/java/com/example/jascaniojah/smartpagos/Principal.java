@@ -23,7 +23,6 @@ public class Principal extends ActionBarActivity {
 
         /** Getting a reference to action bar of this activity */
         mActionbar = getSupportActionBar();
-
         /** Set tab navigation mode */
         mActionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 

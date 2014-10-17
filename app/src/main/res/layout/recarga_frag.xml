@@ -55,6 +55,7 @@
         style="?android:textAppearanceSmall"
         android:layout_width="20sp"
         android:layout_height="50sp"
+        android:background="#6a7072"
         android:text="@string/boton_recarga"
         android:textStyle="bold"
         android:gravity="center"

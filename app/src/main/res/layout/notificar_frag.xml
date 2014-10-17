@@ -108,6 +108,7 @@
         android:layout_height="wrap_content"
         android:text="@string/boton_notificar"
         android:textStyle="bold"
+        android:background="#6a7072"
         android:gravity="center"
         android:textColor="#ffffffff"
         android:textSize="30dp"

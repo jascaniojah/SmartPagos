@@ -82,6 +82,7 @@
         android:textSize="30sp"
         android:layout_below="@+id/saldo"
         android:layout_centerHorizontal="true"
+        android:background="#6a7072"
         android:layout_marginTop="20sp"
         />
 
