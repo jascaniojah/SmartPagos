@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.jascaniojah.libraries.AsteriskPasswordTransformationMethod;
 import com.example.jascaniojah.libraries.SecurityFunctions;
 import com.example.jascaniojah.libraries.DataBaseHandler;
 import com.example.jascaniojah.libraries.UserFunctions;
@@ -60,7 +62,7 @@ public class LoginActivity extends Activity {
         Usuario = (EditText) findViewById(R.id.usuario);
         loginErrorMsg = (TextView) findViewById(R.id.loginErrorMsg);
         Password = (EditText) findViewById(R.id.password);
-
+        Password.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         Button Entrar = (Button) findViewById(R.id.email_sign_in_button);
         Entrar.setOnClickListener(new View.OnClickListener() {
             @Override
