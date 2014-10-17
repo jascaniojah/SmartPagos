@@ -59,6 +59,7 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="#ffffffff"
+        android:background="#6a7072"
         android:textSize="30dp"
         android:layout_marginTop="20sp"/>
 
