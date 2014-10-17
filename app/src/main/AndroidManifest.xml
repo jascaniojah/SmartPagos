@@ -26,7 +26,7 @@
 
     <uses-sdk
         android:maxSdkVersion="18"
-        android:minSdkVersion="10" />
+        android:minSdkVersion="13" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />

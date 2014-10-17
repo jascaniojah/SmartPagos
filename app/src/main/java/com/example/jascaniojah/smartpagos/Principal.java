@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.Switch;
 
 public class Principal extends ActionBarActivity {
 
@@ -59,16 +60,40 @@ public class Principal extends ActionBarActivity {
 
             public void onTabSelected(Tab tab, FragmentTransaction ft) {
             mPager.setCurrentItem(tab.getPosition());
+
+                switch (tab.getPosition())
+                {
+                    case 0: {
+                        mActionbar.setTitle("Consultar Saldo");
+                        break;
+                    }
+                    case 1:{
+                        mActionbar.setTitle("Consultar Transacciones");
+                        break;}
+                    case 2:{
+                        mActionbar.setTitle("Vender Saldo");
+                        break;
+                    }
+                    case 3:{
+                        mActionbar.setTitle("Notificar Pago");
+                        break;
+                    }
+
+
+                }
+
             }
 
 
             public void onTabReselected(Tab tab, FragmentTransaction ft) {
             }
             };
-        mActionbar.addTab(mActionbar.newTab().setText("Consultar Saldo").setTabListener(tabListener));
-        mActionbar.addTab(mActionbar.newTab().setText("Consultar Transacciones").setTabListener(tabListener));
-        mActionbar.addTab(mActionbar.newTab().setText("Vender").setTabListener(tabListener));
-        mActionbar.addTab(mActionbar.newTab().setText("Notificar Deposito").setTabListener(tabListener));
+        mActionbar.addTab(mActionbar.newTab().setIcon(R.drawable.ic_action_consultar_saldo).setTabListener(tabListener));
+        mActionbar.addTab(mActionbar.newTab().setIcon(R.drawable.ic_action_consultar_t).setTabListener(tabListener));
+        mActionbar.addTab(mActionbar.newTab().setIcon(R.drawable.ic_action_vender).setTabListener(tabListener));
+        mActionbar.addTab(mActionbar.newTab().setIcon(R.drawable.ic_action_registrar_pago).setTabListener(tabListener));
+
+
     }
     }
 
