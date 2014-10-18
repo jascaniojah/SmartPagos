@@ -52,15 +52,12 @@
 
     <Button
         android:id="@+id/boton_consultar"
-        style="?android:textAppearanceSmall"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        style="@style/btnStyleBlackpearl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/boton_consultar"
         android:textStyle="bold"
         android:gravity="center"
-        android:textColor="#ffffffff"
-        android:background="#6a7072"
-        android:textSize="30dp"
         android:layout_marginTop="20sp"/>
 
 

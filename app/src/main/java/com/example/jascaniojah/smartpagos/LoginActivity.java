@@ -1,5 +1,6 @@
 package com.example.jascaniojah.smartpagos;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.example.jascaniojah.libraries.AsteriskPasswordTransformationMethod;
 import com.example.jascaniojah.libraries.SecurityFunctions;
 import com.example.jascaniojah.libraries.DataBaseHandler;
 import com.example.jascaniojah.libraries.UserFunctions;
+import com.google.android.gms.internal.or;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,6 +59,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
@@ -63,6 +67,8 @@ public class LoginActivity extends Activity {
         loginErrorMsg = (TextView) findViewById(R.id.loginErrorMsg);
         Password = (EditText) findViewById(R.id.password);
         Password.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+
+
         Button Entrar = (Button) findViewById(R.id.email_sign_in_button);
         Entrar.setOnClickListener(new View.OnClickListener() {
             @Override

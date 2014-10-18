@@ -52,15 +52,11 @@
     </TableRow>
     <Button
         android:id="@+id/boton_recarga"
-        style="?android:textAppearanceSmall"
-        android:layout_width="20sp"
-        android:layout_height="50sp"
-        android:background="#6a7072"
+        style="@style/btnStyleBlackpearl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/boton_recarga"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="#ffffffff"
-        android:textSize="30sp" />
+       />
 
     <TableRow
         android:layout_marginTop="20dp"

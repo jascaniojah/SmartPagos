@@ -36,11 +36,19 @@
                 android:weightSum="1">
 
 
-                <ImageView
-                    android:src="@drawable/smartpagos"
-                    android:layout_width="344dp"
-                    android:layout_height="101dp"
-                    android:id="@+id/imageView" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/smartpagos"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:id="@+id/imageView"
+
+                        />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="fill_parent"

@@ -72,17 +72,12 @@
 
     <Button
         android:id="@+id/boton_saldo"
-        style="?android:textAppearanceSmall"
+        style="@style/btnStyleBlackpearl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/boton_consultar"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="#ffffffff"
-        android:textSize="30sp"
         android:layout_below="@+id/saldo"
         android:layout_centerHorizontal="true"
-        android:background="#6a7072"
         android:layout_marginTop="20sp"
         />
 
