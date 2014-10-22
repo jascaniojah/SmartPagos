@@ -8,35 +8,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cuenta"
-            android:textSize="30sp"
+            android:padding="5dp"
             />
 
         <EditText
             android:id="@+id/numero_cuenta"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/cuenta"
             android:layout_toRightOf="@+id/cuenta"
-            android:layout_alignParentRight="true"
-             />
+            android:singleLine="true"
+            android:theme="@android:style/Animation.InputMethod"
+            android:focusable="true"
+            android:layout_above="@+id/referencia"
+            />
 
            <TextView
             android:id="@+id/referencia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/referencia"
-            android:textSize="30sp"
+            android:padding="5dp"
             android:layout_below="@+id/cuenta"
             />
 
         <EditText
             android:id="@+id/num_referencia"
-            android:layout_width="fill_parent"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
+            android:theme="@android:style/Animation.InputMethod"
+            android:focusable="true"
             android:layout_below="@+id/numero_cuenta"
             android:layout_toEndOf="@+id/referencia"
-            android:layout_toRightOf="@+id/referencia"/>
+            android:layout_toRightOf="@+id/referencia"
+            android:padding="5dp"/>
 
 
 
@@ -45,19 +51,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/monto_deposito"
-            android:textSize="30sp"
             android:layout_below="@+id/referencia"
+            android:padding="5dp"
             />
 
         <EditText
             android:id="@+id/monto_deposito"
-            android:layout_width="fill_parent"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:inputType="date"
             android:layout_below="@+id/num_referencia"
             android:layout_toEndOf="@+id/monto"
-            android:layout_toRightOf="@+id/monto"/>
+            android:layout_toRightOf="@+id/monto"
+            android:theme="@android:style/Animation.InputMethod"
+            android:focusable="true"/>
         />
 
     <TextView
@@ -65,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/spinner"
-        android:textSize="30sp"
+
         android:layout_alignTop="@+id/spinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -85,7 +93,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Origen:"
-        android:textSize="30sp"
         android:layout_below="@+id/spinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -94,10 +101,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:inputType="date"
         android:layout_below="@+id/spinner"
         android:layout_toEndOf="@+id/origen"
-        android:layout_toRightOf="@+id/origen"/>
+        android:layout_toRightOf="@+id/origen"
+        android:padding="5dp"
+        android:theme="@android:style/Animation.InputMethod"
+        android:focusable="true"/>
     />
 
 

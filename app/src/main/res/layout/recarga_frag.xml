@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tabla"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:stretchColumns="1" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    <TableRow
-        android:layout_marginTop="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
+            <TextView
             android:id="@+id/numero_recarga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/telefono"
-            android:textSize="30sp"
+            android:padding="5dp"
+
             />
 
         <EditText
@@ -24,92 +17,99 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:inputType="date" />
+            android:theme="@android:style/Animation.InputMethod"
+            android:focusable="true"
+            android:layout_toEndOf="@+id/numero_recarga"
+            android:layout_toRightOf="@+id/numero_recarga"
+            android:layout_above="@id/monto"
+            android:padding="5dp"
+            />
 
 
-    </TableRow>
 
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <TextView
+            <TextView
             android:id="@+id/monto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/monto"
-            android:textSize="30sp"
+            android:layout_below="@+id/numero_recarga"
+            android:padding="5dp"
             />
 
         <EditText
             android:id="@+id/monto_recarga"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="date" />
-        />
+            android:layout_toEndOf="@+id/monto"
+            android:theme="@android:style/Animation.InputMethod"
+            android:focusable="true"
+            android:layout_alignBottom="@+id/monto"
+            android:layout_toRightOf="@+id/monto"
+            android:layout_below="@+id/numero_recarga"
+            android:padding="5dp"/>
 
-    </TableRow>
+
+
+
     <Button
         android:id="@+id/boton_recarga"
         style="@style/btnStyleBlackpearl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/boton_recarga"
+        android:layout_below="@+id/monto"
+        android:layout_centerHorizontal="true"
        />
 
-    <TableRow
-        android:layout_marginTop="20dp"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
 
         <TextView
             android:id="@+id/fecha_consulta"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="5px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text="@string/fecha_hora_actual"
-            android:textSize="30sp"
+            android:layout_below="@+id/boton_recarga"
             />
         <TextView
             android:id="@+id/resp_fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5px"
-            android:textSize="30sp"
+            android:padding="5dp"
+            android:layout_toRightOf="@+id/fecha_consulta"
+            android:layout_toEndOf="@+id/fecha_consulta"
+            android:layout_below="@+id/boton_recarga"
             />
-    </TableRow>
 
 
-    <TableRow
-        android:layout_marginTop="5dp"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+
 
         <TextView
             android:id="@+id/id_recarga"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="5px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text="@string/id_recarga"
-            android:textSize="30sp"
+            android:layout_below="@+id/fecha_consulta"
             />
         <TextView
             android:id="@+id/resp_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5px"
-            android:textSize="30sp"
-            />
-    </TableRow>
+            android:padding="5dp"
+            android:layout_toRightOf="@+id/id_recarga"
+            android:layout_toEndOf="@+id/id_recarga"
+            android:layout_below="@+id/resp_fecha"/>
+
 
     <TextView
-        android:layout_marginTop="30dp"
         android:layout_width="fill_parent"
         android:layout_height="56dp"
         android:textColor="#000000"
         android:id="@+id/recarga_error"
-        android:layout_alignParentRight="true"/>
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
-</TableLayout>
+</RelativeLayout>
