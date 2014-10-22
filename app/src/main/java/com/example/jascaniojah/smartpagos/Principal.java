@@ -8,7 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
-import android.widget.Switch;
+import android.widget.Toast;
 
 public class Principal extends ActionBarActivity {
 
@@ -95,6 +95,19 @@ public class Principal extends ActionBarActivity {
 
 
     }
+
+    long lastPress;
+    @Override
+    public void onBackPressed() {
+        long currentTime = System.currentTimeMillis();
+        if(currentTime - lastPress > 5000){
+            Toast.makeText(getBaseContext(), "Presionar BACK de nuevo para salir", Toast.LENGTH_LONG).show();
+            lastPress = currentTime;
+        }else{
+            super.onBackPressed();
+        }
+    }
+
     }
 
 

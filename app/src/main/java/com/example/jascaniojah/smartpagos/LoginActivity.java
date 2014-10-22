@@ -1,6 +1,5 @@
 package com.example.jascaniojah.smartpagos;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,10 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jascaniojah.libraries.AsteriskPasswordTransformationMethod;
-import com.example.jascaniojah.libraries.SecurityFunctions;
 import com.example.jascaniojah.libraries.DataBaseHandler;
+import com.example.jascaniojah.libraries.SecurityFunctions;
 import com.example.jascaniojah.libraries.UserFunctions;
-import com.google.android.gms.internal.or;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -235,8 +233,19 @@ public class LoginActivity extends Activity {
        new NetCheck().execute();
 
        };
-
+    long lastPress;
+    @Override
+    public void onBackPressed() {
+        long currentTime = System.currentTimeMillis();
+        if(currentTime - lastPress > 5000){
+            Toast.makeText(getBaseContext(), "Presionar BACK de nuevo para salir", Toast.LENGTH_LONG).show();
+            lastPress = currentTime;
+        }else{
+            super.onBackPressed();
+        }
     }
+
+}
 
 
 
