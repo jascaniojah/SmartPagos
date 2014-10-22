@@ -55,16 +55,36 @@ public class Principal extends ActionBarActivity {
         ActionBar.TabListener tabListener = new ActionBar.TabListener() {
 
             public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+                switch (tab.getPosition())
+                {
+                    case 0: {
+                        tab.setIcon(R.drawable.ic_action_consultar_saldo);
+                        break;
+                    }
+                    case 1:{
+                        break;}
+                    case 2:{
+                        break;
+                    }
+                    case 3:{
+                        break;
+                    }
+
+
+                }
+
 
             }
 
             public void onTabSelected(Tab tab, FragmentTransaction ft) {
+
             mPager.setCurrentItem(tab.getPosition());
 
                 switch (tab.getPosition())
                 {
                     case 0: {
                         mActionbar.setTitle("Consultar Saldo");
+                        tab.setIcon(R.drawable.ic_action_consultar_saldo_selected);
                         break;
                     }
                     case 1:{

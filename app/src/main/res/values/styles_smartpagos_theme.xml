@@ -19,66 +19,62 @@
 
 <resources>
 
-    <style name="Theme.Smartpagos_theme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionBarItemBackground">@drawable/selectable_background_smartpagos_theme</item>
-        <item name="popupMenuStyle">@style/PopupMenu.Smartpagos_theme</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView.Smartpagos_theme</item>
-        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Smartpagos_theme</item>
-        <item name="actionDropDownStyle">@style/DropDownNav.Smartpagos_theme</item>
-        <item name="actionBarStyle">@style/ActionBar.Solid.Smartpagos_theme</item>
-        <item name="actionModeBackground">@drawable/cab_background_top_smartpagos_theme</item>
-        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_smartpagos_theme</item>
-        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Smartpagos_theme</item>
-
-                <!-- Light.DarkActionBar specific -->
-        <item name="actionBarWidgetTheme">@style/Theme.Smartpagos_theme.Widget</item>
-
+    <style name="Theme.Smartpagos_theme" parent="@android:style/Theme.Holo">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_smartpagos_theme</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Smartpagos_theme</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Smartpagos_theme</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Smartpagos_theme</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Smartpagos_theme</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Smartpagos_theme</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_smartpagos_theme</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_smartpagos_theme</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Smartpagos_theme</item>
+        
+        
     </style>
 
-    <style name="ActionBar.Solid.Smartpagos_theme" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@drawable/ab_solid_smartpagos_theme</item>
-        <item name="backgroundStacked">@drawable/ab_stacked_solid_smartpagos_theme</item>
-        <item name="backgroundSplit">@drawable/ab_bottom_solid_smartpagos_theme</item>
-        <item name="progressBarStyle">@style/ProgressBar.Smartpagos_theme</item>
+    <style name="ActionBar.Solid.Smartpagos_theme" parent="@android:style/Widget.Holo.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_solid_smartpagos_theme</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_smartpagos_theme</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_smartpagos_theme</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Smartpagos_theme</item>
     </style>
 
-    <style name="ActionBar.Transparent.Smartpagos_theme" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="background">@drawable/ab_transparent_smartpagos_theme</item>
-        <item name="progressBarStyle">@style/ProgressBar.Smartpagos_theme</item>
+    <style name="ActionBar.Transparent.Smartpagos_theme" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_smartpagos_theme</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Smartpagos_theme</item>
     </style>
-	
-    <style name="PopupMenu.Smartpagos_theme" parent="@style/Widget.AppCompat.PopupMenu">	
+
+    <style name="PopupMenu.Smartpagos_theme" parent="@android:style/Widget.Holo.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_smartpagos_theme</item>	
     </style>
-	
-    <style name="DropDownListView.Smartpagos_theme" parent="@style/Widget.AppCompat.ListView.DropDown">
+
+    <style name="DropDownListView.Smartpagos_theme" parent="@android:style/Widget.Holo.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_smartpagos_theme</item>
     </style>
 
-    <style name="ActionBarTabStyle.Smartpagos_theme" parent="@style/Widget.AppCompat.ActionBar.TabView">
+    <style name="ActionBarTabStyle.Smartpagos_theme" parent="@android:style/Widget.Holo.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_smartpagos_theme</item>
     </style>
-	
-    <style name="DropDownNav.Smartpagos_theme" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
+
+    <style name="DropDownNav.Smartpagos_theme" parent="@android:style/Widget.Holo.Spinner">
         <item name="android:background">@drawable/spinner_background_ab_smartpagos_theme</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_smartpagos_theme</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_smartpagos_theme</item>
     </style>
     
-    <style name="ProgressBar.Smartpagos_theme" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+    <style name="ProgressBar.Smartpagos_theme" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_smartpagos_theme</item>
     </style>
     
-    <style name="ActionButton.CloseMode.Smartpagos_theme" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
+    <style name="ActionButton.CloseMode.Smartpagos_theme" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_smartpagos_theme</item>
     </style>
-    
+
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Smartpagos_theme.Widget" parent="@style/Theme.AppCompat">
-        <item name="popupMenuStyle">@style/PopupMenu.Smartpagos_theme</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView.Smartpagos_theme</item>
+    <style name="Theme.Smartpagos_theme.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Smartpagos_theme</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Smartpagos_theme</item>
     </style>
-
-
 
 </resources>
