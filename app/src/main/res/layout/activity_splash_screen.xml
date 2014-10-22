@@ -17,7 +17,7 @@
         android:id="@+id/logo"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/smartpagoslogo" />
+        android:src="@drawable/smartpagossplash" />
 
 
 

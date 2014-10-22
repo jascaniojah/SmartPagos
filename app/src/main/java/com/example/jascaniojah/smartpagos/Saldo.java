@@ -158,7 +158,7 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
                     /**
                      * Clear all previous data in SQlite database.
                      **/
-                    resp_fecha_consulta.setText((CharSequence) json_user.getString(KEY_FECHA_SERV));
+                    resp_fecha_consulta.setText((CharSequence) df1.format(c.getTime()));
                     resp_saldo_actual.setText((CharSequence)json_user.getString(KEY_SALDO));
                     resp_fecha_ult_trans.setText((CharSequence) json_user.getString(KEY_FECHA_TRANS));
                     db.setSaldo(usuario,json_user.getString(KEY_FECHA_SERV),json_user.getString(KEY_FECHA_TRANS),json_user.getString(KEY_SALDO));

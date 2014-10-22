@@ -35,7 +35,7 @@ import java.util.HashMap;
 
 public class Notificar extends Fragment {
     Calendar c = Calendar.getInstance();
-    SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
+    SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy");
     private static String KEY_ERROR = "error";
     TextView cuenta, referencia, monto,origen,registerErrorMsg;
     EditText num_cuenta, num_referencia, monto_deposito,cuenta_origen;
