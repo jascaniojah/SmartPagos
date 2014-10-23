@@ -5,4 +5,16 @@
     <string name="email">Email: </string>
     <string name="usuario">Usuario: </string>
     <string name="password">Contraseña: </string>
+
+ <string-array name="bancos">
+        <item>Banco de Venezuela</item>
+        <item>Mercantil</item>
+        <item>BOD</item>
+        <item>Bicentenario</item>
+        <item>Provincial</item>
+ </string-array>
+
+
+
+
     </resources>

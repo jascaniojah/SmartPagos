@@ -75,7 +75,7 @@ public class UserFunctions {
         return json;
     }
 
-    public JSONObject notificarDeposito(String cuenta, String imei, String monto, String fechahora, String referencia, String tipo, String cuenta_origen){
+    public JSONObject notificarDeposito(String cuenta, String imei, String monto, String fechahora, String referencia, String tipo, String cuenta_origen,String banco){
         // Building Parameters
         List params = new ArrayList();
         params.add(new BasicNameValuePair("tag", notificar_tag));
@@ -86,6 +86,7 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("referencia", referencia));
         params.add(new BasicNameValuePair("tipo_deposito", tipo));
         params.add(new BasicNameValuePair("cuenta_origen", cuenta_origen));
+        params.add(new BasicNameValuePair("banco", banco));
         JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
         return json;
     }

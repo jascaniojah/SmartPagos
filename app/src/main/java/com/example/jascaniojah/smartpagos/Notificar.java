@@ -41,7 +41,8 @@ public class Notificar extends Fragment {
     EditText num_cuenta, num_referencia, monto_deposito,cuenta_origen;
     Button boton_notificar;
 
-    Spinner spnr;
+    Spinner spnr,spinner;
+    String mBanco;
     String[] caso = {
             "Deposito",
             "Transferencia Electronica",
@@ -64,13 +65,29 @@ public class Notificar extends Fragment {
         registerErrorMsg = (TextView) view.findViewById(R.id.notificar_error);
 
         spnr = (Spinner) view.findViewById(R.id.spinner);
+        spinner = (Spinner) view.findViewById(R.id.BancoSp);
         ArrayAdapter<String> adapter;
         adapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, caso);
+        ArrayAdapter<CharSequence> adap = ArrayAdapter.createFromResource(getActivity(),
+                R.array.bancos, android.R.layout.simple_spinner_item);
+        spinner.setAdapter(adap);
         spnr.setAdapter(adapter);
-        spnr.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
-                    @Override
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                mBanco =spinner.getSelectedItem().toString();
+              }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+                            spnr.setOnItemSelectedListener(
+                            new AdapterView.OnItemSelectedListener() {
+                        @Override
                     public void onItemSelected(AdapterView<?> arg0, View arg1,
                                                int arg2, long arg3) {
                         int position = spnr.getSelectedItemPosition();
@@ -89,7 +106,13 @@ public class Notificar extends Fragment {
 
                         // TODO Auto-generated method stub
                     }
-                    @Override
+
+
+
+                ;
+
+
+                                @Override
                     public void onNothingSelected(AdapterView<?> arg0) {
                         // TODO Auto-generated method stub
                     }
@@ -182,7 +205,7 @@ public class Notificar extends Fragment {
              * Defining Process dialog
              **/
             private ProgressDialog pDialog;
-            String cuenta,monto,referencia,imei,fecha,tipo,cta_origen;
+            String cuenta,monto,referencia,imei,fecha,tipo,cta_origen,banco;
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -205,6 +228,7 @@ public class Notificar extends Fragment {
                 }
 
                 fecha = df1.format(c.getTime());
+
                 pDialog = new ProgressDialog(getActivity());
                 pDialog.setTitle("Contacting Servers");
                 pDialog.setMessage("Registering ...");
@@ -215,7 +239,7 @@ public class Notificar extends Fragment {
             @Override
             protected JSONObject doInBackground(String... args) {
                 UserFunctions userFunction = new UserFunctions();
-                JSONObject json = userFunction.notificarDeposito(cuenta, imei, monto, fecha, referencia,tipo,cta_origen);
+                JSONObject json = userFunction.notificarDeposito(cuenta, imei, monto, fecha, referencia,tipo,cta_origen,mBanco);
                 return json;
             }
             @Override
