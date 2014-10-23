@@ -19,7 +19,7 @@
 
 <resources>
 
-    <style name="Theme.Smartpagos_theme" parent="@android:style/Theme.Holo">
+    <style name="Theme.Smartpagos_theme" parent="@style/Theme.AppCompat">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_smartpagos_theme</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Smartpagos_theme</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Smartpagos_theme</item>

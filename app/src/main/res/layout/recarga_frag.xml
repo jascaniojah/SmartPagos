@@ -23,6 +23,7 @@
             android:layout_toRightOf="@+id/numero_recarga"
             android:layout_above="@id/monto"
             android:padding="5dp"
+            android:inputType="numberDecimal"
             />
 
 
@@ -44,6 +45,7 @@
             android:layout_toEndOf="@+id/monto"
             android:theme="@android:style/Animation.InputMethod"
             android:focusable="true"
+            android:inputType="numberDecimal"
             android:layout_alignBottom="@+id/monto"
             android:layout_toRightOf="@+id/monto"
             android:layout_below="@+id/numero_recarga"
@@ -68,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="@string/fecha_hora_actual"
+            android:text="@string/fecha"
             android:layout_below="@+id/boton_recarga"
             />
         <TextView
@@ -81,16 +83,32 @@
             android:layout_below="@+id/boton_recarga"
             />
 
+    <TextView
+        android:id="@+id/hora_recarga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/hora"
+        android:layout_below="@+id/fecha_consulta"
+        />
+    <TextView
+        android:id="@+id/resp_hora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_toRightOf="@+id/hora_recarga"
+        android:layout_toEndOf="@+id/hora_recarga"
+        android:layout_below="@+id/resp_fecha"/>
 
 
 
-        <TextView
+    <TextView
             android:id="@+id/id_recarga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="@string/id_recarga"
-            android:layout_below="@+id/fecha_consulta"
+            android:layout_below="@+id/hora_recarga"
             />
         <TextView
             android:id="@+id/resp_id"
@@ -99,7 +117,7 @@
             android:padding="5dp"
             android:layout_toRightOf="@+id/id_recarga"
             android:layout_toEndOf="@+id/id_recarga"
-            android:layout_below="@+id/resp_fecha"/>
+            android:layout_below="@+id/resp_hora"/>
 
 
     <TextView

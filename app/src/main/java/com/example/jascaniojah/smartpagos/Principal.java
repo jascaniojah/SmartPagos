@@ -128,7 +128,7 @@ public class Principal extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         long currentTime = System.currentTimeMillis();
-        if(currentTime - lastPress > 5000){
+        if(currentTime - lastPress > 3000){
             Toast.makeText(getBaseContext(), "Presionar BACK de nuevo para salir", Toast.LENGTH_LONG).show();
             lastPress = currentTime;
         }else{

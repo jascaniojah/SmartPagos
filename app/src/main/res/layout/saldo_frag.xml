@@ -40,9 +40,8 @@
             android:padding="5dp"
             android:layout_toEndOf="@+id/fecha_ult_trans"
             android:layout_toRightOf="@+id/fecha_ult_trans"
-            android:layout_alignBottom="@+id/fecha_ult_trans"
-            android:layout_alignRight="@+id/resp_fecha_consulta"
-            android:layout_alignEnd="@+id/resp_fecha_consulta" />
+            android:layout_above="@+id/resp_fecha_consulta"
+             />
 
 
         <TextView

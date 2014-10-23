@@ -1,13 +1,18 @@
 package com.example.jascaniojah.smartpagos;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.Selection;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,10 +42,12 @@ public class Recarga extends Fragment {
     private static String KEY_ERROR = "error";
 
     Calendar c = Calendar.getInstance();
-    SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
-    TextView numero_recarga,monto,fecha_consulta,id_recarga,resp_fecha,resp_id,registerErrorMsg;
+    SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
+    SimpleDateFormat df2 = new SimpleDateFormat("HH:mm");
+    TextView numero_recarga,monto,fecha_consulta,id_recarga,resp_fecha,resp_id,registerErrorMsg,resp_hora;
     EditText numero_a_recargar,monto_recarga;
     Button boton_recarga;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recarga_frag, container, false);
@@ -50,10 +57,11 @@ public class Recarga extends Fragment {
 
         id_recarga= (TextView)view.findViewById(R.id.id_recarga);
         resp_fecha=(TextView)view.findViewById(R.id.resp_fecha);
-
+        resp_hora = (TextView) view.findViewById(R.id.resp_hora);
         resp_id=(TextView)view.findViewById(R.id.resp_id);
         numero_a_recargar = (EditText) view.findViewById(R.id.numero_a_recargar);
         monto_recarga = (EditText) view.findViewById(R.id.monto_recarga);
+        monto_recarga.addTextChangedListener(tw);
         registerErrorMsg = (TextView) view.findViewById(R.id.recarga_error);
         boton_recarga = (Button) view.findViewById(R.id.boton_recarga);
         boton_recarga.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +70,22 @@ public class Recarga extends Fragment {
                 if (  ( !numero_a_recargar.getText().toString().equals("")) && ( !monto_recarga.getText().toString().equals("")))
                 {
                     if ( numero_a_recargar.getText().toString().length() > 10 ){
-                        NetAsync(view);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("Confirma Venta de Saldo?")
+                                .setCancelable(false)
+                                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        NetAsync();
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
                     }
                     else
                     {
@@ -79,8 +102,50 @@ public class Recarga extends Fragment {
             }
         });
 
+
+
+
         return view;
     }
+
+
+
+    TextWatcher tw = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
+                String userInput = "" + s.toString().replaceAll("[^\\d]", "");
+                StringBuilder cashAmountBuilder = new StringBuilder(userInput);
+
+                while (cashAmountBuilder.length() > 3 && cashAmountBuilder.charAt(0) == '0') {
+                    cashAmountBuilder.deleteCharAt(0);
+                }
+                while (cashAmountBuilder.length() < 3) {
+                    cashAmountBuilder.insert(0, '0');
+                }
+                cashAmountBuilder.insert(cashAmountBuilder.length() - 2, ',');
+
+                monto_recarga.removeTextChangedListener(this);
+                monto_recarga.setText(cashAmountBuilder.toString());
+
+                monto_recarga.setTextKeepState("BsF." + cashAmountBuilder.toString());
+                Selection.setSelection(monto_recarga.getText(), cashAmountBuilder.toString().length() + 1);
+
+                monto_recarga.addTextChangedListener(this);
+            }
+        }
+    };
+
 
     protected class NetCheck extends AsyncTask<String,Void,Boolean>
     {
@@ -139,7 +204,7 @@ public class Recarga extends Fragment {
          * Defining Process dialog
          **/
         private ProgressDialog pDialog;
-        String numero,monto,usuario,imei,fecha;
+        String numero,monto,usuario,imei,fecha,hora;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -151,8 +216,9 @@ public class Recarga extends Fragment {
             //numero_a_recargar = (EditText) view.findViewById(R.id.numero_a_recargar);
             //monto_recarga = (EditText) view.findViewById(R.id.monto_recarga);
             numero = numero_a_recargar.getText().toString();
-            monto = monto_recarga.getText().toString();
+            monto = monto_recarga.getText().toString().replace("BsF.", "");
             fecha = df1.format(c.getTime());
+            hora = df2.format(c.getTime());
             pDialog = new ProgressDialog(getActivity());
             pDialog.setTitle("Contacting Servers");
             pDialog.setMessage("Registering ...");
@@ -177,9 +243,12 @@ public class Recarga extends Fragment {
                     String red = json.getString(KEY_ERROR);
                     if(Integer.parseInt(red) == 0){
                         pDialog.dismiss();
+
+                        numero_a_recargar.getText().clear();
+                        monto_recarga.getText().clear();
                         resp_id.setText((CharSequence) json.getString("code"));
                         resp_fecha.setText(fecha);
-
+                        resp_hora.setText(hora);
                         registerErrorMsg.setText(json.getString("error_msg"));
                         /**
                          * Removes all the previous data in the SQlite database
@@ -203,6 +272,6 @@ public class Recarga extends Fragment {
                 e.printStackTrace();
             }
         }}
-    public void NetAsync(View view){
+    public void NetAsync(){
         new NetCheck().execute();
     }}

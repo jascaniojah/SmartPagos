@@ -69,6 +69,8 @@ public class Saldo extends Fragment {
     }
 
 
+
+
 protected class NetCheck extends AsyncTask<String,Void,Boolean>
 {
     private ProgressDialog nDialog;

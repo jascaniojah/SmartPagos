@@ -3,7 +3,8 @@
     <string name="telefono">Telefono:</string>
     <string name="monto">Monto:</string>
     <string name="estado">Estado: </string>
-    <string name="fecha">Registrado a las: </string>
+    <string name="fecha">Registrado el: </string>
+    <string name="hora">Hora: </string>
     <string name="id_recarga">Id Recarga.: </string>
     <string name="boton_recarga">Abonar</string>
 </resources>
