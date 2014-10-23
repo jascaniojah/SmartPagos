@@ -62,11 +62,14 @@ public class Principal extends ActionBarActivity {
                         break;
                     }
                     case 1:{
+                        tab.setIcon(R.drawable.ic_action_consultar_t);
                         break;}
                     case 2:{
+                        tab.setIcon(R.drawable.ic_action_vender);
                         break;
                     }
                     case 3:{
+                        tab.setIcon(R.drawable.ic_action_registrar_pago);
                         break;
                     }
 
@@ -89,13 +92,18 @@ public class Principal extends ActionBarActivity {
                     }
                     case 1:{
                         mActionbar.setTitle("Consultar Transacciones");
+                        tab.setIcon(R.drawable.ic_action_consultar_t_selected);
+
                         break;}
                     case 2:{
                         mActionbar.setTitle("Vender Saldo");
+                        tab.setIcon(R.drawable.ic_action_ic_action_vender_selected);
                         break;
                     }
                     case 3:{
                         mActionbar.setTitle("Notificar Pago");
+                        tab.setIcon(R.drawable.ic_action_registrar_pago_selected);
+
                         break;
                     }
 
