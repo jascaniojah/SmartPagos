@@ -249,7 +249,8 @@ public class Recarga extends Fragment {
                         resp_id.setText((CharSequence) json.getString("code"));
                         resp_fecha.setText(fecha);
                         resp_hora.setText(hora);
-                        registerErrorMsg.setText(json.getString("error_msg"));
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                json.getString("error_msg"), Toast.LENGTH_SHORT).show();
                         /**
                          * Removes all the previous data in the SQlite database
                          **/
@@ -257,16 +258,19 @@ public class Recarga extends Fragment {
                     }
                     else if (Integer.parseInt(red) ==1){
                         pDialog.dismiss();
-                        registerErrorMsg.setText(json.getString("error_msg"));
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                json.getString("error_msg"), Toast.LENGTH_SHORT).show();
                     }
                     else if (Integer.parseInt(red) ==2){
                         pDialog.dismiss();
-                        registerErrorMsg.setText(json.getString("error_msg"));
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                json.getString("error_msg"), Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
                     pDialog.dismiss();
-                    registerErrorMsg.setText("Error de Registro ");
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Error de Registro", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -42,8 +44,9 @@ public class Saldo extends Fragment {
     TextView fecha_consulta,hora_consulta,fecha_ult_trans,hora_ult_trans,saldo_actual;
     TextView resp_fecha_consulta,resp_hora_consulta,resp_fecha_ult_trans,resp_hora_ult_trans,resp_saldo_actual;
     Button saldo_boton;
-
-    @Override
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    DecimalFormat decimalFormat = new DecimalFormat();
+        @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.saldo_frag, container, false);
         fecha_consulta= (TextView) view.findViewById(R.id.fecha_consulta);
@@ -52,9 +55,13 @@ public class Saldo extends Fragment {
         resp_fecha_consulta=(TextView)view.findViewById(R.id.resp_fecha_consulta);
         resp_fecha_ult_trans=(TextView)view.findViewById(R.id.resp_fecha_ult_trans);
         resp_saldo_actual=(TextView)view.findViewById(R.id.resp_saldo_actual);
-
         saldo_boton = (Button) view.findViewById(R.id.boton_saldo);
-        saldo_boton.setOnClickListener(new View.OnClickListener() {
+        symbols.setGroupingSeparator('.');
+        symbols.setDecimalSeparator(',');
+
+            DecimalFormat decimalFormat = new DecimalFormat("$ #,###.00", symbols);
+
+            saldo_boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                // Intent i = new Intent(getApplicationContext(), Principal.class);
@@ -160,8 +167,10 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
                     /**
                      * Clear all previous data in SQlite database.
                      **/
+                    Double numero = Double.valueOf(json_user.getString(KEY_SALDO));
+                    String saldo = decimalFormat.format(numero);
                     resp_fecha_consulta.setText((CharSequence) df1.format(c.getTime()));
-                    resp_saldo_actual.setText((CharSequence)json_user.getString(KEY_SALDO));
+                    resp_saldo_actual.setText((CharSequence) "BsF. "+ saldo);
                     resp_fecha_ult_trans.setText((CharSequence) json_user.getString(KEY_FECHA_TRANS));
                     db.setSaldo(usuario,json_user.getString(KEY_FECHA_SERV),json_user.getString(KEY_FECHA_TRANS),json_user.getString(KEY_SALDO));
                     /**

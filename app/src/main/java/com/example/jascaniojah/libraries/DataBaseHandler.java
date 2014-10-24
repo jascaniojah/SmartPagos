@@ -16,6 +16,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "smartpagos";
     // Login table name
     private static final String TABLE_CUENTA = "cuenta";
+    private static final String TABLE_CUENTA_BANCARIA = "cuenta_bancaria";
     // Login Table Columns names
     private static final String KEY_UID = "uid";
     private static final String KEY_TLF = "telefono";
@@ -26,6 +27,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String KEY_FECHA_SERV = "fechahora_server";
     private static final String KEY_FECHA_TRANS = "fechahora_trans";
     private static final String KEY_SALDO = "saldo";
+    private static final String KEY_BANCO = "Banco";
+    private static final String KEY_CUENTA = "numero_cuenta";
     public DataBaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -42,20 +45,30 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 + KEY_FECHA_SERV + " DATETIME,"
                 + KEY_FECHA_TRANS + " DATETIME ,"
                 + KEY_SALDO + " FLOAT "+ ")";
+        String CREATE_CUENTA_BANCARIA_TABLE = "CREATE TABLE " + TABLE_CUENTA_BANCARIA + "("
+                + KEY_BANCO + " VARCHAR ,"
+                + KEY_CUENTA + " VARCHAR "+ ")";
+
         db.execSQL(CREATE_CUENTA_TABLE);
+        db.execSQL(CREATE_CUENTA_BANCARIA_TABLE);
     }
+
+
+
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CUENTA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CUENTA_BANCARIA);
         // Create tables again
         onCreate(db);
     }
     /**
      * Storing user details in database
      * */
-    public void addUser( String user,String imei) {
+
+     public void addUser( String user,String imei) {
       SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         //Identificador

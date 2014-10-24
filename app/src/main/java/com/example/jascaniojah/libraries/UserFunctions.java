@@ -20,6 +20,8 @@ public class UserFunctions {
     private static String recarga_tag = "recarga";
     private static String notificar_tag = "notificacion";
     private static String notificarURL = "http://www.tufuturo.com.ve/smartpagos_webs/";
+    private static String bancosURL =  "http://www.tufuturo.com.ve/smartpagos_webs/";
+    private static String bancos_tag = "bancos";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -36,6 +38,13 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("imei", imei));
         params.add(new BasicNameValuePair("numero", numero));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+        return json;
+    }
+
+    public JSONObject getBancos(){
+        List params = new ArrayList();
+        params.add(new BasicNameValuePair("tag", bancos_tag));
+        JSONObject json = jsonParser.getJSONFromUrl(bancosURL, params);
         return json;
     }
 

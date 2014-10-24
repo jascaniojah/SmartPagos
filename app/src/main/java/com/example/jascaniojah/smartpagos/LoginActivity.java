@@ -157,6 +157,9 @@ public class LoginActivity extends Activity {
 /**
  * Async Task to get and send data to My Sql database through JSON respone.
  **/
+
+
+
  private class ProcessLogin extends AsyncTask <String,Void,JSONObject> {
     private ProgressDialog pDialog;
     String usuario,password,imei,numero,cadena;
@@ -202,6 +205,7 @@ public class LoginActivity extends Activity {
                     pDialog.setTitle("Getting Data");
                     DataBaseHandler db = new DataBaseHandler(getApplicationContext());
                     JSONObject json_user = json.getJSONObject("cuenta");
+
                     /**
                      * Clear all previous data in SQlite database.
                      **/

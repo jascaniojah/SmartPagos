@@ -10,26 +10,25 @@
             android:text="@string/cuenta"
             android:padding="5dp"
             />
+    <Spinner
+        android:id="@+id/BancoSp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:layout_toEndOf="@+id/cuenta"
+        android:layout_toRightOf="@+id/cuenta"
+        android:padding="5dp"
+        android:theme="@android:style/Animation.InputMethod"
+        android:focusable="true"/>
+    />
 
-        <EditText
-            android:id="@+id/numero_cuenta"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/cuenta"
-            android:layout_toRightOf="@+id/cuenta"
-            android:singleLine="true"
-            android:theme="@android:style/Animation.InputMethod"
-            android:focusable="true"
-            android:layout_above="@+id/referencia"
-            />
-
-           <TextView
+         <TextView
             android:id="@+id/referencia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/referencia"
             android:padding="5dp"
-            android:layout_below="@+id/cuenta"
+            android:layout_below="@+id/BancoSp"
             />
 
         <EditText
@@ -39,7 +38,7 @@
             android:singleLine="true"
             android:theme="@android:style/Animation.InputMethod"
             android:focusable="true"
-            android:layout_below="@+id/numero_cuenta"
+            android:layout_below="@+id/BancoSp"
             android:layout_toEndOf="@+id/referencia"
             android:layout_toRightOf="@+id/referencia"
             android:padding="5dp"/>
@@ -60,7 +59,7 @@
             android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:inputType="date"
+            android:inputType="number"
             android:layout_below="@+id/num_referencia"
             android:layout_toEndOf="@+id/monto"
             android:layout_toRightOf="@+id/monto"
@@ -109,45 +108,17 @@
         android:focusable="true"/>
     />
 
-    <TextView
-        android:id="@+id/BancoTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Banco:"
-        android:layout_below="@+id/cuenta_origen"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <Spinner
-        android:id="@+id/BancoSp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:layout_below="@+id/BancoTv"
-        android:layout_toEndOf="@+id/BancoTv"
-        android:layout_toRightOf="@+id/BancoTv"
-        android:padding="5dp"
-        android:theme="@android:style/Animation.InputMethod"
-        android:focusable="true"/>
-    />
+
     <Button
         android:id="@+id/boton_notificar"
         style="@style/btnStyleBlackpearl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/boton_notificar"
-
-    android:layout_below="@+id/BancoSp"
+    android:layout_below="@+id/cuenta_origen"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="20sp"
         />
 
-    <TextView
-        android:layout_marginTop="30dp"
-        android:layout_width="fill_parent"
-        android:layout_height="56dp"
-        android:textColor="#000000"
-        android:id="@+id/notificar_error"
-        android:layout_below="@+id/boton_notificar"
-        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>
