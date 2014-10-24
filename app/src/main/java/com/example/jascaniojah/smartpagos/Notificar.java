@@ -365,7 +365,7 @@ public class Notificar extends Fragment {
                 //numero_a_recargar = (EditText) view.findViewById(R.id.numero_a_recargar);
                 //monto_recarga = (EditText) view.findViewById(R.id.monto_recarga);
                 cuenta = mBanco;
-                monto = monto_deposito.getText().toString();
+                monto = monto_deposito.getText().toString().replace("BsF.", "");
                 referencia = num_referencia.getText().toString();
                 if(cuenta_origen.isEnabled()) {
                     tipo = "Transferencia";
