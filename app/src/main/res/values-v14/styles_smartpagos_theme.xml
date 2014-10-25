@@ -30,12 +30,10 @@
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_smartpagos_theme</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Smartpagos_theme</item>
         
-                <!-- Light.DarkActionBar specific -->
-        <item name="android:actionBarWidgetTheme">@style/Theme.Smartpagos_theme.Widget</item>
-
+        
     </style>
 
-    <style name="ActionBar.Solid.Smartpagos_theme" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+    <style name="ActionBar.Solid.Smartpagos_theme" parent="@style/Widget.AppCompat.ActionBar.Solid">
         <item name="android:background">@drawable/ab_solid_smartpagos_theme</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_smartpagos_theme</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_smartpagos_theme</item>
@@ -52,6 +50,5 @@
         <item name="android:popupMenuStyle">@style/PopupMenu.Smartpagos_theme</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Smartpagos_theme</item>
     </style>
-
 
 </resources>
