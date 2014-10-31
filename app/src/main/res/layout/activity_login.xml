@@ -60,12 +60,12 @@
                     android:focusable="true"
                     android:textStyle="bold"
                     android:theme="@android:style/Animation.InputMethod"
-                    android:textColor="#ffd31212"
                     android:textColorHint="#ff000000">
                     <requestFocus />
                 </EditText>
 
                  <EditText
+                     android:textStyle="bold"
                     android:id="@+id/password"
                     android:layout_width="302dp"
                     android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                     android:theme="@android:style/Animation.InputMethod"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColorHint="#ff010101" />
+                    android:textColorHint="#ff000000" />
 
                 <Button
                     android:id="@+id/email_sign_in_button"
