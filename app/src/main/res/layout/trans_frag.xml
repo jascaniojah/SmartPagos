@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/layoutpadre"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+
+     >
+<TableLayout
     android:id="@+id/tabla"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:stretchColumns="1" >
 
     <TableRow
@@ -50,6 +58,9 @@
 
 </TableRow>
 
+
+</TableLayout>
+
     <Button
         android:id="@+id/boton_consultar"
         style="@style/btnStyleBlackpearl"
@@ -57,10 +68,14 @@
         android:layout_height="wrap_content"
         android:text="@string/boton_consultar"
         android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginTop="20sp"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="8sp"/>
 
 
 
-
-</TableLayout>
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/transacciones_list"
+            android:layout_marginTop="8dp"/>
+</LinearLayout>

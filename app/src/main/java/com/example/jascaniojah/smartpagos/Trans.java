@@ -8,17 +8,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class Trans extends Fragment {
 
     TextView desde_fecha, hasta_fecha;
     EditText fecha_desde, fecha_hasta;
+    ListView transacciones_list;
     //DatePickerDialog.OnDateSetListener date;
     static final int DATE_DIALOG_ID = 999;
     Calendar myCalendar;
@@ -37,9 +44,8 @@ public class Trans extends Fragment {
         fecha_hasta.setFocusableInTouchMode(false);
         myCalendar = Calendar.getInstance();
 
-        return view;
-
-    }
+       return view;
+  }
 
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
@@ -64,6 +70,30 @@ public class Trans extends Fragment {
                 showDatePicker(val);
             }
         });
+        Date date = new Date();
+
+        ArrayList<Movimientos> movimientosArray = new ArrayList<Movimientos>();
+        Movimientos mov=new Movimientos(date,"04147675958",128);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+        movimientosArray.add(mov);
+
+        TransaccionesAdapter adapter = new TransaccionesAdapter(getActivity(), movimientosArray);
+        ListView lv=(ListView) getActivity().findViewById(R.id.transacciones_list);
+        lv.setAdapter(adapter);
+
+
+
     }
 
 
