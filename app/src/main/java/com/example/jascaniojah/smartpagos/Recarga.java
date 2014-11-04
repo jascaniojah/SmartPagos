@@ -10,20 +10,26 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jascaniojah.libraries.DataBaseHandler;
 import com.example.jascaniojah.libraries.UserFunctions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,29 +38,34 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class Recarga extends Fragment {
     private static String KEY_SUCCESS = "success";
     private static String KEY_IMEI = "imei";
     private static String KEY_USER = "usuario";
     private static String KEY_ERROR = "error";
-
+    private ArrayList<Productos> productsList;
     Calendar c = Calendar.getInstance();
-    SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
+    SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
     SimpleDateFormat df2 = new SimpleDateFormat("HH:mm");
-    TextView numero_recarga,monto,fecha_consulta,id_recarga,resp_fecha,resp_id,registerErrorMsg,resp_hora;
-    EditText numero_a_recargar,monto_recarga;
+    SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    TextView numero_recarga,monto,fecha_consulta,id_recarga,resp_fecha,resp_id,registerErrorMsg,resp_hora,conf_numero;
+    EditText numero_a_recargar,monto_recarga,resp_conf_numero;
     Button boton_recarga;
-
+    Spinner productsp;
+    String producto,numero,usuario,imei,fecha;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recarga_frag, container, false);
         fecha_consulta= (TextView) view.findViewById(R.id.fecha_consulta);
         numero_recarga = (TextView) view.findViewById(R.id.numero_recarga);
         monto= (TextView)view.findViewById(R.id.monto);
-
+        conf_numero = (TextView) view.findViewById(R.id.conf_numero);
+        resp_conf_numero = (EditText) view.findViewById(R.id.resp_conf_numero);
         id_recarga= (TextView)view.findViewById(R.id.id_recarga);
         resp_fecha=(TextView)view.findViewById(R.id.resp_fecha);
         resp_hora = (TextView) view.findViewById(R.id.resp_hora);
@@ -63,29 +74,54 @@ public class Recarga extends Fragment {
         monto_recarga = (EditText) view.findViewById(R.id.monto_recarga);
         monto_recarga.addTextChangedListener(tw);
         registerErrorMsg = (TextView) view.findViewById(R.id.recarga_error);
+
+
+
+        new getProducts().execute();
+
+        productsList = new ArrayList<Productos>();
+        productsp = (Spinner) view.findViewById(R.id.spinner_producto);
+
+
+        productsp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                producto =productsp.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         boton_recarga = (Button) view.findViewById(R.id.boton_recarga);
         boton_recarga.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                if (  ( !numero_a_recargar.getText().toString().equals("")) && ( !monto_recarga.getText().toString().equals("")))
+                if (  ( !numero_a_recargar.getText().toString().equals("")) && ( !monto_recarga.getText().toString().equals(""))&& ( !resp_conf_numero.getText().toString().equals("")))
                 {
-                    if ( numero_a_recargar.getText().toString().length() > 10 ){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage("Confirma Venta de Saldo?")
-                                .setCancelable(false)
-                                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        NetAsync();
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                        AlertDialog alert = builder.create();
-                        alert.show();
-
+                    if ( numero_a_recargar.getText().toString().length() > 10 && resp_conf_numero.getText().toString().length() > 10){
+                      if(numero_a_recargar.getText().toString().equals(resp_conf_numero.getText().toString())) {
+                          AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                          builder.setMessage("Confirma Venta de Saldo?")
+                                  .setCancelable(false)
+                                  .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                      public void onClick(DialogInterface dialog, int id) {
+                                          NetAsync();
+                                      }
+                                  })
+                                  .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                      public void onClick(DialogInterface dialog, int id) {
+                                          dialog.cancel();
+                                      }
+                                  });
+                          AlertDialog alert = builder.create();
+                          alert.show();
+                      }else{
+                          Toast.makeText(getActivity().getApplicationContext(),
+                                  "Los numeros ingresados no son iguales", Toast.LENGTH_SHORT).show();
+                      }
                     }
                     else
                     {
@@ -104,8 +140,93 @@ public class Recarga extends Fragment {
 
 
 
-
         return view;
+    }
+
+
+    private class getProducts extends AsyncTask<Void, Void, Void> {
+        private ProgressDialog pDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(getActivity());
+            pDialog.setMessage("Cargando Informacion");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            UserFunctions jsonParser = new UserFunctions();
+            TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+            numero=telephonyManager.getLine1Number().toString();
+            DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
+            HashMap cuenta = new HashMap();
+            cuenta = db.getUser();
+            usuario = cuenta.get("usuario").toString();
+            imei= cuenta.get("imei").toString();
+            fecha= df3.format(c.getTime());
+            JSONObject json = jsonParser.getProductos(numero,imei,fecha);
+
+            Log.e("Response: ", "> " + json);
+
+            if (json != null) {
+                try {
+
+                    if (json != null) {
+                        JSONArray banks = json
+                                .getJSONArray("productos");
+
+                        for (int i = 0; i < banks.length(); i++) {
+                            JSONObject catObj = (JSONObject) banks.get(i);
+                            Productos cat = new Productos(catObj.getString("codigo_producto"),
+                                    catObj.getString("nombre_producto"));
+                            productsList.add(cat);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Log.e("JSON Data", "Didn't receive any data from server!");
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+            populateSpinner();
+        }
+
+    }
+
+    /**
+     * Adding spinner data
+     * */
+    private void populateSpinner() {
+        List<String> lables = new ArrayList<String>();
+
+        for (int i = 0; i < productsList.size(); i++) {
+            lables.add(productsList.get(i).getNombre());
+        }
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, lables);
+
+        // Drop down layout style - list view with radio button
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        productsp.setAdapter(spinnerAdapter);
     }
 
 
@@ -204,19 +325,14 @@ public class Recarga extends Fragment {
          * Defining Process dialog
          **/
         private ProgressDialog pDialog;
-        String numero,monto,usuario,imei,fecha,hora;
+
+        String fecha_hora,numero,monto,fecha,hora;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
-            HashMap cuenta = new HashMap();
-            cuenta = db.getUser();
-            usuario = cuenta.get("usuario").toString();
-            imei= cuenta.get("imei").toString();
-            //numero_a_recargar = (EditText) view.findViewById(R.id.numero_a_recargar);
-            //monto_recarga = (EditText) view.findViewById(R.id.monto_recarga);
-            numero = numero_a_recargar.getText().toString();
+                        numero = numero_a_recargar.getText().toString();
             monto = monto_recarga.getText().toString().replace("BsF.", "");
+            fecha_hora = df3.format(c.getTime());
             fecha = df1.format(c.getTime());
             hora = df2.format(c.getTime());
             pDialog = new ProgressDialog(getActivity());
@@ -229,7 +345,7 @@ public class Recarga extends Fragment {
         @Override
         protected JSONObject doInBackground(String... args) {
             UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.registrarVenta(usuario, imei, monto, fecha, numero);
+            JSONObject json = userFunction.registrarVenta(usuario, imei, monto, fecha_hora, numero,producto);
             return json;
         }
         @Override

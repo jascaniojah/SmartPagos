@@ -22,6 +22,8 @@ public class UserFunctions {
     private static String notificarURL = "http://www.tufuturo.com.ve/smartpagos_webs/";
     private static String bancosURL =  "http://www.tufuturo.com.ve/smartpagos_webs/";
     private static String bancos_tag = "bancos";
+    private static String productos_tag = "productos";
+    private static String URL =  "http://www.tufuturo.com.ve/smartpagos_webs/";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -68,7 +70,7 @@ public class UserFunctions {
      * Function to  Register
      **/
 
-    public JSONObject registrarVenta(String usuario, String imei, String monto, String fechahora, String telefono){
+    public JSONObject registrarVenta(String usuario, String imei, String monto, String fechahora, String telefono, String producto){
         // Building Parameters
         List params = new ArrayList();
         params.add(new BasicNameValuePair("tag", recarga_tag));
@@ -77,7 +79,7 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("monto", monto));
         params.add(new BasicNameValuePair("fechahora", fechahora));
         params.add(new BasicNameValuePair("telefono", telefono));
-        params.add(new BasicNameValuePair("producto", "04"));
+        params.add(new BasicNameValuePair("producto", producto));
         params.add(new BasicNameValuePair("modo_pago", "01"));
         params.add(new BasicNameValuePair("medio_pago", "04"));
         JSONObject json = jsonParser.getJSONFromUrl(recargaURL,params);
@@ -100,6 +102,17 @@ public class UserFunctions {
         return json;
     }
 
+    public JSONObject getProductos(String telefono,String imei,String fechahora_disp){
+    List params = new ArrayList();
+    params.add(new BasicNameValuePair("tag", productos_tag));
+    params.add(new BasicNameValuePair("imei", imei));
+    params.add(new BasicNameValuePair("fechahora", fechahora_disp));
+    params.add(new BasicNameValuePair("servicio", "001"));
+    params.add(new BasicNameValuePair("origen", "004"));
+
+    JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
+    return json;
+}
     /**
      * Function to logout user
      * Resets the temporary data stored in SQLite Database

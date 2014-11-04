@@ -40,7 +40,7 @@ public class Saldo extends Fragment {
     private static String KEY_SALDO = "saldo";
 
     Calendar c = Calendar.getInstance();
-    SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy");
+    SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy HH:mm");
     TextView fecha_consulta,hora_consulta,fecha_ult_trans,hora_ult_trans,saldo_actual;
     TextView resp_fecha_consulta,resp_hora_consulta,resp_fecha_ult_trans,resp_hora_ult_trans,resp_saldo_actual;
     Button saldo_boton;
