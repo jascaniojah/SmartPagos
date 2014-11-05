@@ -2,6 +2,7 @@ package com.example.jascaniojah.smartpagos;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,13 +42,18 @@ public class TransaccionesAdapter extends ArrayAdapter<Movimientos> {
         TextView numero=(TextView)convertView.findViewById(R.id.numeroTelTransaccion);
         TextView info=(TextView)convertView.findViewById(R.id.fechaTransaccion);
         numero.setText(movimiento.getTelefono());
+            Log.i("TransaccionesAdapter","Numero "+movimiento.getTelefono());
+        Log.i("TransaccionesAdapter","Monto "+movimiento.getMonto());
+
 
         Date date=movimiento.getFechaHora();
-        DateFormat df =DateFormat.getDateTimeInstance();
-        String s = df.format(date);
+//        String s = date.toString();
+        String s="2014-25-05";
+        numero.setText(movimiento.getTelefono());
         info.setText("Monto: "+movimiento.getMonto()+" Fecha: "+s);
-        Drawable im=convertView.getResources().getDrawable(R.drawable.ic_pago);
+        Drawable im=convertView.getResources().getDrawable(R.drawable.ic_launcher);
         icono.setImageDrawable(im);
+
 
 
 

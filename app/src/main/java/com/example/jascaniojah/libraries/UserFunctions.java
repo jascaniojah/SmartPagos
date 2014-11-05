@@ -24,6 +24,8 @@ public class UserFunctions {
     private static String bancos_tag = "bancos";
     private static String productos_tag = "productos";
     private static String URL =  "http://www.tufuturo.com.ve/smartpagos_webs/";
+    private static String transacciones_tag="transacciones";
+
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -100,6 +102,23 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("banco", banco));
         JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
         return json;
+    }
+    public JSONObject getTransacciones(String telefono,String servicio, String origen, String imei, String fechahora, String fechainicio, String fechafin)
+    {
+
+        List params=new ArrayList();
+        params.add(new BasicNameValuePair("tag",transacciones_tag));
+        params.add(new BasicNameValuePair("telefono",telefono));
+        params.add(new BasicNameValuePair("servicio",servicio));
+        params.add(new BasicNameValuePair("origen",origen));
+        params.add(new BasicNameValuePair("imei",imei));
+        params.add(new BasicNameValuePair("fechahora",fechahora));
+        params.add(new BasicNameValuePair("fechainicio",fechainicio));
+        params.add(new BasicNameValuePair("fechafin",fechafin));
+
+        JSONObject json=jsonParser.getJSONFromUrl(URL,params);
+        return json;
+
     }
 
     public JSONObject getProductos(String telefono,String imei,String fechahora_disp){

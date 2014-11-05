@@ -77,5 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/transacciones_list"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:visibility="invisible"
+            />
 </LinearLayout>
