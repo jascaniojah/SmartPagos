@@ -9,7 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.content.Context;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+
+import com.example.jascaniojah.libraries.DateParser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,21 +45,37 @@ public class TransaccionesAdapter extends ArrayAdapter<Movimientos> {
         TextView numero=(TextView)convertView.findViewById(R.id.numeroTelTransaccion);
         TextView info=(TextView)convertView.findViewById(R.id.fechaTransaccion);
         numero.setText(movimiento.getTelefono());
-            Log.i("TransaccionesAdapter","Numero "+movimiento.getTelefono());
-        Log.i("TransaccionesAdapter","Monto "+movimiento.getMonto());
+        Drawable tv=convertView.getResources().getDrawable(R.drawable.ic_tv);
+        Drawable movil=convertView.getResources().getDrawable(R.drawable.ic_movil);
+        Drawable fijo=convertView.getResources().getDrawable(R.drawable.ic_fijo);
+
+        if(movimiento.getProducto().equals("01"))
+        {
+            icono.setImageDrawable(movil);
+
+        }
+        else if (movimiento.getProducto().equals("02"))
+        {
+            icono.setImageDrawable(fijo);
+        }
+        else if (movimiento.getProducto().equals("03"))
+        {
+            icono.setImageDrawable(tv);
+        }
+        else
+            icono.setImageDrawable(movil);
 
 
-        Date date=movimiento.getFechaHora();
+        Log.i("TransaccionesAdapter","Numero "+movimiento.getTelefono());
+
+        //Log.i("TransaccionesAdapter","Monto "+movimiento.getMonto());
+
+
+       // Date date=movimiento.getFechaHora();
 //        String s = date.toString();
-        String s="2014-25-05";
+       String s= DateParser.DateTimeToString(movimiento.getFechaHora());
         numero.setText(movimiento.getTelefono());
         info.setText("Monto: "+movimiento.getMonto()+" Fecha: "+s);
-        Drawable im=convertView.getResources().getDrawable(R.drawable.ic_launcher);
-        icono.setImageDrawable(im);
-
-
-
-
 
         return convertView;
 

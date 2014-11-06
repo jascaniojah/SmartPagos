@@ -19,12 +19,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.jascaniojah.libraries.DataBaseHandler;
+import com.example.jascaniojah.libraries.DateParser;
 import com.example.jascaniojah.libraries.UserFunctions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -118,17 +120,28 @@ getTranButton.setOnClickListener(new OnClickListener() {
                     if (json != null) {
                         JSONArray movArray = json
                                 .getJSONArray("transacciones");
-                        Log.i("Trans.java","JSONArray: "+movArray.toString());
-                        movimientosArray=Movimientos.fromJson(movArray);
+                        Log.i("Trans.java", "JSONArray: " + movArray.toString());
+
+                        // movimientosArray=Movimientos.fromJson(movArray);
+                        for (int i = 0; i < movArray.length(); i++) {
+                            String numero = movArray.getJSONObject(i).getString("numero");
+                            Float monto = Float.parseFloat(movArray.getJSONObject(i).getString("monto"));
+                            Date fecha= DateParser.StringToDateTime(movArray.getJSONObject(i).getString("fecha_hora"));
+                            String producto=movArray.getJSONObject(i).getString("producto");
+                            Movimientos mov = new Movimientos(numero, monto,fecha,producto);
+                            movimientosArray.add(mov);
+                        }
 
 
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-
-            } else {
+            }
+            else {
                 Log.e("JSON Data", "Didn't receive any data from server!");
             }
 

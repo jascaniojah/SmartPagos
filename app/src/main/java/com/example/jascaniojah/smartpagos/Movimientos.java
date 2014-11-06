@@ -25,12 +25,23 @@ public class Movimientos {
     private String Telefono;
     private String DesRespuesta;	//Descripción  de respuesta
 
+    public String getProducto() {
+        return Producto;
+    }
 
-    public Movimientos(Date fechaHora, String telefono, float monto) {
+    public void setProducto(String producto) {
+        Producto = producto;
+    }
+
+    private String Producto;
+
+    public Movimientos( String telefono, float monto,Date fechaHora, String producto) {
         FechaHora = fechaHora;
         Telefono = telefono;
         Monto = monto;
+        Producto=producto;
     }
+
 
     public Movimientos(Date fechaHora, String tipoRecarga, String serial, float monto, String idRespuesta, String desRespuesta,String telefono) {
         FechaHora = fechaHora;
@@ -79,6 +90,7 @@ public class Movimientos {
         ArrayList<Movimientos> users = new ArrayList<Movimientos>();
         for (int i = 0; i < jsonObjects.length(); i++) {
             try {
+               // Movimientos mov=new Movimientos(jsonObjects.getJSONObject(i).getString("numero"));
                 users.add(new Movimientos(jsonObjects.getJSONObject(i)));
                 Log.i("Movimientos.java","Movimientos Element Sent to Object: "+jsonObjects.getJSONObject(i).toString());
 
