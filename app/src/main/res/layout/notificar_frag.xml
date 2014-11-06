@@ -3,20 +3,42 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-        <TextView
-            android:id="@+id/cuenta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cuenta"
-            android:padding="5dp"
-            />
+    <TextView
+        android:id="@+id/banco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/banco"
+        android:padding="5dp"
+        />
     <Spinner
         android:id="@+id/BancoSp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
+        android:layout_toEndOf="@+id/banco"
+        android:layout_toRightOf="@+id/banco"
+        android:padding="5dp"
+        android:theme="@android:style/Animation.InputMethod"
+        android:focusable="true"/>
+    />
+
+
+    <TextView
+            android:id="@+id/cuenta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cuenta"
+            android:padding="5dp"
+            android:layout_below="@+id/BancoSp"
+            />
+    <Spinner
+        android:id="@+id/CuentaSp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
         android:layout_toEndOf="@+id/cuenta"
         android:layout_toRightOf="@+id/cuenta"
+        android:layout_below="@+id/BancoSp"
         android:padding="5dp"
         android:theme="@android:style/Animation.InputMethod"
         android:focusable="true"/>
@@ -28,7 +50,7 @@
             android:layout_height="wrap_content"
             android:text="@string/referencia"
             android:padding="5dp"
-            android:layout_below="@+id/BancoSp"
+            android:layout_below="@+id/CuentaSp"
             />
 
         <EditText
@@ -38,7 +60,7 @@
             android:singleLine="true"
             android:theme="@android:style/Animation.InputMethod"
             android:focusable="true"
-            android:layout_below="@+id/BancoSp"
+            android:layout_below="@+id/CuentaSp"
             android:layout_toEndOf="@+id/referencia"
             android:layout_toRightOf="@+id/referencia"
             android:padding="5dp"/>

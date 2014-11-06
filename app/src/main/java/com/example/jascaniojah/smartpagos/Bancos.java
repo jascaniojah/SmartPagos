@@ -5,30 +5,30 @@ package com.example.jascaniojah.smartpagos;
  */
 public class Bancos {
 
-    private String banco;
-    private String cuenta;
+    private String nombre;
+    private String codigo;
 
     public Bancos(){}
 
-    public Bancos(String banco, String cuenta){
-        this.banco = banco;
-        this.cuenta = cuenta;
+    public Bancos(String nombre, String codigo){
+        this.nombre = nombre;
+        this.codigo = codigo;
     }
 
-    public void setBanco(String banco){
-        this.banco = banco;
+    public void setBanco(String nombre){
+        this.nombre = nombre;
     }
 
-    public void setCuenta(String cuenta){
-        this.cuenta = cuenta;
+    public void setCodigo(String codigo){
+        this.codigo = codigo;
     }
 
     public String getBanco(){
-        return this.banco;
+        return this.nombre;
     }
 
-    public String getCuenta(){
-        return this.cuenta;
+    public String getCodigo(){
+        return this.codigo;
     }
 
 }

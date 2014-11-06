@@ -22,6 +22,7 @@ public class UserFunctions {
     private static String notificarURL = "http://www.tufuturo.com.ve/smartpagos_webs/";
     private static String bancosURL =  "http://www.tufuturo.com.ve/smartpagos_webs/";
     private static String bancos_tag = "bancos";
+    private static String cuentas_tag = "cuentas";
     private static String productos_tag = "productos";
     private static String URL =  "http://www.tufuturo.com.ve/smartpagos_webs/";
     private static String transacciones_tag="transacciones";
@@ -45,10 +46,28 @@ public class UserFunctions {
         return json;
     }
 
-    public JSONObject getBancos(){
+    public JSONObject getBancos(String telefono,String imei,String fechahora_disp){
         List params = new ArrayList();
         params.add(new BasicNameValuePair("tag", bancos_tag));
-        JSONObject json = jsonParser.getJSONFromUrl(bancosURL, params);
+        params.add(new BasicNameValuePair("telefono",telefono));
+        params.add(new BasicNameValuePair("imei", imei));
+        params.add(new BasicNameValuePair("fechahora", fechahora_disp));
+        params.add(new BasicNameValuePair("servicio", "001"));
+        params.add(new BasicNameValuePair("origen", "004"));
+        JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
+        return json;
+    }
+
+    public JSONObject getCuentas(String telefono,String imei,String fechahora_disp,String codigo){
+        List params = new ArrayList();
+        params.add(new BasicNameValuePair("tag", cuentas_tag));
+        params.add(new BasicNameValuePair("codigo_banco",codigo));
+        params.add(new BasicNameValuePair("telefono",telefono));
+        params.add(new BasicNameValuePair("imei", imei));
+        params.add(new BasicNameValuePair("fechahora", fechahora_disp));
+        params.add(new BasicNameValuePair("servicio", "001"));
+        params.add(new BasicNameValuePair("origen", "004"));
+        JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
         return json;
     }
 
@@ -124,11 +143,11 @@ public class UserFunctions {
     public JSONObject getProductos(String telefono,String imei,String fechahora_disp){
     List params = new ArrayList();
     params.add(new BasicNameValuePair("tag", productos_tag));
+    params.add(new BasicNameValuePair("telefono",telefono));
     params.add(new BasicNameValuePair("imei", imei));
     params.add(new BasicNameValuePair("fechahora", fechahora_disp));
     params.add(new BasicNameValuePair("servicio", "001"));
     params.add(new BasicNameValuePair("origen", "004"));
-
     JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
     return json;
 }

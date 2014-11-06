@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="banco">Banco:</string>
     <string name="cuenta">Cuenta:</string>
     <string name="referencia">N° Referencia:</string>
     <string name="monto_deposito">Monto: </string>

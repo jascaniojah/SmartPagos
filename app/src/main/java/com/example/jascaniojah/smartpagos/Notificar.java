@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
@@ -47,12 +48,14 @@ public class Notificar extends Fragment {
     SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy");
     private static String KEY_ERROR = "error";
     private ArrayList<Bancos> banksList;
-    TextView cuenta, referencia, monto,origen,registerErrorMsg;
+    private ArrayList<Cuentas> cuentasList;
+    SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    TextView cuenta, referencia, monto,origen,banco,registerErrorMsg;
     EditText num_referencia, monto_deposito,cuenta_origen;
     Button boton_notificar;
 
-    Spinner spnr,spinner;
-    String mBanco;
+    Spinner spnr,spinner,spinnerCta;
+    String mBanco,mCuenta,codigo,numero,imei,fecha,usuario;
     String[] caso = {
             "Deposito",
             "Transferencia Electronica",
@@ -63,6 +66,7 @@ public class Notificar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.notificar_frag, container, false);
+
         cuenta = (TextView) view.findViewById(R.id.cuenta);
         referencia = (TextView) view.findViewById(R.id.referencia);
         monto = (TextView) view.findViewById(R.id.monto);
@@ -72,9 +76,12 @@ public class Notificar extends Fragment {
         origen = (TextView) view.findViewById(R.id.origen);
         cuenta_origen = (EditText) view.findViewById(R.id.cuenta_origen);
         boton_notificar = (Button) view.findViewById(R.id.boton_notificar);
+        banco = (TextView) view.findViewById(R.id.banco);
            banksList = new ArrayList<Bancos>();
-        spnr = (Spinner) view.findViewById(R.id.spinner);
+        cuentasList = new ArrayList<Cuentas>();
+           spnr = (Spinner) view.findViewById(R.id.spinner);
         spinner = (Spinner) view.findViewById(R.id.BancoSp);
+        spinnerCta= (Spinner) view.findViewById(R.id.CuentaSp);
         ArrayAdapter<String> adapter;
         adapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, caso);
@@ -87,6 +94,9 @@ public class Notificar extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 mBanco =spinner.getSelectedItem().toString();
+                codigo = banksList.get(spinner.getSelectedItemPosition()).getCodigo();
+                cuentasList.clear();
+                new getCuentas().execute();
               }
 
             @Override
@@ -94,6 +104,20 @@ public class Notificar extends Fragment {
 
             }
         });
+
+        spinnerCta.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                mCuenta =spinnerCta.getSelectedItem().toString();
+                            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
                             spnr.setOnItemSelectedListener(
                             new AdapterView.OnItemSelectedListener() {
                         @Override
@@ -197,7 +221,15 @@ public class Notificar extends Fragment {
         @Override
         protected Void doInBackground(Void... arg0) {
             UserFunctions jsonParser = new UserFunctions();
-            JSONObject json = jsonParser.getBancos();
+            TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+            numero=telephonyManager.getLine1Number().toString();
+            DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
+            HashMap cuenta = new HashMap();
+            cuenta = db.getUser();
+            usuario = cuenta.get("usuario").toString();
+            imei= cuenta.get("imei").toString();
+            fecha= df3.format(c.getTime());
+            JSONObject json = jsonParser.getBancos(numero,imei,fecha);
 
             Log.e("Response: ", "> " + json);
 
@@ -211,7 +243,7 @@ public class Notificar extends Fragment {
                         for (int i = 0; i < banks.length(); i++) {
                             JSONObject catObj = (JSONObject) banks.get(i);
                             Bancos cat = new Bancos(catObj.getString("banco"),
-                                    catObj.getString("cuenta"));
+                                    catObj.getString("codigo"));
                             banksList.add(cat);
                         }
                     }
@@ -244,7 +276,7 @@ public class Notificar extends Fragment {
         List<String> lables = new ArrayList<String>();
 
         for (int i = 0; i < banksList.size(); i++) {
-            lables.add(banksList.get(i).getBanco()+": "+banksList.get(i).getCuenta());
+            lables.add(banksList.get(i).getBanco());
         }
 
         // Creating adapter for spinner
@@ -257,6 +289,91 @@ public class Notificar extends Fragment {
 
         // attaching data adapter to spinner
         spinner.setAdapter(spinnerAdapter);
+    }
+
+    private class getCuentas extends AsyncTask<Void, Void, Void> {
+        private ProgressDialog pDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(getActivity());
+            pDialog.setMessage("Cargando Informacion Bancaria");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            UserFunctions jsonParser = new UserFunctions();
+            TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+            numero=telephonyManager.getLine1Number().toString();
+            DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
+            HashMap cuenta = new HashMap();
+            cuenta = db.getUser();
+            usuario = cuenta.get("usuario").toString();
+            imei= cuenta.get("imei").toString();
+            fecha= df3.format(c.getTime());
+            JSONObject json = jsonParser.getCuentas(numero, imei, fecha, codigo);
+
+            Log.e("Response: ", "> " + json);
+
+            if (json != null) {
+                try {
+
+                    if (json != null) {
+                        JSONArray banks = json
+                                .getJSONArray("cuentas");
+
+                        for (int i = 0; i < banks.length(); i++) {
+                            JSONObject catObj = (JSONObject) banks.get(i);
+                            Cuentas cat = new Cuentas(catObj.getString("numero_cuenta"));
+                            cuentasList.add(cat);
+
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Log.e("JSON Data", "Didn't receive any data from server!");
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+            llenarSpinner();
+        }
+
+    }
+
+    /**
+     * Adding spinner data
+     * */
+    private void llenarSpinner() {
+        List<String> lables = new ArrayList<String>();
+
+        for (int i = 0; i < cuentasList.size(); i++) {
+            lables.add(cuentasList.get(i).getNumero());
+        }
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, lables);
+
+        // Drop down layout style - list view with radio button
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinnerCta.setAdapter(spinnerAdapter);
     }
 
 
@@ -354,7 +471,7 @@ public class Notificar extends Fragment {
              * Defining Process dialog
              **/
             private ProgressDialog pDialog;
-            String cuenta,monto,referencia,imei,fecha,tipo,cta_origen,banco;
+            String monto,referencia,imei,fecha,tipo,cta_origen;
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -364,7 +481,6 @@ public class Notificar extends Fragment {
                 imei= dato.get("imei").toString();
                 //numero_a_recargar = (EditText) view.findViewById(R.id.numero_a_recargar);
                 //monto_recarga = (EditText) view.findViewById(R.id.monto_recarga);
-                cuenta = mBanco;
                 monto = monto_deposito.getText().toString().replace("BsF.", "");
                 referencia = num_referencia.getText().toString();
                 if(cuenta_origen.isEnabled()) {
@@ -388,7 +504,7 @@ public class Notificar extends Fragment {
             @Override
             protected JSONObject doInBackground(String... args) {
                 UserFunctions userFunction = new UserFunctions();
-                JSONObject json = userFunction.notificarDeposito(cuenta, imei, monto, fecha, referencia,tipo,cta_origen,mBanco);
+                JSONObject json = userFunction.notificarDeposito(mCuenta, imei, monto, fecha, referencia,tipo,cta_origen,mBanco);
                 return json;
             }
             @Override
