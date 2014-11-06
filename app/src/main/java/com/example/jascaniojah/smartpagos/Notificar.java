@@ -479,8 +479,6 @@ public class Notificar extends Fragment {
                 HashMap dato = new HashMap();
                 dato = db.getUser();
                 imei= dato.get("imei").toString();
-                //numero_a_recargar = (EditText) view.findViewById(R.id.numero_a_recargar);
-                //monto_recarga = (EditText) view.findViewById(R.id.monto_recarga);
                 monto = monto_deposito.getText().toString().replace("BsF.", "");
                 referencia = num_referencia.getText().toString();
                 if(cuenta_origen.isEnabled()) {
@@ -492,7 +490,7 @@ public class Notificar extends Fragment {
                     cta_origen = "No Aplica";
                 }
 
-                fecha = df1.format(c.getTime());
+                fecha = df3.format(c.getTime());
 
                 pDialog = new ProgressDialog(getActivity());
                 pDialog.setTitle("Contacting Servers");

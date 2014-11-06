@@ -362,6 +362,7 @@ public class Recarga extends Fragment {
 
                         numero_a_recargar.getText().clear();
                         monto_recarga.getText().clear();
+                        resp_conf_numero.getText().clear();
                         resp_id.setText((CharSequence) json.getString("code"));
                         resp_fecha.setText(fecha);
                         resp_hora.setText(hora);
