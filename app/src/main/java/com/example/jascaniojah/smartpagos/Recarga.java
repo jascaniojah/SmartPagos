@@ -87,7 +87,7 @@ public class Recarga extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                producto =productsp.getSelectedItem().toString();
+                producto = productsList.get(productsp.getSelectedItemPosition()).getCodigo();
             }
 
             @Override
