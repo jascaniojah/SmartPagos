@@ -20,9 +20,21 @@ public static  Date StringToDateTime(String dateString) throws ParseException {
     Date outputDate=parser.parse(dateString);
     return outputDate;
 }
+public static String StringToString(String s) throws ParseException {
+    SimpleDateFormat parserToDate=new SimpleDateFormat("dd-MM-yyyy");
+    Date outputDate=parserToDate.parse(s);
+    parserToDate.applyPattern("yyyy-MM-dd");
+    String outputString=parserToDate.format(outputDate);
+
+    return outputString;
 
 
+}
 
 
 
 }
+
+
+
+

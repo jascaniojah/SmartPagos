@@ -17,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jascaniojah.libraries.DataBaseHandler;
 import com.example.jascaniojah.libraries.DateParser;
@@ -64,9 +65,14 @@ public class Trans extends Fragment {
 getTranButton.setOnClickListener(new OnClickListener() {
     @Override
     public void onClick(View view) {
+        if(!fecha_hasta.getText().toString().equals("") && !fecha_desde.getText().toString().equals("")) {
+            new getTransacciones().execute();
+        }
+        else
+        {
 
-        new getTransacciones().execute();
-
+            Toast.makeText(getActivity(),"Ingresar un Rango de fechas", Toast.LENGTH_SHORT).show();
+        }
 
     }
 });
@@ -86,19 +92,20 @@ getTranButton.setOnClickListener(new OnClickListener() {
         protected void onPreExecute()             {
 
             super.onPreExecute();
-            DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
             telefono="04249474436";
             servicio="04";
             origen="02";
             fechahora="2014-10-01 23:58:44";
-            fechainicio="2014-01-01";
-            fechafin="2015-01-01";
-            HashMap cuenta = new HashMap();
-            cuenta = db.getUser();
-            usuario = cuenta.get("usuario").toString();
-            imei= cuenta.get("imei").toString();
+            try {
+                fechafin=DateParser.StringToString(fecha_hasta.getText().toString());
+                fechainicio=DateParser.StringToString(fecha_desde.getText().toString());
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             pDialog = new ProgressDialog(getActivity());
-            pDialog.setTitle("Contacting Servers");
+            pDialog.setMessage("Cargando Transaciones");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -107,6 +114,11 @@ getTranButton.setOnClickListener(new OnClickListener() {
 
         @Override
         protected JSONObject doInBackground(String... strings) {
+            HashMap cuenta = new HashMap();
+            DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
+            cuenta = db.getUser();
+            usuario = cuenta.get("usuario").toString();
+            imei= cuenta.get("imei").toString();
             UserFunctions jsonParser = new UserFunctions();
             JSONObject json= jsonParser.getTransacciones(telefono,servicio,origen,imei,fechahora,fechainicio,fechafin);
             Log.e("Response: ", "> " + json);
@@ -155,10 +167,17 @@ getTranButton.setOnClickListener(new OnClickListener() {
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
             pDialog.dismiss();
-            TransaccionesAdapter adapter = new TransaccionesAdapter(getActivity(), movimientosArray);
-            ListView lv=(ListView) getActivity().findViewById(R.id.transacciones_list);
-            lv.setAdapter(adapter);
-            lv.setVisibility(View.VISIBLE);
+            if (movimientosArray.size()>1) {
+                TransaccionesAdapter adapter = new TransaccionesAdapter(getActivity(), movimientosArray);
+                ListView lv = (ListView) getActivity().findViewById(R.id.transacciones_list);
+                lv.setAdapter(adapter);
+                lv.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+
+                Toast.makeText(getActivity(),"No se encontraron transacciones",Toast.LENGTH_SHORT).show();
+            }
         }
 
 
@@ -205,9 +224,11 @@ getTranButton.setOnClickListener(new OnClickListener() {
          */
         Calendar calender = Calendar.getInstance();
         Bundle args = new Bundle();
-        args.putInt("year", calender.get(Calendar.YEAR));
-        args.putInt("month", calender.get(Calendar.MONTH));
         args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
+
+        args.putInt("month", calender.get(Calendar.MONTH));
+        args.putInt("year", calender.get(Calendar.YEAR));
+
         date.setArguments(args);
         /**
          * Set Call back to capture selected date
@@ -228,9 +249,14 @@ getTranButton.setOnClickListener(new OnClickListener() {
 
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-
-            fecha_desde.setText(String.valueOf(dayOfMonth) + "-" + String.valueOf(monthOfYear+1)
-                    + "-" + String.valueOf(year));
+            String f=String.valueOf(dayOfMonth) + "-" + String.valueOf(monthOfYear+1)
+                    + "-" + String.valueOf(year);
+            fecha_desde.setText(f);
+            try {
+                Log.i("Trans.java","Fecha desde parsed= "+DateParser.StringToString(f) );
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
         }
     };
@@ -239,10 +265,14 @@ getTranButton.setOnClickListener(new OnClickListener() {
 
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-
-            fecha_hasta.setText(String.valueOf(dayOfMonth) + "-" + String.valueOf(monthOfYear+1)
-                    + "-" + String.valueOf(year));
-
+            String f=String.valueOf(dayOfMonth) + "-" + String.valueOf(monthOfYear+1)
+                    + "-" + String.valueOf(year);
+            fecha_hasta.setText(f);
+            try {
+                Log.i("Trans.java","Fecha hasta parsed= "+DateParser.StringToString(f) );
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     };
 
