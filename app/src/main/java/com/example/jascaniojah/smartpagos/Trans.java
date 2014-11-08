@@ -60,8 +60,6 @@ public class Trans extends Fragment {
         myCalendar = Calendar.getInstance();
         Button getTranButton=(Button) view.findViewById(R.id.boton_consultar);
 
-      //  new Movimientos().execute;
-
 getTranButton.setOnClickListener(new OnClickListener() {
     @Override
     public void onClick(View view) {
@@ -92,11 +90,7 @@ getTranButton.setOnClickListener(new OnClickListener() {
         protected void onPreExecute()             {
 
             super.onPreExecute();
-            telefono="04249474436";
-            servicio="04";
-            origen="02";
-            fechahora="2014-10-01 23:58:44";
-            try {
+                try {
                 fechafin=DateParser.StringToString(fecha_hasta.getText().toString());
                 fechainicio=DateParser.StringToString(fecha_desde.getText().toString());
 
@@ -119,8 +113,9 @@ getTranButton.setOnClickListener(new OnClickListener() {
             cuenta = db.getUser();
             usuario = cuenta.get("usuario").toString();
             imei= cuenta.get("imei").toString();
+            String  password=cuenta.get("password").toString();
             UserFunctions jsonParser = new UserFunctions();
-            JSONObject json= jsonParser.getTransacciones(telefono,servicio,origen,imei,fechahora,fechainicio,fechafin);
+            JSONObject json= jsonParser.getTransacciones(telefono,servicio,origen,imei,fechahora,fechainicio,fechafin,usuario,password);
             Log.e("Response: ", "> " + json);
 
             movimientosArray = new ArrayList<Movimientos>();
@@ -140,7 +135,8 @@ getTranButton.setOnClickListener(new OnClickListener() {
                             Float monto = Float.parseFloat(movArray.getJSONObject(i).getString("monto"));
                             Date fecha= DateParser.StringToDateTime(movArray.getJSONObject(i).getString("fecha_hora"));
                             String producto=movArray.getJSONObject(i).getString("producto");
-                            Movimientos mov = new Movimientos(numero, monto,fecha,producto);
+                            String id=movArray.getJSONObject(i).getString("id");
+                            Movimientos mov = new Movimientos(numero, monto,fecha,producto,id);
                             movimientosArray.add(mov);
                         }
 
@@ -177,6 +173,8 @@ getTranButton.setOnClickListener(new OnClickListener() {
             {
 
                 Toast.makeText(getActivity(),"No se encontraron transacciones",Toast.LENGTH_SHORT).show();
+
+                Log.i("Trans.java","Array vacio:"+movimientosArray.toString());
             }
         }
 

@@ -46,7 +46,7 @@ public class UserFunctions {
         return json;
     }
 
-    public JSONObject getBancos(String telefono,String imei,String fechahora_disp){
+    public JSONObject getBancos(String telefono,String imei,String fechahora_disp, String usuario,String password){
         List params = new ArrayList();
         params.add(new BasicNameValuePair("tag", bancos_tag));
         params.add(new BasicNameValuePair("telefono",telefono));
@@ -54,11 +54,14 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("fechahora", fechahora_disp));
         params.add(new BasicNameValuePair("servicio", "001"));
         params.add(new BasicNameValuePair("origen", "004"));
+        params.add(new BasicNameValuePair("usuario",usuario ));
+        params.add(new BasicNameValuePair("password", password));
+
         JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
         return json;
     }
 
-    public JSONObject getCuentas(String telefono,String imei,String fechahora_disp,String codigo){
+    public JSONObject getCuentas(String telefono,String imei,String fechahora_disp,String codigo, String usuario, String password){
         List params = new ArrayList();
         params.add(new BasicNameValuePair("tag", cuentas_tag));
         params.add(new BasicNameValuePair("codigo_banco",codigo));
@@ -67,15 +70,18 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("fechahora", fechahora_disp));
         params.add(new BasicNameValuePair("servicio", "001"));
         params.add(new BasicNameValuePair("origen", "004"));
+        params.add(new BasicNameValuePair("usuario",usuario ));
+        params.add(new BasicNameValuePair("password", password));
         JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
         return json;
     }
 
-    public JSONObject getSaldo(String usuario, String imei ){
+    public JSONObject getSaldo(String usuario, String imei,String password){
         List params = new ArrayList();
         params.add(new BasicNameValuePair("tag", saldo_tag));
         params.add(new BasicNameValuePair("usuario", usuario));
         params.add(new BasicNameValuePair("imei", imei));
+        params.add(new BasicNameValuePair("password", password));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
         return json;
     }
@@ -91,7 +97,7 @@ public class UserFunctions {
      * Function to  Register
      **/
 
-    public JSONObject registrarVenta(String usuario, String imei, String monto, String fechahora, String telefono, String producto){
+    public JSONObject registrarVenta(String usuario, String imei, String monto, String fechahora, String telefono, String producto, String password){
         // Building Parameters
         List params = new ArrayList();
         params.add(new BasicNameValuePair("tag", recarga_tag));
@@ -103,11 +109,13 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("producto", producto));
         params.add(new BasicNameValuePair("modo_pago", "01"));
         params.add(new BasicNameValuePair("medio_pago", "04"));
+        params.add(new BasicNameValuePair("usuario",usuario ));
+        params.add(new BasicNameValuePair("password", password));
         JSONObject json = jsonParser.getJSONFromUrl(recargaURL,params);
         return json;
     }
 
-    public JSONObject notificarDeposito(String cuenta, String imei, String monto, String fechahora, String referencia, String tipo, String cuenta_origen,String banco){
+    public JSONObject notificarDeposito(String cuenta, String imei, String monto, String fechahora, String referencia, String tipo, String cuenta_origen,String banco,String usuario, String password){
         // Building Parameters
         List params = new ArrayList();
         params.add(new BasicNameValuePair("tag", notificar_tag));
@@ -119,10 +127,13 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("tipo_deposito", tipo));
         params.add(new BasicNameValuePair("cuenta_origen", cuenta_origen));
         params.add(new BasicNameValuePair("banco", banco));
+        params.add(new BasicNameValuePair("usuario",usuario ));
+        params.add(new BasicNameValuePair("password", password));
+
         JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
         return json;
     }
-    public JSONObject getTransacciones(String telefono,String servicio, String origen, String imei, String fechahora, String fechainicio, String fechafin)
+    public JSONObject getTransacciones(String telefono,String servicio, String origen, String imei, String fechahora, String fechainicio, String fechafin,String usuario,String password )
     {
 
         List params=new ArrayList();
@@ -134,13 +145,14 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("fechahora",fechahora));
         params.add(new BasicNameValuePair("fechainicio",fechainicio));
         params.add(new BasicNameValuePair("fechafin",fechafin));
-
+        params.add(new BasicNameValuePair("usuario",usuario ));
+        params.add(new BasicNameValuePair("password", password));
         JSONObject json=jsonParser.getJSONFromUrl(URL,params);
         return json;
 
     }
 
-    public JSONObject getProductos(String telefono,String imei,String fechahora_disp){
+    public JSONObject getProductos(String telefono,String imei,String fechahora_disp,String usuario, String Password){
     List params = new ArrayList();
     params.add(new BasicNameValuePair("tag", productos_tag));
     params.add(new BasicNameValuePair("telefono",telefono));

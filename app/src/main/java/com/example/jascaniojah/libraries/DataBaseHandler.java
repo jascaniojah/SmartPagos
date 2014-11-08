@@ -68,12 +68,13 @@ public class DataBaseHandler extends SQLiteOpenHelper {
      * Storing user details in database
      * */
 
-     public void addUser( String user,String imei) {
+     public void addUser( String user,String imei,String password) {
       SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         //Identificador
         values.put(KEY_IMEI,imei);
-         values.put(KEY_USER,user);// Saldo
+         values.put(KEY_USER,user);
+         values.put(KEY_PASSWORD,password);// Saldo
        //  Inserting Row
         db.insert(TABLE_CUENTA, null, values);
         db.close(); // Closing database connection
@@ -92,6 +93,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         if(cursor.getCount() > 0){
             user.put("usuario", cursor.getString(5));
             user.put("imei", cursor.getString(2));
+            user.put("password",cursor.getString(4));
         }
         cursor.close();
         db.close();

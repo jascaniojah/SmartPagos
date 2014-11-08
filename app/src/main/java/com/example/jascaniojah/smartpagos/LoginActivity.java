@@ -53,7 +53,7 @@ public class LoginActivity extends Activity {
     private View mLoginFormView;
     private TextView Registro;
     private TextView loginErrorMsg;
-
+private String mPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,13 +75,13 @@ public class LoginActivity extends Activity {
                     NetAsync(view);
                 } else if ((!Usuario.getText().toString().equals(""))) {
                     Toast.makeText(getApplicationContext(),
-                            "Password field empty", Toast.LENGTH_SHORT).show();
+                            "Campo de password vacio", Toast.LENGTH_SHORT).show();
                 } else if ((!Password.getText().toString().equals(""))) {
                     Toast.makeText(getApplicationContext(),
-                            "Email field empty", Toast.LENGTH_SHORT).show();
+                            "Campo de Email vacio", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "Email and Password field are empty", Toast.LENGTH_SHORT).show();
+                            "Campos de Email y Password vacios", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -109,8 +109,8 @@ public class LoginActivity extends Activity {
     protected void  onPreExecute(){
         super.onPreExecute();
         nDialog = new ProgressDialog(LoginActivity.this);
-        nDialog.setTitle("Checking Network");
-        nDialog.setMessage("Loading..");
+        nDialog.setTitle("Chequeando Conexion");
+        nDialog.setMessage("Cargando..");
         nDialog.setIndeterminate(false);
         nDialog.setCancelable(true);
         nDialog.show();
@@ -167,12 +167,12 @@ public class LoginActivity extends Activity {
     protected void onPreExecute() {
         super.onPreExecute();
         SecurityFunctions securityFunctions= new SecurityFunctions("0e2ec11cdf82fa49b5c35dfd9d6a654923ee36db","72355628");
-        //Usuario = (EditText) findViewById(R.id.usuario);
-        //Password = (EditText) findViewById(R.id.password);
         usuario = Usuario.getText().toString();
-        password = Password.getText().toString();
-        password=securityFunctions.encrypt(password);
-        Log.i(TAG,"pass: "+password);
+        mPassword = Password.getText().toString();
+        mPassword=securityFunctions.encrypt(mPassword);
+        Log.i(TAG,"pass: "+mPassword);
+        Log.i(TAG,"Usuario:  "+usuario);
+
         pDialog = new ProgressDialog(LoginActivity.this);
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         imei=telephonyManager.getDeviceId().toString();
@@ -183,8 +183,8 @@ public class LoginActivity extends Activity {
         }
         Log.i(TAG,"imei: "+imei);
         Log.i(TAG,"Numero: "+numero);
-        pDialog.setTitle("Contacting Servers");
-        pDialog.setMessage("Logging in ...");
+        pDialog.setTitle("Conectando al servidor");
+        pDialog.setMessage("Iniciando sesion ...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(true);
         pDialog.show();
@@ -192,7 +192,7 @@ public class LoginActivity extends Activity {
 
     protected JSONObject doInBackground(String... args) {
         UserFunctions userFunction = new UserFunctions();
-        JSONObject json = userFunction.loginUser(usuario,password,imei,numero);
+        JSONObject json = userFunction.loginUser(usuario,mPassword,imei,numero);
         return json;
     }
 
@@ -201,8 +201,8 @@ public class LoginActivity extends Activity {
             if (json.getString("code") != null) {
                 String res = json.getString("code");
                 if(Integer.parseInt(res) == 000){
-                    pDialog.setMessage("Loading User Space");
-                    pDialog.setTitle("Getting Data");
+                    pDialog.setMessage("Cargando Interfaz de Usuario");
+                    pDialog.setTitle("Obteniendo Data");
                     DataBaseHandler db = new DataBaseHandler(getApplicationContext());
                     JSONObject json_user = json.getJSONObject("cuenta");
 
@@ -211,7 +211,7 @@ public class LoginActivity extends Activity {
                      **/
                     UserFunctions logout = new UserFunctions();
                     logout.logoutUser(getApplicationContext());
-                    db.addUser(json_user.getString(KEY_USER),imei);
+                    db.addUser(json_user.getString(KEY_USER),imei,mPassword);
                     /**
                      *If JSON array details are stored in SQlite it launches the User Panel.
                      **/
@@ -225,7 +225,7 @@ public class LoginActivity extends Activity {
                     finish();
                 }else{
                     pDialog.dismiss();
-                    loginErrorMsg.setText("Incorrect username/password");
+                    loginErrorMsg.setText("Usuario o Password Incorrecto");
                 }
             }
         } catch (JSONException e) {

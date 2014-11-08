@@ -84,8 +84,8 @@ protected class NetCheck extends AsyncTask<String,Void,Boolean>
     protected void  onPreExecute(){
         super.onPreExecute();
         nDialog = new ProgressDialog(getActivity());
-        nDialog.setTitle("Checking Network");
-        nDialog.setMessage("Loading..");
+        nDialog.setTitle("Chequeando Conexion");
+        nDialog.setMessage("Cargando..");
         nDialog.setIndeterminate(false);
         nDialog.setCancelable(true);
         nDialog.show();
@@ -138,21 +138,23 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
-        HashMap cuenta = new HashMap();
-        cuenta = db.getUser();
-        usuario = cuenta.get("usuario").toString();
-        imei= cuenta.get("imei").toString();
+
         pDialog = new ProgressDialog(getActivity());
-        pDialog.setTitle("Contacting Servers");
+        pDialog.setTitle("Contactando Servidores");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(true);
         pDialog.show();
     }
 
     protected JSONObject doInBackground(String... args) {
+        DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
+        HashMap cuenta = new HashMap();
+        cuenta = db.getUser();
+        usuario = cuenta.get("usuario").toString();
+        imei= cuenta.get("imei").toString();
+      String  password=cuenta.get("password").toString();
         UserFunctions userFunction = new UserFunctions();
-        JSONObject json = userFunction.getSaldo(usuario,imei);
+        JSONObject json = userFunction.getSaldo(usuario,imei,password);
         return json;
     }
 
@@ -161,7 +163,7 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
             if (json.getString(KEY_SUCCESS) != null) {
                 String res = json.getString(KEY_SUCCESS);
                 if(Integer.parseInt(res) == 1){
-                    pDialog.setTitle("Getting Data");
+                    pDialog.setTitle("Obteniendo Data");
                     DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
                     JSONObject json_user = json.getJSONObject("cuenta");
                     /**

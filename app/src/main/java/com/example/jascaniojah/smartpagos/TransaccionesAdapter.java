@@ -75,7 +75,7 @@ public class TransaccionesAdapter extends ArrayAdapter<Movimientos> {
 //        String s = date.toString();
        String s= DateParser.DateTimeToString(movimiento.getFechaHora());
         numero.setText(movimiento.getTelefono());
-        info.setText("Monto: "+movimiento.getMonto()+" Fecha: "+s);
+        info.setText("Monto: "+movimiento.getMonto()+" Fecha: "+s+" ID Recarga: "+movimiento.getSerial());
 
         return convertView;
 

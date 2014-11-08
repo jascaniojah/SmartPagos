@@ -21,10 +21,8 @@ public class Movimientos {
     private String TipoRecarga ; 		//Tipo de recarga
     private String Serial;		//Serial o código de recarga
     private float Monto ;		// Monto de la transacción
-    private String idRespuesta ;		//Id de respuesta
     private String Telefono;
     private String DesRespuesta;	//Descripción  de respuesta
-
     public String getProducto() {
         return Producto;
     }
@@ -35,23 +33,15 @@ public class Movimientos {
 
     private String Producto;
 
-    public Movimientos( String telefono, float monto,Date fechaHora, String producto) {
+    public Movimientos( String telefono, float monto,Date fechaHora, String producto, String serial) {
         FechaHora = fechaHora;
         Telefono = telefono;
         Monto = monto;
         Producto=producto;
+        Serial=serial;
     }
 
 
-    public Movimientos(Date fechaHora, String tipoRecarga, String serial, float monto, String idRespuesta, String desRespuesta,String telefono) {
-        FechaHora = fechaHora;
-        TipoRecarga = tipoRecarga;
-        Serial = serial;
-        Monto = monto;
-        Telefono=telefono;
-        this.idRespuesta = idRespuesta;
-        DesRespuesta = desRespuesta;
-    }
 
     public Movimientos(JSONObject object){
         Log.i("Movimientos","JSON object gotten "+object);
@@ -141,14 +131,6 @@ public class Movimientos {
 
     public void setMonto(float monto) {
         Monto = monto;
-    }
-
-    public String getIdRespuesta() {
-        return idRespuesta;
-    }
-
-    public void setIdRespuesta(String idRespuesta) {
-        this.idRespuesta = idRespuesta;
     }
 
     public String getDesRespuesta() {

@@ -11,12 +11,12 @@ public class DateParser {
 
 public static String DateTimeToString(Date date)
     {
-      SimpleDateFormat parser=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
+      SimpleDateFormat parser=new SimpleDateFormat("yyyy-MM-dd HH:mm");
       String parsedDate=parser.format(date);
       return parsedDate;
     }
 public static  Date StringToDateTime(String dateString) throws ParseException {
-    SimpleDateFormat parser=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat parser=new SimpleDateFormat("yyyy-MM-dd HH:mm");
     Date outputDate=parser.parse(dateString);
     return outputDate;
 }

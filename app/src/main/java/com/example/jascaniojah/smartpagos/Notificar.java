@@ -228,8 +228,9 @@ public class Notificar extends Fragment {
             cuenta = db.getUser();
             usuario = cuenta.get("usuario").toString();
             imei= cuenta.get("imei").toString();
+            String password=cuenta.get("password").toString();
             fecha= df3.format(c.getTime());
-            JSONObject json = jsonParser.getBancos(numero,imei,fecha);
+            JSONObject json = jsonParser.getBancos(numero,imei,fecha,usuario,password);
 
             Log.e("Response: ", "> " + json);
 
@@ -312,9 +313,10 @@ public class Notificar extends Fragment {
             HashMap cuenta = new HashMap();
             cuenta = db.getUser();
             usuario = cuenta.get("usuario").toString();
+            String password=cuenta.get("password").toString();
             imei= cuenta.get("imei").toString();
             fecha= df3.format(c.getTime());
-            JSONObject json = jsonParser.getCuentas(numero, imei, fecha, codigo);
+            JSONObject json = jsonParser.getCuentas(numero, imei, fecha, codigo,usuario, password);
 
             Log.e("Response: ", "> " + json);
 
@@ -420,8 +422,8 @@ public class Notificar extends Fragment {
             protected void  onPreExecute(){
                 super.onPreExecute();
                 nDialog = new ProgressDialog(getActivity());
-                nDialog.setTitle("Checking Network");
-                nDialog.setMessage("Loading..");
+                nDialog.setTitle("Chequeando Conexion");
+                nDialog.setMessage("Cargando..");
                 nDialog.setIndeterminate(false);
                 nDialog.setCancelable(true);
                 nDialog.show();
@@ -475,10 +477,7 @@ public class Notificar extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
-                HashMap dato = new HashMap();
-                dato = db.getUser();
-                imei= dato.get("imei").toString();
+
                 monto = monto_deposito.getText().toString().replace("BsF.", "");
                 referencia = num_referencia.getText().toString();
                 if(cuenta_origen.isEnabled()) {
@@ -493,16 +492,22 @@ public class Notificar extends Fragment {
                 fecha = df3.format(c.getTime());
 
                 pDialog = new ProgressDialog(getActivity());
-                pDialog.setTitle("Contacting Servers");
-                pDialog.setMessage("Registering ...");
+                pDialog.setTitle("Contactando Servidores");
+                pDialog.setMessage("Registrando ...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(true);
                 pDialog.show();
             }
             @Override
             protected JSONObject doInBackground(String... args) {
+                DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
+                HashMap dato = new HashMap();
+                dato = db.getUser();
+                imei= dato.get("imei").toString();
+                String usuario=dato.get("usuario").toString();
+                String password=dato.get("password").toString();
                 UserFunctions userFunction = new UserFunctions();
-                JSONObject json = userFunction.notificarDeposito(mCuenta, imei, monto, fecha, referencia,tipo,cta_origen,mBanco);
+                JSONObject json = userFunction.notificarDeposito(mCuenta, imei, monto, fecha, referencia,tipo,cta_origen,mBanco,usuario,password);
                 return json;
             }
             @Override

@@ -58,6 +58,8 @@ public class Recarga extends Fragment {
     Button boton_recarga;
     Spinner productsp;
     String producto,numero,usuario,imei,fecha;
+    private String password;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recarga_frag, container, false);
@@ -166,8 +168,9 @@ public class Recarga extends Fragment {
             cuenta = db.getUser();
             usuario = cuenta.get("usuario").toString();
             imei= cuenta.get("imei").toString();
+            password=cuenta.get("password").toString();
             fecha= df3.format(c.getTime());
-            JSONObject json = jsonParser.getProductos(numero,imei,fecha);
+            JSONObject json = jsonParser.getProductos(numero,imei,fecha,usuario,password);
 
             Log.e("Response: ", "> " + json);
 
@@ -345,7 +348,7 @@ public class Recarga extends Fragment {
         @Override
         protected JSONObject doInBackground(String... args) {
             UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.registrarVenta(usuario, imei, monto, fecha_hora, numero,producto);
+            JSONObject json = userFunction.registrarVenta(usuario, imei, monto, fecha_hora, numero,producto,password);
             return json;
         }
         @Override
