@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.example.jascaniojah.libraries.DataBaseHandler;
 import com.example.jascaniojah.libraries.UserFunctions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,6 +29,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -38,9 +41,8 @@ public class Saldo extends Fragment {
     private static String KEY_FECHA_SERV = "fecha_server";
     private static String KEY_FECHA_TRANS = "fecha_trans";
     private static String KEY_SALDO = "saldo";
-
     Calendar c = Calendar.getInstance();
-    SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy HH:mm");
+    SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     TextView fecha_consulta,hora_consulta,fecha_ult_trans,hora_ult_trans,saldo_actual;
     TextView resp_fecha_consulta,resp_hora_consulta,resp_fecha_ult_trans,resp_hora_ult_trans,resp_saldo_actual;
     Button saldo_boton;
@@ -134,13 +136,15 @@ protected class NetCheck extends AsyncTask<String,Void,Boolean>
  **/
 private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
     private ProgressDialog pDialog;
-    String usuario,imei;
+
+    String usuario,imei,fechaultimaTrans;
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
 
         pDialog = new ProgressDialog(getActivity());
         pDialog.setTitle("Contactando Servidores");
+        pDialog.setMessage("Cargando..");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(true);
         pDialog.show();
@@ -151,11 +155,30 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
         HashMap cuenta = new HashMap();
         cuenta = db.getUser();
         usuario = cuenta.get("usuario").toString();
-        imei= cuenta.get("imei").toString();
-      String  password=cuenta.get("password").toString();
+        imei = cuenta.get("imei").toString();
+        String password = cuenta.get("password").toString();
         UserFunctions userFunction = new UserFunctions();
-        JSONObject json = userFunction.getSaldo(usuario,imei,password);
-        return json;
+        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
+        String currentDate = sdf.format(new Date());
+        JSONObject json = userFunction.getSaldo(usuario, imei, password);
+        JSONObject ultimaTrans = userFunction.getTransacciones("", "004", "004", imei, currentDate, "1970-01-01", currentDate, usuario, password);
+
+        if (!ultimaTrans.equals(""))
+        {
+
+            try {
+                JSONArray trans = ultimaTrans.getJSONArray("transacciones");
+                Log.i("Saldo.java","Array ultima Transaccion "+trans);
+
+                fechaultimaTrans=trans.getJSONObject(trans.length()-1).getString("fecha_hora");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+            return json;
     }
 
     protected void onPostExecute(JSONObject json) {
@@ -174,6 +197,9 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
                     resp_fecha_consulta.setText((CharSequence) df1.format(c.getTime()));
                     resp_saldo_actual.setText((CharSequence) "BsF. "+ saldo);
                     resp_fecha_ult_trans.setText((CharSequence) json_user.getString(KEY_FECHA_TRANS));
+                    fecha_ult_trans.setText("Fecha de Ult. Transaccion: "+fechaultimaTrans);
+                    Log.i("Saldo.java","Fecha ultima Transaccion "+fechaultimaTrans);
+
                     db.setSaldo(usuario,json_user.getString(KEY_FECHA_SERV),json_user.getString(KEY_FECHA_TRANS),json_user.getString(KEY_SALDO));
                     /**
                      *If JSON array details are stored in SQlite it launches the User Panel.
