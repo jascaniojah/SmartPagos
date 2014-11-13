@@ -1,6 +1,7 @@
 package com.example.jascaniojah.smartpagos;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,12 +21,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jascaniojah.libraries.DataBaseHandler;
+import com.example.jascaniojah.libraries.DateParser;
 import com.example.jascaniojah.libraries.UserFunctions;
 
 import org.json.JSONArray;
@@ -36,6 +39,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,12 +54,12 @@ public class Notificar extends Fragment {
     private ArrayList<Bancos> banksList;
     private ArrayList<Cuentas> cuentasList;
     SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    TextView cuenta, referencia, monto,origen,banco,registerErrorMsg;
-    EditText num_referencia, monto_deposito,cuenta_origen;
+    TextView cuenta, referencia, monto,banco,registerErrorMsg,fechadeposito;
+    EditText num_referencia, monto_deposito,fechapicker;
     Button boton_notificar;
 
     Spinner spnr,spinner,spinnerCta;
-    String mBanco,mCuenta,codigo,numero,imei,fecha,usuario;
+    String mBanco,mCuenta,codigo,numero,imei,fecha,usuario,tipo,fechadep;
     String[] caso = {
             "Deposito",
             "Transferencia Electronica",
@@ -73,8 +77,9 @@ public class Notificar extends Fragment {
         num_referencia = (EditText) view.findViewById(R.id.num_referencia);
         monto_deposito = (EditText) view.findViewById(R.id.monto_deposito);
         monto_deposito.addTextChangedListener(tw);
-        origen = (TextView) view.findViewById(R.id.origen);
-        cuenta_origen = (EditText) view.findViewById(R.id.cuenta_origen);
+        fechadeposito= (TextView) view.findViewById(R.id.fechadeposito);
+        fechapicker= (EditText) view.findViewById(R.id.fechapicker);
+        fechapicker.setFocusableInTouchMode(false);
         boton_notificar = (Button) view.findViewById(R.id.boton_notificar);
         banco = (TextView) view.findViewById(R.id.banco);
            banksList = new ArrayList<Bancos>();
@@ -126,15 +131,11 @@ public class Notificar extends Fragment {
                         int position = spnr.getSelectedItemPosition();
 
                         if(position==0){
-                            origen.setEnabled(false);
-                            cuenta_origen.setEnabled(false);
-
+                            tipo = "0";//Deposito
                         }
 
                         if(position==1){
-                            origen.setEnabled(true);
-                            cuenta_origen.setEnabled(true);
-
+                            tipo = "1";//Transferencia
                         }
 
                         // TODO Auto-generated method stub
@@ -153,9 +154,7 @@ public class Notificar extends Fragment {
             @Override
                             public void onClick (View view){
 
-                    if ((!num_referencia.getText().toString().equals(""))&& (!monto_deposito.getText().toString().equals(""))) {
-                        if (cuenta_origen.isEnabled()) {
-                            if ((!cuenta_origen.getText().toString().equals(""))) {
+                    if ((!num_referencia.getText().toString().equals(""))&& (!monto_deposito.getText().toString().equals("")) && (!fechapicker.getText().toString().equals(""))) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage("Confirma Registro de Pago?")
                                         .setCancelable(false)
@@ -171,28 +170,7 @@ public class Notificar extends Fragment {
                                         });
                                 AlertDialog alert = builder.create();
                                 alert.show();
-                                                            }else{
-                                Toast.makeText(getActivity().getApplicationContext(),
-                                        "Falta Numero de Cuenta de donde Transfiere", Toast.LENGTH_SHORT).show();
 
-                            }
-                        }else{
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage("Confirma Registro de Pago?")
-                                    .setCancelable(false)
-                                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            NetAsync();
-                                        }
-                                    })
-                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                            AlertDialog alert = builder.create();
-                            alert.show();
-                            }
 
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(),
@@ -205,6 +183,66 @@ public class Notificar extends Fragment {
 
             return view;
         }
+
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        fechapicker.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+
+                showDatePicker();
+
+            }
+        });
+
+
+
+
+
+
+
+    }
+
+
+    private void showDatePicker() {
+        DatePickerFragment date = new DatePickerFragment();
+        /**
+         * Set Up Current Date Into dialog
+         */
+        Calendar calender = Calendar.getInstance();
+        Bundle args = new Bundle();
+        args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
+
+        args.putInt("month", calender.get(Calendar.MONTH));
+        args.putInt("year", calender.get(Calendar.YEAR));
+
+        date.setArguments(args);
+        /**
+         * Set Call back to capture selected date
+         */
+                   date.setCallBack(ondate);
+            date.show(getFragmentManager(), "Date Picker");
+
+    }
+
+    DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
+
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            String f=String.valueOf(dayOfMonth) + "-" + String.valueOf(monthOfYear+1)
+                    + "-" + String.valueOf(year);
+            fechapicker.setText(f);
+            try {
+                Log.i("Trans.java","Fecha desde parsed= "+ DateParser.StringToString(f) );
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
 
     private class getBancos extends AsyncTask<Void, Void, Void> {
         private ProgressDialog pDialog;
@@ -473,21 +511,14 @@ public class Notificar extends Fragment {
              * Defining Process dialog
              **/
             private ProgressDialog pDialog;
-            String monto,referencia,imei,fecha,tipo,cta_origen;
+            String monto,referencia,imei,fecha,tipo;
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
 
                 monto = monto_deposito.getText().toString().replace("BsF.", "");
                 referencia = num_referencia.getText().toString();
-                if(cuenta_origen.isEnabled()) {
-                    tipo = "Transferencia";
-                    cta_origen= cuenta_origen.getText().toString();
-                }
-                else{
-                    tipo = "Deposito";
-                    cta_origen = "No Aplica";
-                }
+
 
                 fecha = df3.format(c.getTime());
 
@@ -507,7 +538,13 @@ public class Notificar extends Fragment {
                 String usuario=dato.get("usuario").toString();
                 String password=dato.get("password").toString();
                 UserFunctions userFunction = new UserFunctions();
-                JSONObject json = userFunction.notificarDeposito(mCuenta, imei, monto, fecha, referencia,tipo,cta_origen,mBanco,usuario,password);
+
+                try {
+                    fechadep= DateParser.StringToString(fechapicker.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                JSONObject json = userFunction.notificarDeposito(mCuenta, imei, monto, fecha, referencia,tipo,mBanco,usuario,password,fechadep);
                 return json;
             }
             @Override
@@ -522,10 +559,8 @@ public class Notificar extends Fragment {
                         if(Integer.parseInt(red) == 0){
                             num_referencia.getText().clear();
                             monto_deposito.getText().clear();
-                            if(cuenta_origen.isEnabled()){
-                                cuenta_origen.getText().clear();
-                            }
-                            pDialog.dismiss();
+                            fechapicker.getText().clear();
+                                pDialog.dismiss();
                             Toast.makeText(getActivity().getApplicationContext(),
                                     json.getString("error_msg"), Toast.LENGTH_SHORT).show();
                             /**

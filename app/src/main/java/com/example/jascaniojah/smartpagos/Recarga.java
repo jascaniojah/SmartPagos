@@ -328,7 +328,7 @@ public class Recarga extends Fragment {
          * Defining Process dialog
          **/
         private ProgressDialog pDialog;
-
+        Float cantidad;
         String fecha_hora,numero,monto,fecha,hora;
         @Override
         protected void onPreExecute() {
@@ -338,6 +338,7 @@ public class Recarga extends Fragment {
             fecha_hora = df3.format(c.getTime());
             fecha = df1.format(c.getTime());
             hora = df2.format(c.getTime());
+            cantidad = Float.valueOf(monto);
             pDialog = new ProgressDialog(getActivity());
             pDialog.setTitle("Contacting Servers");
             pDialog.setMessage("Registering ...");

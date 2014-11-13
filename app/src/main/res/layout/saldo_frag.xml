@@ -33,6 +33,7 @@
             android:layout_below="@+id/fecha_consulta"
 
             />
+
         <TextView
             android:id="@+id/resp_fecha_ult_trans"
             android:layout_width="wrap_content"
@@ -40,7 +41,7 @@
             android:padding="5dp"
             android:layout_toEndOf="@+id/fecha_ult_trans"
             android:layout_toRightOf="@+id/fecha_ult_trans"
-            android:layout_above="@+id/resp_fecha_consulta"
+            android:layout_below="@+id/resp_fecha_consulta"
              />
 
 
