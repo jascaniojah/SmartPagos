@@ -338,7 +338,7 @@ public class Recarga extends Fragment {
             fecha_hora = df3.format(c.getTime());
             fecha = df1.format(c.getTime());
             hora = df2.format(c.getTime());
-            cantidad = Float.valueOf(monto);
+            //cantidad = Float.valueOf(monto);
             pDialog = new ProgressDialog(getActivity());
             pDialog.setTitle("Contacting Servers");
             pDialog.setMessage("Registering ...");
