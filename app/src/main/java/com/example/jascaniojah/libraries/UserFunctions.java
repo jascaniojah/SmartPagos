@@ -2,87 +2,88 @@ package com.example.jascaniojah.libraries;
 
 import android.content.Context;
 
-import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
+
 public class UserFunctions {
     private JSONParser jsonParser;
     //URL of the PHP API
-    private static String loginURL = "http://www.tufuturo.com.ve/smartpagos_webs/";
-    //private static String registerURL = "http://smartpagos.webege.com/";
-    private static String login_tag = "login";
-    //private static String register_tag = "register";
-    private static String saldoURL = "http://www.tufuturo.com.ve/smartpagos_webs/";
-    private static String saldo_tag = "consulta";
-    private static String recargaURL = "http://www.tufuturo.com.ve/smartpagos_webs/";
-    private static String recarga_tag = "recarga";
-    private static String notificar_tag = "notificacion";
-    private static String notificarURL = "http://www.tufuturo.com.ve/smartpagos_webs/";
-    private static String bancosURL =  "http://www.tufuturo.com.ve/smartpagos_webs/";
-    private static String bancos_tag = "bancos";
-    private static String cuentas_tag = "cuentas";
-    private static String productos_tag = "productos";
-    private static String URL =  "http://www.tufuturo.com.ve/smartpagos_webs/";
-    private static String transacciones_tag="transacciones";
-
+    private static String loginURL = "http://ifweb.dlinkddns.com/test/api/login/login";
+    private static String saldoURL = "http://ifweb.dlinkddns.com/test/api/ConsultaSaldo/SaldoOperador";
+    private static String recargaURL = "http://ifweb.dlinkddns.com/test/api/Recarga/Recarga";
+    private static String notificarURL = "http://ifweb.dlinkddns.com/test/api/NotificarDeposito/NotificarDeposito";
+    private static String bancosURL =  "http://ifweb.dlinkddns.com/test/api/Bancos/Consulta_Bancos";
+    private static String cuentasURL = "http://ifweb.dlinkddns.com/test/api/Cuentas/Consulta_Cuentas";
+    private static String productosURL = "http://ifweb.dlinkddns.com/test/api/Productos/Consulta_Productos";
+    private static String transURL = "http://ifweb.dlinkddns.com/test/api/Transacciones/Consulta_Transacciones";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
+
     }
     /**
      * Function to Login
      **/
-    public JSONObject loginUser(String usuario, String password, String imei, String numero){
+    public JSONObject loginUser(String usuario, String password, String imei, String numero, String fechahora ) throws JSONException {
         // Building Parameters
-        List params = new ArrayList();
-        params.add(new BasicNameValuePair("tag", login_tag));
-        params.add(new BasicNameValuePair("usuario", usuario));
-        params.add(new BasicNameValuePair("password", password));
-        params.add(new BasicNameValuePair("imei", imei));
-        params.add(new BasicNameValuePair("numero", numero));
-        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+       // List params = new ArrayList();
+        JSONObject json1 = new JSONObject();
+        json1.accumulate("telefono", numero);
+        json1.accumulate("servicio", "001");
+        json1.accumulate("origen", "004");
+        json1.accumulate("ime", imei);
+        json1.accumulate("fechahora_disp", fechahora);
+        json1.accumulate("usuario", usuario);
+        json1.accumulate("password", password);
+        JSONObject json = jsonParser.getJSON(loginURL, json1);
         return json;
     }
 
-    public JSONObject getBancos(String telefono,String imei,String fechahora_disp, String usuario,String password){
-        List params = new ArrayList();
-        params.add(new BasicNameValuePair("tag", bancos_tag));
-        params.add(new BasicNameValuePair("telefono",telefono));
-        params.add(new BasicNameValuePair("imei", imei));
-        params.add(new BasicNameValuePair("fechahora", fechahora_disp));
-        params.add(new BasicNameValuePair("servicio", "001"));
-        params.add(new BasicNameValuePair("origen", "004"));
-        params.add(new BasicNameValuePair("usuario",usuario ));
-        params.add(new BasicNameValuePair("password", password));
+    public JSONObject getBancos(String telefono,String imei,String fechahora_disp, String usuario,String password) throws JSONException {
+        JSONObject json1 = new JSONObject();
 
-        JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
+        json1.accumulate("telefono", telefono);
+        json1.accumulate("servicio", "001");
+        json1.accumulate("origen", "004");
+        json1.accumulate("ime", imei);
+        json1.accumulate("fechahora_disp", fechahora_disp);
+        json1.accumulate("usuario", usuario);
+        json1.accumulate("password", password);
+
+
+        JSONObject json = jsonParser.getJSON(bancosURL, json1);
         return json;
     }
 
-    public JSONObject getCuentas(String telefono,String imei,String fechahora_disp,String codigo, String usuario, String password){
-        List params = new ArrayList();
-        params.add(new BasicNameValuePair("tag", cuentas_tag));
-        params.add(new BasicNameValuePair("codigo_banco",codigo));
-        params.add(new BasicNameValuePair("telefono",telefono));
-        params.add(new BasicNameValuePair("imei", imei));
-        params.add(new BasicNameValuePair("fechahora", fechahora_disp));
-        params.add(new BasicNameValuePair("servicio", "001"));
-        params.add(new BasicNameValuePair("origen", "004"));
-        params.add(new BasicNameValuePair("usuario",usuario ));
-        params.add(new BasicNameValuePair("password", password));
-        JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
+    public JSONObject getCuentas(String telefono,String imei,String fechahora_disp,String codigo, String usuario, String password) throws JSONException {
+        JSONObject json1 = new JSONObject();
+        json1.accumulate("telefono", telefono);
+        json1.accumulate("servicio", "001");
+        json1.accumulate("origen", "004");
+        json1.accumulate("ime", imei);
+        json1.accumulate("fechahora_disp", fechahora_disp);
+        json1.accumulate("usuario", usuario);
+        json1.accumulate("password", password);
+        json1.accumulate("codigo_banco",codigo);
+
+        JSONObject json = jsonParser.getJSON(cuentasURL, json1);
         return json;
     }
 
-    public JSONObject getSaldo(String usuario, String imei,String password){
-        List params = new ArrayList();
-        params.add(new BasicNameValuePair("tag", saldo_tag));
-        params.add(new BasicNameValuePair("usuario", usuario));
-        params.add(new BasicNameValuePair("imei", imei));
-        params.add(new BasicNameValuePair("password", password));
-        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+    public JSONObject getSaldo(String usuario, String password, String imei, String numero, String fechahora ) throws JSONException {
+        // Building Parameters
+        JSONObject json1 = new JSONObject();
+        json1.accumulate("telefono", numero);
+        json1.accumulate("servicio", "001");
+        json1.accumulate("origen", "004");
+        json1.accumulate("ime", imei);
+        json1.accumulate("fechahora_disp", fechahora);
+        json1.accumulate("usuario", usuario);
+        json1.accumulate("password", password);
+
+        JSONObject json = jsonParser.getJSON(saldoURL, json1);
         return json;
     }
     /**
@@ -97,69 +98,73 @@ public class UserFunctions {
      * Function to  Register
      **/
 
-    public JSONObject registrarVenta(String usuario, String imei, String monto, String fechahora, String telefono, String producto, String password){
+    public JSONObject registrarVenta(String usuario, String imei, String monto, String fechahora, String numero, String producto, String password, String telefono) throws JSONException {
         // Building Parameters
-        List params = new ArrayList();
-        params.add(new BasicNameValuePair("tag", recarga_tag));
-        params.add(new BasicNameValuePair("usuario", usuario));
-        params.add(new BasicNameValuePair("imei", imei));
-        params.add(new BasicNameValuePair("monto", monto));
-        params.add(new BasicNameValuePair("fechahora", fechahora));
-        params.add(new BasicNameValuePair("telefono", telefono));
-        params.add(new BasicNameValuePair("producto", producto));
-        params.add(new BasicNameValuePair("modo_pago", "01"));
-        params.add(new BasicNameValuePair("medio_pago", "04"));
-        params.add(new BasicNameValuePair("usuario",usuario ));
-        params.add(new BasicNameValuePair("password", password));
-        JSONObject json = jsonParser.getJSONFromUrl(recargaURL,params);
+        Random rnd = new Random();
+        rnd.setSeed(System.currentTimeMillis());
+        JSONObject json1 = new JSONObject();
+        json1.accumulate("telefonorecarga", numero);
+        json1.accumulate("servicio", "001");
+        json1.accumulate("origen", "004");
+        json1.accumulate("ime", imei);
+        json1.accumulate("fechahora_disp", fechahora);
+        json1.accumulate("usuario", usuario);
+        json1.accumulate("password", password);
+        json1.accumulate("producto",producto);
+        json1.accumulate("modopago","01");
+        json1.accumulate("mediopago","04");
+        json1.accumulate("monto",monto);
+        json1.accumulate("telefono",telefono);
+        json1.accumulate("trace",100000+rnd.nextInt(900000));
+
+        JSONObject json = jsonParser.getJSON(recargaURL, json1);
         return json;
     }
 
-    public JSONObject notificarDeposito(String cuenta, String imei, String monto, String fechahora, String referencia, String tipo,String banco,String usuario, String password, String fechadep){
+    public JSONObject notificarDeposito(String cuenta, String imei, String monto, String fechahora, String referencia, String tipo,String banco,String usuario, String password, String fechadep, String numero) throws JSONException {
         // Building Parameters
-        List params = new ArrayList();
-        params.add(new BasicNameValuePair("tag", notificar_tag));
-        params.add(new BasicNameValuePair("cuenta_id", cuenta));
-        params.add(new BasicNameValuePair("imei", imei));
-        params.add(new BasicNameValuePair("monto", monto));
-        params.add(new BasicNameValuePair("fechahora", fechahora));
-        params.add(new BasicNameValuePair("referencia", referencia));
-        params.add(new BasicNameValuePair("tipo_deposito", tipo));
-        params.add(new BasicNameValuePair("banco", banco));
-        params.add(new BasicNameValuePair("usuario",usuario ));
-        params.add(new BasicNameValuePair("password", password));
-        params.add(new BasicNameValuePair("fecha_deposito",fechadep));
-        JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
+        JSONObject json1 = new JSONObject();
+        json1.accumulate("telefono", numero);
+        json1.accumulate("servicio", "001");
+        json1.accumulate("origen", "004");
+        json1.accumulate("ime", imei);
+        json1.accumulate("fechahora_disp",fechahora);
+        json1.accumulate("usuario", usuario);
+        json1.accumulate("password", password);
+        json1.accumulate("cuenta",cuenta);
+        json1.accumulate("referencia",referencia);
+        json1.accumulate("tipo",tipo);
+        json1.accumulate("fecha_deposito",fechadep);
+        json1.accumulate("monto",monto);
+        JSONObject json = jsonParser.getJSON(notificarURL, json1);
         return json;
     }
-    public JSONObject getTransacciones(String telefono,String servicio, String origen, String imei, String fechahora, String fechainicio, String fechafin,String usuario,String password )
-    {
-
-        List params=new ArrayList();
-        params.add(new BasicNameValuePair("tag",transacciones_tag));
-        params.add(new BasicNameValuePair("telefono",telefono));
-        params.add(new BasicNameValuePair("servicio",servicio));
-        params.add(new BasicNameValuePair("origen",origen));
-        params.add(new BasicNameValuePair("imei",imei));
-        params.add(new BasicNameValuePair("fechahora",fechahora));
-        params.add(new BasicNameValuePair("fechainicio",fechainicio));
-        params.add(new BasicNameValuePair("fechafin",fechafin));
-        params.add(new BasicNameValuePair("usuario",usuario ));
-        params.add(new BasicNameValuePair("password", password));
-        JSONObject json=jsonParser.getJSONFromUrl(URL,params);
+    public JSONObject getTransacciones(String telefono, String imei, String fechahora_disp, String fechainicio, String fechafin,String usuario,String password ) throws JSONException {
+        JSONObject json1 = new JSONObject();
+        json1.accumulate("telefono", telefono);
+        json1.accumulate("servicio", "001");
+        json1.accumulate("origen", "004");
+        json1.accumulate("ime", imei);
+        json1.accumulate("fechahora_disp", fechahora_disp);
+        json1.accumulate("usuario", usuario);
+        json1.accumulate("password", password);
+        json1.accumulate("fechainicio", fechainicio);
+        json1.accumulate("fechafin", fechafin);
+        JSONObject json=jsonParser.getJSON(transURL, json1);
         return json;
 
     }
 
-    public JSONObject getProductos(String telefono,String imei,String fechahora_disp,String usuario, String Password){
-    List params = new ArrayList();
-    params.add(new BasicNameValuePair("tag", productos_tag));
-    params.add(new BasicNameValuePair("telefono",telefono));
-    params.add(new BasicNameValuePair("imei", imei));
-    params.add(new BasicNameValuePair("fechahora", fechahora_disp));
-    params.add(new BasicNameValuePair("servicio", "001"));
-    params.add(new BasicNameValuePair("origen", "004"));
-    JSONObject json = jsonParser.getJSONFromUrl(notificarURL,params);
+    public JSONObject getProductos(String telefono,String imei,String fechahora_disp,String usuario, String password) throws JSONException {
+        JSONObject json1 = new JSONObject();
+        json1.accumulate("telefono", telefono);
+        json1.accumulate("servicio", "001");
+        json1.accumulate("origen", "004");
+        json1.accumulate("ime", imei);
+        json1.accumulate("fechahora_disp", fechahora_disp);
+        json1.accumulate("usuario", usuario);
+        json1.accumulate("password", password);
+        JSONObject json = jsonParser.getJSON(productosURL, json1);
     return json;
 }
     /**

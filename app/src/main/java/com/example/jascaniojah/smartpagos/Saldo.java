@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +15,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.jascaniojah.libraries.DataBaseHandler;
+import com.example.jascaniojah.libraries.DateParser;
 import com.example.jascaniojah.libraries.UserFunctions;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,14 +36,15 @@ import java.util.HashMap;
 
 
 public class Saldo extends Fragment {
-    private static String KEY_SUCCESS = "success";
+    private static String KEY_SUCCESS = "Codigo";
     private static String KEY_IMEI = "imei";
     private static String KEY_USER = "usuario";
     private static String KEY_FECHA_SERV = "fecha_server";
-    private static String KEY_FECHA_TRANS = "fecha_trans";
-    private static String KEY_SALDO = "saldo";
+    private static String KEY_FECHA_TRANS = "FechaHoraUltimaTran";
+    private static String KEY_SALDO = "SaldoOperador";
     Calendar c = Calendar.getInstance();
-    SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
+    SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     TextView fecha_consulta,hora_consulta,fecha_ult_trans,hora_ult_trans,saldo_actual;
     TextView resp_fecha_consulta,resp_hora_consulta,resp_fecha_ult_trans,resp_hora_ult_trans,resp_saldo_actual;
     Button saldo_boton;
@@ -137,7 +139,7 @@ protected class NetCheck extends AsyncTask<String,Void,Boolean>
 private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
     private ProgressDialog pDialog;
 
-    String usuario,imei,fechaultimaTrans;
+    String usuario,imei,fechaultimaTrans,numero;
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -159,24 +161,17 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
         String password = cuenta.get("password").toString();
         UserFunctions userFunction = new UserFunctions();
         SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
-        String currentDate = sdf.format(new Date());
-        JSONObject json = userFunction.getSaldo(usuario, imei, password);
-        JSONObject ultimaTrans = userFunction.getTransacciones("", "004", "004", imei, currentDate, "1970-01-01", currentDate, usuario, password);
-
-        if (!ultimaTrans.equals(""))
-        {
-
-            try {
-                JSONArray trans = ultimaTrans.getJSONArray("transacciones");
-                Log.i("Saldo.java","Array ultima Transaccion "+trans);
-
-                fechaultimaTrans=trans.getJSONObject(trans.length()-1).getString("fecha_hora");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
+        String currentDate = df1.format(new Date());
+        TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        numero=telephonyManager.getLine1Number().toString();
+        //numero = "04142222222";
+        JSONObject json = null;
+        try {
+           json = userFunction.getSaldo(usuario,password,imei,numero, currentDate);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
 
             return json;
     }
@@ -185,22 +180,20 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
         try {
             if (json.getString(KEY_SUCCESS) != null) {
                 String res = json.getString(KEY_SUCCESS);
-                if(Integer.parseInt(res) == 1){
+                if(Integer.parseInt(res) == 000){
                     pDialog.setTitle("Obteniendo Data");
                     DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
-                    JSONObject json_user = json.getJSONObject("cuenta");
+                    //JSONObject json_user = json.getJSONObject("cuenta");
                     /**
                      * Clear all previous data in SQlite database.
                      **/
-                    Double numero = Double.valueOf(json_user.getString(KEY_SALDO));
+                    Double numero = Double.valueOf(json.getString(KEY_SALDO));
                     String saldo = decimalFormat.format(numero);
-                    resp_fecha_consulta.setText((CharSequence) df1.format(c.getTime()));
+                    resp_fecha_consulta.setText((CharSequence) df2.format(c.getTime()));
                     resp_saldo_actual.setText((CharSequence) "BsF. "+ saldo);
-                    resp_fecha_ult_trans.setText((CharSequence) json_user.getString(KEY_FECHA_TRANS));
-                    fecha_ult_trans.setText("Fecha de Ult. Transaccion: "+fechaultimaTrans);
-                    Log.i("Saldo.java","Fecha ultima Transaccion "+fechaultimaTrans);
+                    resp_fecha_ult_trans.setText((CharSequence) DateParser.StringToShort(json.getString(KEY_FECHA_TRANS)));
 
-                    db.setSaldo(usuario,json_user.getString(KEY_FECHA_SERV),json_user.getString(KEY_FECHA_TRANS),json_user.getString(KEY_SALDO));
+                    //db.setSaldo(usuario,json_user.getString(KEY_FECHA_SERV),json_user.getString(KEY_FECHA_TRANS),json_user.getString(KEY_SALDO));
                     /**
                      *If JSON array details are stored in SQlite it launches the User Panel.
                      **/
@@ -209,6 +202,8 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
                 }
             }
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }

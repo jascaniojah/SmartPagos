@@ -50,10 +50,10 @@ import java.util.List;
 public class Notificar extends Fragment {
     Calendar c = Calendar.getInstance();
     SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy");
-    private static String KEY_ERROR = "error";
+    private static String KEY_ERROR = "Codigo";
     private ArrayList<Bancos> banksList;
     private ArrayList<Cuentas> cuentasList;
-    SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
     TextView cuenta, referencia, monto,banco,registerErrorMsg,fechadeposito;
     EditText num_referencia, monto_deposito,fechapicker;
     Button boton_notificar;
@@ -261,6 +261,7 @@ public class Notificar extends Fragment {
             UserFunctions jsonParser = new UserFunctions();
             TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
             numero=telephonyManager.getLine1Number().toString();
+            //numero ="04142222222";
             DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
             HashMap cuenta = new HashMap();
             cuenta = db.getUser();
@@ -268,7 +269,12 @@ public class Notificar extends Fragment {
             imei= cuenta.get("imei").toString();
             String password=cuenta.get("password").toString();
             fecha= df3.format(c.getTime());
-            JSONObject json = jsonParser.getBancos(numero,imei,fecha,usuario,password);
+            JSONObject json = null;
+            try {
+                json = jsonParser.getBancos(numero,imei,fecha,usuario,password);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             Log.e("Response: ", "> " + json);
 
@@ -277,12 +283,12 @@ public class Notificar extends Fragment {
 
                     if (json != null) {
                         JSONArray banks = json
-                                .getJSONArray("bancos");
+                                .getJSONArray("Lista");
 
                         for (int i = 0; i < banks.length(); i++) {
                             JSONObject catObj = (JSONObject) banks.get(i);
-                            Bancos cat = new Bancos(catObj.getString("banco"),
-                                    catObj.getString("codigo"));
+                            Bancos cat = new Bancos(catObj.getString("Nombre"),
+                                    catObj.getString("Codigo"));
                             banksList.add(cat);
                         }
                     }
@@ -345,8 +351,6 @@ public class Notificar extends Fragment {
         @Override
         protected Void doInBackground(Void... arg0) {
             UserFunctions jsonParser = new UserFunctions();
-            TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-            numero=telephonyManager.getLine1Number().toString();
             DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
             HashMap cuenta = new HashMap();
             cuenta = db.getUser();
@@ -354,7 +358,12 @@ public class Notificar extends Fragment {
             String password=cuenta.get("password").toString();
             imei= cuenta.get("imei").toString();
             fecha= df3.format(c.getTime());
-            JSONObject json = jsonParser.getCuentas(numero, imei, fecha, codigo,usuario, password);
+            JSONObject json = null;
+            try {
+                json = jsonParser.getCuentas(numero, imei, fecha, codigo,usuario, password);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             Log.e("Response: ", "> " + json);
 
@@ -363,11 +372,11 @@ public class Notificar extends Fragment {
 
                     if (json != null) {
                         JSONArray banks = json
-                                .getJSONArray("cuentas");
+                                .getJSONArray("Lista");
 
                         for (int i = 0; i < banks.length(); i++) {
                             JSONObject catObj = (JSONObject) banks.get(i);
-                            Cuentas cat = new Cuentas(catObj.getString("numero_cuenta"));
+                            Cuentas cat = new Cuentas(catObj.getString("NumeroCuenta"));
                             cuentasList.add(cat);
 
                         }
@@ -511,7 +520,7 @@ public class Notificar extends Fragment {
              * Defining Process dialog
              **/
             private ProgressDialog pDialog;
-            String monto,referencia,imei,fecha,tipo;
+            String monto,referencia,imei,fecha;
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -540,11 +549,16 @@ public class Notificar extends Fragment {
                 UserFunctions userFunction = new UserFunctions();
 
                 try {
-                    fechadep= DateParser.StringToString(fechapicker.getText().toString());
+                    fechadep= DateParser.StringToISO(fechapicker.getText().toString());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                JSONObject json = userFunction.notificarDeposito(mCuenta, imei, monto, fecha, referencia,tipo,mBanco,usuario,password,fechadep);
+                JSONObject json = null;
+                try {
+                    json = userFunction.notificarDeposito(mCuenta, imei, monto, fecha, referencia,tipo,mBanco,usuario,password,fechadep,numero);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 return json;
             }
             @Override
@@ -556,22 +570,22 @@ public class Notificar extends Fragment {
                     if (json.getString(KEY_ERROR) != null) {
 
                         String red = json.getString(KEY_ERROR);
-                        if(Integer.parseInt(red) == 0){
+                        if(Integer.parseInt(red) == 000){
                             num_referencia.getText().clear();
                             monto_deposito.getText().clear();
                             fechapicker.getText().clear();
                                 pDialog.dismiss();
                             Toast.makeText(getActivity().getApplicationContext(),
-                                    json.getString("error_msg"), Toast.LENGTH_SHORT).show();
+                                    json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
                             /**
                              * Removes all the previous data in the SQlite database
                              **/
 
                         }
-                        else if (Integer.parseInt(red) ==1){
+                        else if (Integer.parseInt(red) !=000){
                             pDialog.dismiss();
                             Toast.makeText(getActivity().getApplicationContext(),
-                                    json.getString("error_msg"), Toast.LENGTH_SHORT).show();
+                                    json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
                         }
 
                     }

@@ -6,12 +6,12 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,11 +28,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class Trans extends Fragment {
@@ -43,10 +43,11 @@ public class Trans extends Fragment {
     //DatePickerDialog.OnDateSetListener date;
     static final int DATE_DIALOG_ID = 999;
     Calendar myCalendar;
+    Calendar c = Calendar.getInstance();
     int val;
     Context context;
     private ArrayList<Movimientos> movimientosArray;
-
+    SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.trans_frag, container, false);
@@ -91,8 +92,8 @@ getTranButton.setOnClickListener(new OnClickListener() {
 
             super.onPreExecute();
                 try {
-                fechafin=DateParser.StringToString(fecha_hasta.getText().toString());
-                fechainicio=DateParser.StringToString(fecha_desde.getText().toString());
+                fechafin=DateParser.StringToISO(fecha_hasta.getText().toString());
+                fechainicio=DateParser.StringToISO(fecha_desde.getText().toString());
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -111,11 +112,22 @@ getTranButton.setOnClickListener(new OnClickListener() {
             HashMap cuenta = new HashMap();
             DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
             cuenta = db.getUser();
+            TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+            telefono=telephonyManager.getLine1Number().toString();
+            //telefono = "04142222222";
             usuario = cuenta.get("usuario").toString();
             imei= cuenta.get("imei").toString();
             String  password=cuenta.get("password").toString();
+            fechahora = df3.format(c.getTime());
+            Log.e("Fecha",fechahora);
+
             UserFunctions jsonParser = new UserFunctions();
-            JSONObject json= jsonParser.getTransacciones(telefono,servicio,origen,imei,fechahora,fechainicio,fechafin,usuario,password);
+            JSONObject json= null;
+            try {
+                json = jsonParser.getTransacciones(telefono,imei,fechahora,fechainicio,fechafin,usuario,password);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             Log.e("Response: ", "> " + json);
 
             movimientosArray = new ArrayList<Movimientos>();
@@ -126,16 +138,16 @@ getTranButton.setOnClickListener(new OnClickListener() {
 
                     if (json != null) {
                         JSONArray movArray = json
-                                .getJSONArray("transacciones");
+                                .getJSONArray("Lista");
                         Log.i("Trans.java", "JSONArray: " + movArray.toString());
 
                         // movimientosArray=Movimientos.fromJson(movArray);
                         for (int i = 0; i < movArray.length(); i++) {
-                            String numero = movArray.getJSONObject(i).getString("numero");
-                            Float monto = Float.parseFloat(movArray.getJSONObject(i).getString("monto"));
-                            Date fecha= DateParser.StringToDateTime(movArray.getJSONObject(i).getString("fecha_hora"));
-                            String producto=movArray.getJSONObject(i).getString("producto");
-                            String id=movArray.getJSONObject(i).getString("id");
+                            String numero = movArray.getJSONObject(i).getString("Serial");
+                            Float monto = Float.parseFloat(movArray.getJSONObject(i).getString("Monto"));
+                            Date fecha= DateParser.StringToDateTime(movArray.getJSONObject(i).getString("FechaHora"));
+                            String producto=movArray.getJSONObject(i).getString("Tipo");
+                            String id=movArray.getJSONObject(i).getString("idRespuesta");
                             Movimientos mov = new Movimientos(numero, monto,fecha,producto,id);
                             movimientosArray.add(mov);
                         }

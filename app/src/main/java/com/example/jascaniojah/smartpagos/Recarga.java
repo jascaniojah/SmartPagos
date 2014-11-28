@@ -47,17 +47,17 @@ public class Recarga extends Fragment {
     private static String KEY_SUCCESS = "success";
     private static String KEY_IMEI = "imei";
     private static String KEY_USER = "usuario";
-    private static String KEY_ERROR = "error";
+    private static String KEY_ERROR = "Codigo";
     private ArrayList<Productos> productsList;
     Calendar c = Calendar.getInstance();
     SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
     SimpleDateFormat df2 = new SimpleDateFormat("HH:mm");
-    SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
     TextView numero_recarga,monto,fecha_consulta,id_recarga,resp_fecha,resp_id,registerErrorMsg,resp_hora,conf_numero;
     EditText numero_a_recargar,monto_recarga,resp_conf_numero;
     Button boton_recarga;
     Spinner productsp;
-    String producto,numero,usuario,imei,fecha;
+    String producto,telefono,usuario,imei,fecha;
     private String password;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -162,7 +162,8 @@ public class Recarga extends Fragment {
         protected Void doInBackground(Void... arg0) {
             UserFunctions jsonParser = new UserFunctions();
             TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-            numero=telephonyManager.getLine1Number().toString();
+            telefono=telephonyManager.getLine1Number().toString();
+            //telefono = "04142222222";
             DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
             HashMap cuenta = new HashMap();
             cuenta = db.getUser();
@@ -170,7 +171,12 @@ public class Recarga extends Fragment {
             imei= cuenta.get("imei").toString();
             password=cuenta.get("password").toString();
             fecha= df3.format(c.getTime());
-            JSONObject json = jsonParser.getProductos(numero,imei,fecha,usuario,password);
+            JSONObject json = null;
+            try {
+                json = jsonParser.getProductos(telefono,imei,fecha,usuario,password);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             Log.e("Response: ", "> " + json);
 
@@ -178,14 +184,17 @@ public class Recarga extends Fragment {
                 try {
 
                     if (json != null) {
-                        JSONArray banks = json
-                                .getJSONArray("productos");
+                        String red = json.getString(KEY_ERROR);
+                        if (Integer.parseInt(red) == 000) {
+                            JSONArray banks = json
+                                    .getJSONArray("Lista");
 
-                        for (int i = 0; i < banks.length(); i++) {
-                            JSONObject catObj = (JSONObject) banks.get(i);
-                            Productos cat = new Productos(catObj.getString("codigo_producto"),
-                                    catObj.getString("nombre_producto"));
-                            productsList.add(cat);
+                            for (int i = 0; i < banks.length(); i++) {
+                                JSONObject catObj = (JSONObject) banks.get(i);
+                                Productos cat = new Productos(catObj.getString("Codigo"),
+                                        catObj.getString("Nombre"));
+                                productsList.add(cat);
+                            }
                         }
                     }
 
@@ -193,7 +202,7 @@ public class Recarga extends Fragment {
                     e.printStackTrace();
                 }
 
-            } else {
+            }else {
                 Log.e("JSON Data", "Didn't receive any data from server!");
             }
 
@@ -247,27 +256,20 @@ public class Recarga extends Fragment {
         @Override
         public void afterTextChanged(Editable s) {
 
-            if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
+            if (!s.toString().matches("^\\$\\d+$")) {
                 String userInput = "" + s.toString().replaceAll("[^\\d]", "");
                 StringBuilder cashAmountBuilder = new StringBuilder(userInput);
-
-                while (cashAmountBuilder.length() > 3 && cashAmountBuilder.charAt(0) == '0') {
-                    cashAmountBuilder.deleteCharAt(0);
-                }
-                while (cashAmountBuilder.length() < 3) {
-                    cashAmountBuilder.insert(0, '0');
-                }
-                cashAmountBuilder.insert(cashAmountBuilder.length() - 2, ',');
 
                 monto_recarga.removeTextChangedListener(this);
                 monto_recarga.setText(cashAmountBuilder.toString());
 
                 monto_recarga.setTextKeepState("BsF." + cashAmountBuilder.toString());
-                Selection.setSelection(monto_recarga.getText(), cashAmountBuilder.toString().length() + 1);
+                Selection.setSelection(monto_recarga.getText(), cashAmountBuilder.toString().length() + 4);
 
                 monto_recarga.addTextChangedListener(this);
             }
         }
+
     };
 
 
@@ -340,8 +342,8 @@ public class Recarga extends Fragment {
             hora = df2.format(c.getTime());
             //cantidad = Float.valueOf(monto);
             pDialog = new ProgressDialog(getActivity());
-            pDialog.setTitle("Contacting Servers");
-            pDialog.setMessage("Registering ...");
+            pDialog.setTitle("Contactando Servidores");
+            pDialog.setMessage("Cargando..");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -349,7 +351,12 @@ public class Recarga extends Fragment {
         @Override
         protected JSONObject doInBackground(String... args) {
             UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.registrarVenta(usuario, imei, monto, fecha_hora, numero,producto,password);
+            JSONObject json = null;
+            try {
+                json = userFunction.registrarVenta(usuario, imei, monto, fecha_hora, numero,producto,password,telefono);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return json;
         }
         @Override
@@ -361,31 +368,27 @@ public class Recarga extends Fragment {
                 if (json.getString(KEY_ERROR) != null) {
                     registerErrorMsg.setText("");
                     String red = json.getString(KEY_ERROR);
-                    if(Integer.parseInt(red) == 0){
+                    if(Integer.parseInt(red) == 000){
                         pDialog.dismiss();
 
                         numero_a_recargar.getText().clear();
                         monto_recarga.getText().clear();
                         resp_conf_numero.getText().clear();
-                        resp_id.setText((CharSequence) json.getString("code"));
+                        resp_id.setText((CharSequence) json.getString("idrecarga"));
                         resp_fecha.setText(fecha);
                         resp_hora.setText(hora);
                         Toast.makeText(getActivity().getApplicationContext(),
-                                json.getString("error_msg"), Toast.LENGTH_SHORT).show();
+                                json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
                         /**
                          * Removes all the previous data in the SQlite database
                          **/
 
                     }
-                    else if (Integer.parseInt(red) ==1){
+                    else if (Integer.parseInt(red) != 000){
                         pDialog.dismiss();
                         Toast.makeText(getActivity().getApplicationContext(),
-                                json.getString("error_msg"), Toast.LENGTH_SHORT).show();
-                    }
-                    else if (Integer.parseInt(red) ==2){
-                        pDialog.dismiss();
-                        Toast.makeText(getActivity().getApplicationContext(),
-                                json.getString("error_msg"), Toast.LENGTH_SHORT).show();
+                                json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
+
                     }
                 }
                 else{

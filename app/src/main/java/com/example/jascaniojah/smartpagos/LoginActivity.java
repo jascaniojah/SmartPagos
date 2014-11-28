@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 /**
@@ -36,17 +38,9 @@ import java.net.URL;
  */
 public class LoginActivity extends Activity {
     private static final String TAG="LoginActivity.java";
-    private static String KEY_SUCCESS = "success";
-    private static String KEY_UID = "uid";
-    private static String KEY_TLF = "telefono";
-    private static String KEY_IMEI = "imei";
-    private static String KEY_FECHA_DISP = "fecha_disp";
-    private static String KEY_PASSWORD = "password";
     private static String KEY_USER = "usuario";
-    private static String KEY_FECHA_SERV = "fecha_server";
-    private static String KEY_FECHA_TRANS = "fecha_trans";
-    private static String KEY_SALDO = "saldo";
-
+    Calendar c = Calendar.getInstance();
+    SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
     private EditText Usuario;
     private EditText Password;
     private View mProgressView;
@@ -162,25 +156,28 @@ private String mPassword;
 
  private class ProcessLogin extends AsyncTask <String,Void,JSONObject> {
     private ProgressDialog pDialog;
-    String usuario,password,imei,numero,cadena;
+    String usuario,password,imei,numero,fechahora;
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         SecurityFunctions securityFunctions= new SecurityFunctions("0e2ec11cdf82fa49b5c35dfd9d6a654923ee36db","72355628");
         usuario = Usuario.getText().toString();
         mPassword = Password.getText().toString();
-        mPassword=securityFunctions.encrypt(mPassword);
+        //mPassword=securityFunctions.encrypt(mPassword);
         Log.i(TAG,"pass: "+mPassword);
         Log.i(TAG,"Usuario:  "+usuario);
 
         pDialog = new ProgressDialog(LoginActivity.this);
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         imei=telephonyManager.getDeviceId().toString();
+        //imei = "IMEI00000022";
         numero=telephonyManager.getLine1Number().toString();
-        if (numero==null)
-        {
-            numero="000000000";
-        }
+        //numero = "04142222222";
+        //if (numero==null)
+        //{
+        //    numero="000000000";
+        //}
+        fechahora=  df3.format(c.getTime());
         Log.i(TAG,"imei: "+imei);
         Log.i(TAG,"Numero: "+numero);
         pDialog.setTitle("Conectando al servidor");
@@ -192,26 +189,31 @@ private String mPassword;
 
     protected JSONObject doInBackground(String... args) {
         UserFunctions userFunction = new UserFunctions();
-        JSONObject json = userFunction.loginUser(usuario,mPassword,imei,numero);
+        JSONObject json = null;
+        try {
+            json = userFunction.loginUser(usuario,mPassword,imei,numero,fechahora);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return json;
     }
 
     protected void onPostExecute(JSONObject json) {
         try {
-            if (json.getString("code") != null) {
-                String res = json.getString("code");
+            if (json.getString("Codigo") != null) {
+                String res = json.getString("Codigo");
                 if(Integer.parseInt(res) == 000){
                     pDialog.setMessage("Cargando Interfaz de Usuario");
                     pDialog.setTitle("Obteniendo Data");
                     DataBaseHandler db = new DataBaseHandler(getApplicationContext());
-                    JSONObject json_user = json.getJSONObject("cuenta");
+                    //JSONObject json_user = json.getJSONObject("cuenta");
 
                     /**
                      * Clear all previous data in SQlite database.
                      **/
                     UserFunctions logout = new UserFunctions();
                     logout.logoutUser(getApplicationContext());
-                    db.addUser(json_user.getString(KEY_USER),imei,mPassword);
+                    db.addUser(usuario,imei,mPassword);
                     /**
                      *If JSON array details are stored in SQlite it launches the User Panel.
                      **/
