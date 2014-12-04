@@ -162,11 +162,12 @@ public class Recarga extends Fragment {
         protected Void doInBackground(Void... arg0) {
             UserFunctions jsonParser = new UserFunctions();
             TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-            telefono=telephonyManager.getLine1Number().toString();
+            //telefono=telephonyManager.getLine1Number().toString();
             //telefono = "04142222222";
             DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
             HashMap cuenta = new HashMap();
             cuenta = db.getUser();
+            telefono= cuenta.get("telefono").toString();
             usuario = cuenta.get("usuario").toString();
             imei= cuenta.get("imei").toString();
             password=cuenta.get("password").toString();

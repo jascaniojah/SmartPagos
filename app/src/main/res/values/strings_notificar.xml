@@ -3,7 +3,7 @@
     <string name="banco">Banco:</string>
     <string name="cuenta">Cuenta:</string>
     <string name="referencia">N° Referencia:</string>
-    <string name="monto_deposito">Monto: </string>
+    <string name="monto_deposito">Monto Depositado: </string>
     <string name="boton_notificar">Notificar</string>
     <string name="spinner">Tipo: </string>
 </resources>

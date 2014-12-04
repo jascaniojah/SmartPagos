@@ -155,23 +155,22 @@ public class Notificar extends Fragment {
                             public void onClick (View view){
 
                     if ((!num_referencia.getText().toString().equals(""))&& (!monto_deposito.getText().toString().equals("")) && (!fechapicker.getText().toString().equals(""))) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                builder.setMessage("Confirma Registro de Pago?")
-                                        .setCancelable(false)
-                                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                NetAsync();
-                                            }
-                                        })
-                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
-                                            }
-                                        });
-                                AlertDialog alert = builder.create();
-                                alert.show();
-
-
+                       AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Confirma Registro de Pago?")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            NetAsync();
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                        
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(),
                                 "Uno de los campos esta vacio", Toast.LENGTH_SHORT).show();
@@ -260,11 +259,11 @@ public class Notificar extends Fragment {
         protected Void doInBackground(Void... arg0) {
             UserFunctions jsonParser = new UserFunctions();
             TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-            numero=telephonyManager.getLine1Number().toString();
-            //numero ="04142222222";
+            //numero=telephonyManager.getLine1Number().toString();
             DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
             HashMap cuenta = new HashMap();
             cuenta = db.getUser();
+            numero= cuenta.get("telefono").toString();
             usuario = cuenta.get("usuario").toString();
             imei= cuenta.get("imei").toString();
             String password=cuenta.get("password").toString();

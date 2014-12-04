@@ -113,8 +113,9 @@ getTranButton.setOnClickListener(new OnClickListener() {
             DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
             cuenta = db.getUser();
             TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-            telefono=telephonyManager.getLine1Number().toString();
+            //telefono=telephonyManager.getLine1Number().toString();
             //telefono = "04142222222";
+            telefono= cuenta.get("telefono").toString();
             usuario = cuenta.get("usuario").toString();
             imei= cuenta.get("imei").toString();
             String  password=cuenta.get("password").toString();

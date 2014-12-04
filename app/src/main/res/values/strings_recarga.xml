@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="telefono">Telefono-Contrato:</string>
-    <string name="monto">Monto:</string>
+    <string name="monto">Monto a recargar:</string>
     <string name="estado">Estado: </string>
     <string name="fecha">Registrado el: </string>
     <string name="hora">Hora: </string>

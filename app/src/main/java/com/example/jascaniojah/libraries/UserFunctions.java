@@ -38,8 +38,10 @@ public class UserFunctions {
         json1.accumulate("usuario", usuario);
         json1.accumulate("password", password);
         JSONObject json = jsonParser.getJSON(loginURL, json1);
+        //jsonParser.post(loginURL,json1);
         return json;
     }
+
 
     public JSONObject getBancos(String telefono,String imei,String fechahora_disp, String usuario,String password) throws JSONException {
         JSONObject json1 = new JSONObject();

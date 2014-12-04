@@ -169,10 +169,10 @@ private String mPassword;
 
         pDialog = new ProgressDialog(LoginActivity.this);
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        imei=telephonyManager.getDeviceId().toString();
-        //imei = "IMEI00000022";
-        numero=telephonyManager.getLine1Number().toString();
-        //numero = "04142222222";
+        //imei=telephonyManager.getDeviceId().toString();
+        imei = "IMEI00000022";
+        //numero=telephonyManager.getLine1Number().toString();
+        numero = "04142222222";
         //if (numero==null)
         //{
         //    numero="000000000";
@@ -213,7 +213,7 @@ private String mPassword;
                      **/
                     UserFunctions logout = new UserFunctions();
                     logout.logoutUser(getApplicationContext());
-                    db.addUser(usuario,imei,mPassword);
+                    db.addUser(usuario,imei,mPassword,numero);
                     /**
                      *If JSON array details are stored in SQlite it launches the User Panel.
                      **/

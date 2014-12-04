@@ -139,7 +139,7 @@ protected class NetCheck extends AsyncTask<String,Void,Boolean>
 private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
     private ProgressDialog pDialog;
 
-    String usuario,imei,fechaultimaTrans,numero;
+    String usuario,imei,fechaultimaTrans,numero,telefono;
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -158,16 +158,17 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
         cuenta = db.getUser();
         usuario = cuenta.get("usuario").toString();
         imei = cuenta.get("imei").toString();
+        telefono= cuenta.get("telefono").toString();
         String password = cuenta.get("password").toString();
         UserFunctions userFunction = new UserFunctions();
         SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
         String currentDate = df1.format(new Date());
         TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        numero=telephonyManager.getLine1Number().toString();
+        //numero=telephonyManager.getLine1Number().toString();
         //numero = "04142222222";
         JSONObject json = null;
         try {
-           json = userFunction.getSaldo(usuario,password,imei,numero, currentDate);
+           json = userFunction.getSaldo(usuario,password,imei,telefono, currentDate);
         } catch (JSONException e) {
             e.printStackTrace();
         }

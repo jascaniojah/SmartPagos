@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="boton_recarga" type="id" />
+    <item name="spinner_producto" type="id" />
+    <item name="hora_recarga" type="id" />
+    <item name="resp_fecha" type="id" />
+    <item name="id_recarga" type="id" />
+    <item name="resp_hora" type="id" />
+</resources>
