@@ -169,14 +169,14 @@ private String mPassword;
 
         pDialog = new ProgressDialog(LoginActivity.this);
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        //imei=telephonyManager.getDeviceId().toString();
-        imei = "IMEI00000022";
-        //numero=telephonyManager.getLine1Number().toString();
-        numero = "04142222222";
-        //if (numero==null)
-        //{
-        //    numero="000000000";
-        //}
+        imei=telephonyManager.getDeviceId().toString();
+        //imei = "IMEI00000022";
+        numero=telephonyManager.getLine1Number().toString();
+        //numero = "04142222222";
+        if (numero==null)
+        {
+            numero="0000000000";
+        }
         fechahora=  df3.format(c.getTime());
         Log.i(TAG,"imei: "+imei);
         Log.i(TAG,"Numero: "+numero);

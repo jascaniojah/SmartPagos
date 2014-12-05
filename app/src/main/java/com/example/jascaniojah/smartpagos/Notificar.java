@@ -170,7 +170,7 @@ public class Notificar extends Fragment {
                                     });
                             AlertDialog alert = builder.create();
                             alert.show();
-                        
+
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(),
                                 "Uno de los campos esta vacio", Toast.LENGTH_SHORT).show();
