@@ -160,10 +160,10 @@ private String mPassword;
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        SecurityFunctions securityFunctions= new SecurityFunctions("0e2ec11cdf82fa49b5c35dfd9d6a654923ee36db","72355628");
+        SecurityFunctions securityFunctions= new SecurityFunctions("4445BBBBBBBBBBBBBBBB");
         usuario = Usuario.getText().toString();
         mPassword = Password.getText().toString();
-        //mPassword=securityFunctions.encrypt(mPassword);
+        mPassword=securityFunctions.encrypt(mPassword);
         Log.i(TAG,"pass: "+mPassword);
         Log.i(TAG,"Usuario:  "+usuario);
 
@@ -227,7 +227,9 @@ private String mPassword;
                     finish();
                 }else{
                     pDialog.dismiss();
-                    loginErrorMsg.setText("Usuario o Password Incorrecto");
+                    loginErrorMsg.setText(json.getString("Descripcion_codigo"));
+                    Usuario.getText().clear();
+                    Password.getText().clear();
                 }
             }
         } catch (JSONException e) {

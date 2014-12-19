@@ -48,6 +48,7 @@ public class Trans extends Fragment {
     Context context;
     private ArrayList<Movimientos> movimientosArray;
     SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+    SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.trans_frag, container, false);
@@ -59,6 +60,8 @@ public class Trans extends Fragment {
         fecha_desde.setFocusableInTouchMode(false);
         fecha_hasta.setFocusableInTouchMode(false);
         myCalendar = Calendar.getInstance();
+        fecha_desde.setText(df1.format(c.getTime()));
+        fecha_hasta.setText(df1.format(c.getTime()));
         Button getTranButton=(Button) view.findViewById(R.id.boton_consultar);
 
 getTranButton.setOnClickListener(new OnClickListener() {

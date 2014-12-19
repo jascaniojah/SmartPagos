@@ -103,7 +103,7 @@ public class Recarga extends Fragment {
             public void onClick(View view) {
                 if (  ( !numero_a_recargar.getText().toString().equals("")) && ( !monto_recarga.getText().toString().equals(""))&& ( !resp_conf_numero.getText().toString().equals("")))
                 {
-                    if ( numero_a_recargar.getText().toString().length() > 10 && resp_conf_numero.getText().toString().length() > 10){
+
                       if(numero_a_recargar.getText().toString().equals(resp_conf_numero.getText().toString())) {
                           AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                           builder.setMessage("Confirma Venta de Saldo?")
@@ -124,12 +124,7 @@ public class Recarga extends Fragment {
                           Toast.makeText(getActivity().getApplicationContext(),
                                   "Los numeros ingresados no son iguales", Toast.LENGTH_SHORT).show();
                       }
-                    }
-                    else
-                    {
-                        Toast.makeText(getActivity().getApplicationContext(),
-                                "Ingrese numero completo (Ejemplo: 04XX1234567", Toast.LENGTH_SHORT).show();
-                    }
+
                 }
                 else
                 {

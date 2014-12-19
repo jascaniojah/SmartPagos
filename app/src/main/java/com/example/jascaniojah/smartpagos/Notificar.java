@@ -49,12 +49,12 @@ import java.util.List;
 
 public class Notificar extends Fragment {
     Calendar c = Calendar.getInstance();
-    SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy");
+    SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
     private static String KEY_ERROR = "Codigo";
     private ArrayList<Bancos> banksList;
     private ArrayList<Cuentas> cuentasList;
     SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-    TextView cuenta, referencia, monto,banco,registerErrorMsg,fechadeposito;
+    TextView cuenta, referencia, monto,banco,registerErrorMsg,fechadeposito,pedido;
     EditText num_referencia, monto_deposito,fechapicker;
     Button boton_notificar;
 
@@ -80,8 +80,10 @@ public class Notificar extends Fragment {
         fechadeposito= (TextView) view.findViewById(R.id.fechadeposito);
         fechapicker= (EditText) view.findViewById(R.id.fechapicker);
         fechapicker.setFocusableInTouchMode(false);
+        fechapicker.setText(df1.format(c.getTime()));
         boton_notificar = (Button) view.findViewById(R.id.boton_notificar);
         banco = (TextView) view.findViewById(R.id.banco);
+        pedido = (TextView) view.findViewById(R.id.pedido);
            banksList = new ArrayList<Bancos>();
         cuentasList = new ArrayList<Cuentas>();
            spnr = (Spinner) view.findViewById(R.id.spinner);
@@ -574,6 +576,7 @@ public class Notificar extends Fragment {
                             monto_deposito.getText().clear();
                             fechapicker.getText().clear();
                                 pDialog.dismiss();
+                            pedido.setText("Numero de pedido: "+json.getString("pedido"));
                             Toast.makeText(getActivity().getApplicationContext(),
                                     json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
                             /**
