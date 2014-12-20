@@ -7,17 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.content.Context;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.jascaniojah.libraries.DateParser;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,7 +70,7 @@ public class TransaccionesAdapter extends ArrayAdapter<Movimientos> {
 //        String s = date.toString();
        String s= DateParser.DateTimeToString(movimiento.getFechaHora());
         numero.setText(movimiento.getTelefono());
-        info.setText("Monto: "+movimiento.getMonto()+" Fecha: "+s+" ID Recarga: "+movimiento.getSerial());
+        info.setText("Monto: "+movimiento.getMonto()+" Fecha: "+s+'\n'+" ID Recarga: "+movimiento.getSerial());
 
         return convertView;
 

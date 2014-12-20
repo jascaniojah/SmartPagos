@@ -179,7 +179,7 @@ getTranButton.setOnClickListener(new OnClickListener() {
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
             pDialog.dismiss();
-            if (movimientosArray.size()>1) {
+            if (movimientosArray.size()>0) {
                 TransaccionesAdapter adapter = new TransaccionesAdapter(getActivity(), movimientosArray);
                 ListView lv = (ListView) getActivity().findViewById(R.id.transacciones_list);
                 lv.setAdapter(adapter);

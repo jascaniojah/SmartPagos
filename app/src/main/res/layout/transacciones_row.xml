@@ -16,12 +16,12 @@
     <TextView
         android:id="@+id/fechaTransaccion"
         android:layout_width="28dp"
-        android:layout_height="26dip"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/iconoTransaccion"
         android:ellipsize="marquee"
-        android:singleLine="true"
+        android:singleLine="false"
         android:text="Fecha: 24-11-2014 Monto:BsF 400"
        android:textSize="12sp" />
 

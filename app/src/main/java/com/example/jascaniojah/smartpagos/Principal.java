@@ -1,6 +1,9 @@
 package com.example.jascaniojah.smartpagos;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,7 +11,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
-import android.widget.Toast;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class Principal extends ActionBarActivity {
 
@@ -124,19 +129,53 @@ public class Principal extends ActionBarActivity {
 
     }
 
-    long lastPress;
     @Override
     public void onBackPressed() {
-        long currentTime = System.currentTimeMillis();
-        if(currentTime - lastPress > 3000){
-            Toast.makeText(getBaseContext(), "Presionar BACK de nuevo para salir", Toast.LENGTH_LONG).show();
-            lastPress = currentTime;
-        }else{
-            super.onBackPressed();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.principal, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.cerrar:
+                Log.i("ActionBar", "Cerrar!");
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Desea cerrar sesion?")
+                        .setCancelable(false)
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent upanel = new Intent(getApplicationContext(), LoginActivity.class);
+                                upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(upanel);
+                                /**
+                                 * Close Login Screen
+                                 **/
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
-    }
+
+}
 
 
 
