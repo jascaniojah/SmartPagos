@@ -175,7 +175,7 @@ public class Principal extends ActionBarActivity {
         }
     }
 
-    CountDownTimer timer = new CountDownTimer(1 * 60 * 1000, 1000) {
+    CountDownTimer timer = new CountDownTimer(1 * 60 * 1000 * 30, 1000) {
 
         public void onTick(long millisUntilFinished) {
             //Some code
