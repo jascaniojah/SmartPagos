@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 
 public class JSONParser {
@@ -34,7 +35,7 @@ public class JSONParser {
 
             // 2. Open connection
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
+            conn.setConnectTimeout(30000);
             // 3. Specify POST method
             conn.setRequestMethod("POST");
 
@@ -87,6 +88,15 @@ public class JSONParser {
             e1.printStackTrace();
         } catch (ProtocolException e1) {
             e1.printStackTrace();
+        } catch(SocketTimeoutException g) {
+            try {
+                jObj = new JSONObject();
+                jObj.put("Codigo", "902");
+                jObj.put("Descripcion_codigo", "FUERA DE SERVICIO, INTENTE MAS TARDE");
+
+            } catch (JSONException f) {
+                Log.e("JSON Parser", "Error parsing data " + f.toString());
+            }
         } catch (IOException e1) {
             e1.printStackTrace();
         }

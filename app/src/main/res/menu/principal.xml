@@ -5,7 +5,7 @@
     <item
         android:id="@+id/cerrar"
         SmartPagos:showAsAction="ifRoom"
-        android:title="Cerrar Sesion"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
-        tools:ignore="MenuTitle" />
+        android:title="Salir"
+        tools:ignore="MenuTitle"
+        />
 </menu>

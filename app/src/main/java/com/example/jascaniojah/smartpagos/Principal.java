@@ -15,11 +15,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 public class Principal extends ActionBarActivity {
 
     private ViewPager mPager;
-
+    private ImageView Logo;
     ActionBar mActionbar;
 
     @Override
@@ -34,7 +35,7 @@ public class Principal extends ActionBarActivity {
 
         /** Getting a reference to ViewPager from the layout */
         mPager = (ViewPager) findViewById(R.id.pager);
-
+        Logo = (ImageView) findViewById(R.id.logoglobal);
         /** Getting a reference to FragmentManager */
         FragmentManager fm = getSupportFragmentManager();
 
@@ -109,7 +110,7 @@ public class Principal extends ActionBarActivity {
                     case 3: {
                         mActionbar.setTitle("Notificar Pago");
                         tab.setIcon(R.drawable.ic_action_registrar_pago_selected);
-
+                        Logo.setEnabled(false);
                         break;
                     }
 

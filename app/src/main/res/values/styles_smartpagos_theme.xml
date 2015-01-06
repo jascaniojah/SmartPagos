@@ -77,4 +77,8 @@
         <item name="dropDownListViewStyle">@style/DropDownListView.Smartpagos_theme</item>
     </style>
 
+    <style name="Theme.Smartpagos_theme.Styled.ActionBar.TitleTextStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

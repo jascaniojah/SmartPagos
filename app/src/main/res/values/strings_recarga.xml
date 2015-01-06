@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="telefono">Telefono-Contrato:</string>
+    <string name="confirmar">Confirmar Tlf-Contrato:</string>
     <string name="monto">Monto a recargar:</string>
     <string name="estado">Estado: </string>
     <string name="fecha">Registrado el: </string>
     <string name="hora">Hora: </string>
     <string name="id_recarga">Id Recarga.: </string>
-    <string name="boton_recarga">Abonar</string>
+    <string name="boton_recarga">Vender</string>
 </resources>

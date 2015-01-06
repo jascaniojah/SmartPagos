@@ -83,7 +83,6 @@ public class Notificar extends Fragment {
         fechapicker.setText(df1.format(c.getTime()));
         boton_notificar = (Button) view.findViewById(R.id.boton_notificar);
         banco = (TextView) view.findViewById(R.id.banco);
-        pedido = (TextView) view.findViewById(R.id.pedido);
            banksList = new ArrayList<Bancos>();
         cuentasList = new ArrayList<Cuentas>();
            spnr = (Spinner) view.findViewById(R.id.spinner);
@@ -576,9 +575,11 @@ public class Notificar extends Fragment {
                             monto_deposito.getText().clear();
                             fechapicker.getText().clear();
                                 pDialog.dismiss();
-                            pedido.setText("Numero de pedido: "+json.getString("pedido"));
+
                             Toast.makeText(getActivity().getApplicationContext(),
                                     json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity().getApplicationContext(),
+                                    ("Numero de pedido: "+json.getString("pedido")),Toast.LENGTH_LONG).show();
                             /**
                              * Removes all the previous data in the SQlite database
                              **/
