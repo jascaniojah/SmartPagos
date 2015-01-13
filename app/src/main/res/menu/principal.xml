@@ -4,14 +4,14 @@
     tools:context="com.example.jascaniojah.smartpagos.Principal">
     <item
         android:id="@+id/cambio"
-        SmartPagos:showAsAction="never"
+        SmartPagos:showAsAction="always"
         android:title="Cambiar Contraseña"
+        android:icon="@android:drawable/ic_menu_edit"
         tools:ignore="MenuTitle"
         />
     <item
         android:id="@+id/cerrar"
-        SmartPagos:showAsAction="never"
+        SmartPagos:showAsAction="always"
         android:title="Salir"
-        tools:ignore="MenuTitle"
-        />
+         />
 </menu>
