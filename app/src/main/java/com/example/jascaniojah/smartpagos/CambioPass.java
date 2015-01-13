@@ -1,6 +1,5 @@
 package com.example.jascaniojah.smartpagos;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,11 +8,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.jascaniojah.libraries.AsteriskPasswordTransformationMethod;
 import com.example.jascaniojah.libraries.DataBaseHandler;
 import com.example.jascaniojah.libraries.SecurityFunctions;
 import com.example.jascaniojah.libraries.UserFunctions;
@@ -30,13 +33,14 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 
-public class CambioPass extends Activity {
+public class CambioPass extends ActionBarActivity {
 
     Calendar c = Calendar.getInstance();
     SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-    EditText pass, newpass,confnewpass;
+   private EditText pass, newpass,confnewpass;
     Button boton;
-
+    ActionBar mActionbar;
+    private ImageView logo;
     // TODO: Rename and change types and number of parameters
 
 
@@ -45,14 +49,23 @@ public class CambioPass extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mActionbar = getSupportActionBar();
         setContentView(R.layout.fragment_cambio_pass);
 
+        logo= (ImageView) findViewById(R.id.logo);
 
         pass = (EditText) findViewById(R.id.resp_clave);
+        pass.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+
         newpass = (EditText) findViewById(R.id.resp_new_clave);
+        newpass.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+
         confnewpass = (EditText) findViewById(R.id.resp_conf_clave);
+        confnewpass.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         boton = (Button) findViewById(R.id.boton_cambiar);
+
+        mActionbar.setDisplayShowTitleEnabled(true);
+        mActionbar.setTitle("Cambio de Clave");
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View view){
@@ -143,7 +156,7 @@ public class CambioPass extends Activity {
          * Defining Process dialog
          **/
         private ProgressDialog pDialog;
-        String clave,clavenueva,imei,fechahora,numero;
+        String clave,clavenueva,imei,fechahora,numero,usuario;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -166,7 +179,7 @@ public class CambioPass extends Activity {
             dato = db.getUser();
             numero= dato.get("telefono").toString();
             imei= dato.get("imei").toString();
-            String usuario=dato.get("usuario").toString();
+            usuario=dato.get("usuario").toString();
             UserFunctions userFunction = new UserFunctions();
 
             JSONObject json = null;
@@ -191,6 +204,9 @@ public class CambioPass extends Activity {
                         newpass.getText().clear();
                         confnewpass.getText().clear();
                         pDialog.dismiss();
+                        DataBaseHandler db = new DataBaseHandler(getApplicationContext());
+                        db.resetTables();
+                        db.addUser(usuario,imei,clavenueva,numero);
 
                         Toast.makeText(CambioPass.this,
                                 json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();

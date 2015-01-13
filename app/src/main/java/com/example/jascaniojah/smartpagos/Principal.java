@@ -97,7 +97,7 @@ public class Principal extends ActionBarActivity {
                         break;
                     }
                     case 1: {
-                        mActionbar.setTitle("Consultar Transacciones");
+                        mActionbar.setTitle("Consultar Ventas");
                         tab.setIcon(R.drawable.ic_action_consultar_t_selected);
 
                         break;

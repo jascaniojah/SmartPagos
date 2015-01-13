@@ -6,7 +6,7 @@
         android:id="@+id/cambio"
         SmartPagos:showAsAction="always"
         android:title="Cambiar Contraseña"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@android:drawable/ic_menu_preferences"
         tools:ignore="MenuTitle"
         />
     <item
