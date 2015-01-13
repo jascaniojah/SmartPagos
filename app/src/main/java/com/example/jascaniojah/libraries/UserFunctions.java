@@ -18,6 +18,7 @@ public class UserFunctions {
     private static String cuentasURL = "http://ifweb.dlinkddns.com/test/api/Cuentas/Consulta_Cuentas";
     private static String productosURL = "http://ifweb.dlinkddns.com/test/api/Productos/Consulta_Productos";
     private static String transURL = "http://ifweb.dlinkddns.com/test/api/Transacciones/Consulta_Transacciones";
+    private static String cambioPassURL = "http://ifweb.dlinkddns.com/test/api/CambioClave/CambioClave";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -38,6 +39,23 @@ public class UserFunctions {
         json1.accumulate("usuario", usuario);
         json1.accumulate("password", password);
         JSONObject json = jsonParser.getJSON(loginURL, json1);
+        //jsonParser.post(loginURL,json1);
+        return json;
+    }
+
+    public JSONObject cambioPass(String usuario, String password, String imei, String numero, String fechahora, String newpassword ) throws JSONException {
+        // Building Parameters
+        // List params = new ArrayList();
+        JSONObject json1 = new JSONObject();
+        json1.accumulate("telefono", numero);
+        json1.accumulate("servicio", "001");
+        json1.accumulate("origen", "004");
+        json1.accumulate("ime", imei);
+        json1.accumulate("fechahora_disp", fechahora);
+        json1.accumulate("usuario", usuario);
+        json1.accumulate("password", password);
+        json1.accumulate("newpassword", newpassword);
+        JSONObject json = jsonParser.getJSON(cambioPassURL, json1);
         //jsonParser.post(loginURL,json1);
         return json;
     }

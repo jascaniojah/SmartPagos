@@ -68,9 +68,7 @@ public class Saldo extends Fragment {
             saldo_boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Intent i = new Intent(getApplicationContext(), Principal.class);
-                //startActivity(i);
-                //attemptLogin();
+
                 NetAsync(view);
 
             }

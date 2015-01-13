@@ -3,8 +3,14 @@
     xmlns:SmartPagos="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.jascaniojah.smartpagos.Principal">
     <item
+        android:id="@+id/cambio"
+        SmartPagos:showAsAction="never"
+        android:title="Cambiar Contraseña"
+        tools:ignore="MenuTitle"
+        />
+    <item
         android:id="@+id/cerrar"
-        SmartPagos:showAsAction="ifRoom"
+        SmartPagos:showAsAction="never"
         android:title="Salir"
         tools:ignore="MenuTitle"
         />

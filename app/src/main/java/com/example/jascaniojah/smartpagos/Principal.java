@@ -171,6 +171,9 @@ public class Principal extends ActionBarActivity {
                 alert.show();
 
                 return true;
+            case R.id.cambio:
+                new CambioPass();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
