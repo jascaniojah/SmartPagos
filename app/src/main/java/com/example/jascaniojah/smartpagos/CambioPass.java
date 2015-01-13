@@ -1,5 +1,6 @@
 package com.example.jascaniojah.smartpagos;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,10 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,7 +30,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 
-public class CambioPass extends Fragment {
+public class CambioPass extends Activity {
 
     Calendar c = Calendar.getInstance();
     SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -48,25 +46,20 @@ public class CambioPass extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-    }
+        setContentView(R.layout.fragment_cambio_pass);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_cambio_pass, container, false);
 
-        pass = (EditText) view.findViewById(R.id.resp_clave);
-        newpass = (EditText) view.findViewById(R.id.resp_new_clave);
-        confnewpass = (EditText) view.findViewById(R.id.resp_conf_clave);
-        boton = (Button) view.findViewById(R.id.boton_cambiar);
+        pass = (EditText) findViewById(R.id.resp_clave);
+        newpass = (EditText) findViewById(R.id.resp_new_clave);
+        confnewpass = (EditText) findViewById(R.id.resp_conf_clave);
+        boton = (Button) findViewById(R.id.boton_cambiar);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View view){
 
                 if ((!pass.getText().toString().equals(""))&& (!newpass.getText().toString().equals("")) && (!confnewpass.getText().toString().equals(""))) {
                     if(newpass.getText().toString().equals(confnewpass.getText().toString())) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CambioPass.this);
                         builder.setMessage("Confirma Cambio de Clave?")
                                 .setCancelable(false)
                                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
@@ -83,7 +76,7 @@ public class CambioPass extends Fragment {
                         alert.show();
                     }
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(),
+                    Toast.makeText(CambioPass.this,
                             "Uno de los campos esta vacio", Toast.LENGTH_SHORT).show();
                 }
 
@@ -91,7 +84,6 @@ public class CambioPass extends Fragment {
             }
         });
 
-        return view;
     }
 
     protected class NetCheck extends AsyncTask<String,Void,Boolean>
@@ -99,7 +91,7 @@ public class CambioPass extends Fragment {
         private ProgressDialog nDialog;
         protected void  onPreExecute(){
             super.onPreExecute();
-            nDialog = new ProgressDialog(getActivity());
+            nDialog = new ProgressDialog(CambioPass.this);
             nDialog.setTitle("Chequeando Conexion");
             nDialog.setMessage("Cargando..");
             nDialog.setIndeterminate(false);
@@ -109,7 +101,7 @@ public class CambioPass extends Fragment {
         }
         @Override
         protected Boolean doInBackground(String... args) {
-            ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if(netInfo != null && netInfo.isConnected()) {
                 try {
@@ -160,7 +152,7 @@ public class CambioPass extends Fragment {
             clavenueva= securityFunctions.encrypt(newpass.getText().toString());
             fechahora = df3.format(c.getTime());
 
-            pDialog = new ProgressDialog(getActivity());
+            pDialog = new ProgressDialog(CambioPass.this);
             pDialog.setTitle("Contactando Servidores");
             pDialog.setMessage("Registrando ...");
             pDialog.setIndeterminate(false);
@@ -169,7 +161,7 @@ public class CambioPass extends Fragment {
         }
         @Override
         protected JSONObject doInBackground(String... args) {
-            DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
+            DataBaseHandler db = new DataBaseHandler(CambioPass.this);
             HashMap dato = new HashMap();
             dato = db.getUser();
             numero= dato.get("telefono").toString();
@@ -200,7 +192,7 @@ public class CambioPass extends Fragment {
                         confnewpass.getText().clear();
                         pDialog.dismiss();
 
-                        Toast.makeText(getActivity().getApplicationContext(),
+                        Toast.makeText(CambioPass.this,
                                 json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
                         /**
                          * Removes all the previous data in the SQlite database
@@ -209,14 +201,14 @@ public class CambioPass extends Fragment {
                     }
                     else if (Integer.parseInt(red) !=000){
                         pDialog.dismiss();
-                        Toast.makeText(getActivity().getApplicationContext(),
+                        Toast.makeText(CambioPass.this,
                                 json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
                     }
 
                 }
                 else{
                     pDialog.dismiss();
-                    Toast.makeText(getActivity().getApplicationContext(),
+                    Toast.makeText(CambioPass.this,
                             "Error de Registro", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {

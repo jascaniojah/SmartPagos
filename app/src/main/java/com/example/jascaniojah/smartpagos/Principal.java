@@ -172,7 +172,9 @@ public class Principal extends ActionBarActivity {
 
                 return true;
             case R.id.cambio:
-                new CambioPass();
+                Intent upanel = new Intent(getApplicationContext(), CambioPass.class);
+                upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(upanel);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -20,7 +20,8 @@
         android:id="@+id/logoglobal"
         android:layout_gravity="bottom"
         android:src="@drawable/distribuidoralogo"
-        android:contentDescription="logo" />
+        android:contentDescription="logo"
+        android:background="#ffffffff"/>
 
 
 </LinearLayout>

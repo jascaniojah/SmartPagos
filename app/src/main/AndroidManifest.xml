@@ -39,6 +39,11 @@
             android:label="@string/title_activity_principal"
             android:theme="@style/Theme.Smartpagos_theme" >
         </activity>
+        <activity
+            android:name=".CambioPass"
+            android:label="@string/title_activity_principal"
+            android:theme="@style/Theme.Smartpagos_theme" >
+        </activity>
     </application>
 
     <uses-sdk
