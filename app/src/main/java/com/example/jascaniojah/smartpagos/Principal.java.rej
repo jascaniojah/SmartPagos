@@ -1,0 +1,9 @@
+diff a/app/src/main/java/com/example/jascaniojah/smartpagos/Principal.java b/app/src/main/java/com/example/jascaniojah/smartpagos/Principal.java	(rejected hunks)
+@@ -127,6 +127,7 @@
+         mActionbar.addTab(mActionbar.newTab().setIcon(R.drawable.ic_action_consultar_t).setTabListener(tabListener));
+         mActionbar.addTab(mActionbar.newTab().setIcon(R.drawable.ic_action_vender).setTabListener(tabListener));
+         mActionbar.addTab(mActionbar.newTab().setIcon(R.drawable.ic_action_registrar_pago).setTabListener(tabListener));
++        mActionbar.addTab(mActionbar.newTab().setText("Estado de Cuenta").setTabListener(tabListener));
+ 
+ 
+     }

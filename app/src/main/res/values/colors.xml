@@ -2,5 +2,6 @@
 <resources>
 
     <color name="grayActionBar">#555555</color>
-
+    <drawable name="pressed_color">#2E2F30</drawable> <!--custom color for pressed state -->
+    <drawable name="normal_color">#9B999A</drawable> <!--transperent color for normal state -->
 </resources>

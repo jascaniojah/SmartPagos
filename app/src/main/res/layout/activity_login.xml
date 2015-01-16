@@ -60,7 +60,13 @@
                     android:focusable="true"
                     android:textStyle="bold"
                     android:theme="@android:style/Animation.InputMethod"
-                    android:textColorHint="#ff000000">
+                    android:textColorHint="#ff000000"
+                    android:background="@drawable/textview_selector"
+                    android:layout_margin="8dp"
+                    android:paddingLeft="3dp"
+
+                    >
+
                     <requestFocus />
                 </EditText>
 
@@ -76,7 +82,12 @@
                     android:theme="@android:style/Animation.InputMethod"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColorHint="#ff000000" />
+                    android:textColorHint="#ff000000"
+                    android:background="@drawable/textview_selector"
+                    android:paddingLeft="3dp"
+                    android:layout_marginBottom="5dp"
+
+                     />
 
                 <Button
                     android:id="@+id/email_sign_in_button"
@@ -87,7 +98,9 @@
                     android:textStyle="bold"
                     android:gravity="center"
                     android:textColor="#ffffffff"
-                    android:textSize="20dp"/>
+                    android:textSize="20dp"
+                    android:background="#747375"
+                    />
 
 
             </LinearLayout>
