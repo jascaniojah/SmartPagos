@@ -208,24 +208,51 @@ public class CambioPass extends ActionBarActivity {
                         db.resetTables();
                         db.addUser(usuario,imei,clavenueva,numero);
 
-                        Toast.makeText(CambioPass.this,
-                                json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
-                        /**
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CambioPass.this);
+                        builder.setMessage(json.getString("Descripcion_codigo"))
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
+                         /**
                          * Removes all the previous data in the SQlite database
                          **/
 
                     }
                     else if (Integer.parseInt(red) !=000){
                         pDialog.dismiss();
-                        Toast.makeText(CambioPass.this,
-                                json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CambioPass.this);
+                        builder.setMessage(json.getString("Descripcion_codigo"))
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
                     }
 
                 }
                 else{
                     pDialog.dismiss();
-                    Toast.makeText(CambioPass.this,
-                            "Error de Registro", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CambioPass.this);
+                    builder.setMessage("Error de Registro")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
