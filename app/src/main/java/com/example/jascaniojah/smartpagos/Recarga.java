@@ -373,8 +373,18 @@ public class Recarga extends Fragment {
                         resp_id.setText((CharSequence) json.getString("idrecarga"));
                         resp_fecha.setText(fecha);
                         resp_hora.setText(hora);
-                        Toast.makeText(getActivity().getApplicationContext(),
-                                json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage(json.getString("Descripcion_codigo"))
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
                         /**
                          * Removes all the previous data in the SQlite database
                          **/
@@ -382,16 +392,34 @@ public class Recarga extends Fragment {
                     }
                     else if (Integer.parseInt(red) != 000){
                         pDialog.dismiss();
-                        Toast.makeText(getActivity().getApplicationContext(),
-                                json.getString("Descripcion_codigo"), Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage(json.getString("Descripcion_codigo"))
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
 
                     }
                 }
                 else{
                     pDialog.dismiss();
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            "Error de Registro", Toast.LENGTH_SHORT).show();
-                }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Error de Registro")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
+                       }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
