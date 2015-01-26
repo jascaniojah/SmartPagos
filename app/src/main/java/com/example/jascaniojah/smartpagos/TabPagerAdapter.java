@@ -29,13 +29,16 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
                 case 3:
                     //Fragment for Windows Tab
                     return new Notificar();
+                case 4:
+                    //Fragment for Windows Tab
+                    return new EstadoCuenta();
             }
             return null;
         }
         @Override
         public int getCount() {
             // TODO Auto-generated method stub
-            return 4; //No of Tabs
+            return 5; //No of Tabs
         }
     }
 

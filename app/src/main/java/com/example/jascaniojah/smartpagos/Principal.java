@@ -32,7 +32,8 @@ public class Principal extends ActionBarActivity {
         mActionbar = getSupportActionBar();
         /** Set tab navigation mode */
         mActionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setIcon(R.drawable.smartpagoslogo);
         /** Getting a reference to ViewPager from the layout */
         mPager = (ViewPager) findViewById(R.id.pager);
         Logo = (ImageView) findViewById(R.id.logoglobal);
@@ -79,7 +80,10 @@ public class Principal extends ActionBarActivity {
                         tab.setIcon(R.drawable.ic_action_registrar_pago);
                         break;
                     }
-
+                    case 4: {
+                        tab.setIcon(R.drawable.ic_action_ec);
+                        break;
+                    }
 
                 }
 
@@ -114,7 +118,12 @@ public class Principal extends ActionBarActivity {
                         break;
                     }
 
-
+                    case 4: {
+                        mActionbar.setTitle("Estado de Cuenta");
+                        tab.setIcon(R.drawable.ic_action_ec_selected);
+                        Logo.setEnabled(false);
+                        break;
+                    }
                 }
 
             }
@@ -127,6 +136,7 @@ public class Principal extends ActionBarActivity {
         mActionbar.addTab(mActionbar.newTab().setIcon(R.drawable.ic_action_consultar_t).setTabListener(tabListener));
         mActionbar.addTab(mActionbar.newTab().setIcon(R.drawable.ic_action_vender).setTabListener(tabListener));
         mActionbar.addTab(mActionbar.newTab().setIcon(R.drawable.ic_action_registrar_pago).setTabListener(tabListener));
+        mActionbar.addTab(mActionbar.newTab().setIcon(R.drawable.ic_action_ec).setTabListener(tabListener));
 
 
     }

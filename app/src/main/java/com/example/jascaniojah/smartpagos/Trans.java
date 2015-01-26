@@ -130,7 +130,7 @@ getTranButton.setOnClickListener(new OnClickListener() {
             UserFunctions jsonParser = new UserFunctions();
             JSONObject json= null;
             try {
-                json = jsonParser.getTransacciones(telefono,imei,fechahora,fechainicio,fechafin,usuario,password);
+                json = jsonParser.getEstadodeCuenta(telefono,imei,fechahora,fechainicio,fechafin,usuario,password);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

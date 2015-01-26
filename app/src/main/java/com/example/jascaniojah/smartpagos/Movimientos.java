@@ -23,9 +23,11 @@ public class Movimientos {
     private float Monto ;		// Monto de la transacción
     private String Telefono;
     private String DesRespuesta;	//Descripción  de respuesta
+    private String Saldo;
     public String getProducto() {
         return Producto;
     }
+
 
     public void setProducto(String producto) {
         Producto = producto;
@@ -40,7 +42,15 @@ public class Movimientos {
         Producto=producto;
         Serial=serial;
     }
-
+    public Movimientos( String telefono, float monto,Date fechaHora, String producto, String serial,String saldo,String tipo) {
+        FechaHora = fechaHora;
+        Telefono = telefono;
+        Monto = monto;
+        Producto=producto;
+        Serial=serial;
+        Saldo=saldo;
+        TipoRecarga=tipo;
+    }
 
 
     public Movimientos(JSONObject object){
@@ -139,5 +149,13 @@ public class Movimientos {
 
     public void setDesRespuesta(String desRespuesta) {
         DesRespuesta = desRespuesta;
+    }
+
+    public String getSaldo() {
+        return Saldo;
+    }
+
+    public void setSaldo(String saldo) {
+        Saldo = saldo;
     }
 }

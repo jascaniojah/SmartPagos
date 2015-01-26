@@ -158,8 +158,7 @@ private class ProcessSaldo extends AsyncTask <String,Void,JSONObject> {
         imei = cuenta.get("imei").toString();
         telefono= cuenta.get("telefono").toString();
         String password = cuenta.get("password").toString();
-        UserFunctions userFunction = n
-        ew UserFunctions();
+        UserFunctions userFunction = new UserFunctions();
         SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
         String currentDate = df1.format(new Date());
         TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
