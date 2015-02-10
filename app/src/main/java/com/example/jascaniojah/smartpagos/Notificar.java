@@ -54,9 +54,11 @@ public class Notificar extends Fragment {
     private ArrayList<Bancos> banksList;
     private ArrayList<Cuentas> cuentasList;
     SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-    TextView cuenta, referencia, monto,banco,registerErrorMsg,fechadeposito,pedido;
-    EditText num_referencia, monto_deposito,fechapicker;
-    Button boton_notificar;
+    TextView cuenta, referencia, monto,banco,ttipo,fechadeposito,montopin,iva,total,comision,neto,pin,titulo,tmonto,tiva,ttotal,tcomision,tneto;
+    EditText num_referencia, monto_deposito,fechapicker,cantpin;
+    Button boton_notificar,boton_calcular,boton_continuar;
+
+
 
     Spinner spnr,spinner,spinnerCta;
     String mBanco,mCuenta,codigo,numero,imei,fecha,usuario,tipo,fechadep;
@@ -66,10 +68,11 @@ public class Notificar extends Fragment {
 
     };
 
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.notificar_frag, container, false);
+
 
         cuenta = (TextView) view.findViewById(R.id.cuenta);
         referencia = (TextView) view.findViewById(R.id.referencia);
@@ -83,11 +86,14 @@ public class Notificar extends Fragment {
         fechapicker.setText(df1.format(c.getTime()));
         boton_notificar = (Button) view.findViewById(R.id.boton_notificar);
         banco = (TextView) view.findViewById(R.id.banco);
-           banksList = new ArrayList<Bancos>();
-        cuentasList = new ArrayList<Cuentas>();
-           spnr = (Spinner) view.findViewById(R.id.spinner);
+        ttipo = (TextView) view.findViewById(R.id.tipo);
+
+        spnr = (Spinner) view.findViewById(R.id.spinner);
         spinner = (Spinner) view.findViewById(R.id.BancoSp);
         spinnerCta= (Spinner) view.findViewById(R.id.CuentaSp);
+
+        banksList = new ArrayList<Bancos>();
+        cuentasList = new ArrayList<Cuentas>();
         ArrayAdapter<String> adapter;
         adapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, caso);
@@ -181,8 +187,69 @@ public class Notificar extends Fragment {
             }
             });
 
+        montopin= (TextView) view.findViewById(R.id.resp_monto_pin);
+        iva = (TextView) view.findViewById(R.id.resp_iva);
+        total = (TextView) view.findViewById(R.id.resp_total);
+        comision= (TextView) view.findViewById(R.id.resp_comision);
+        neto= (TextView) view.findViewById(R.id.resp_neto);
+        boton_calcular= (Button) view.findViewById(R.id.boton_calcular);
+        boton_continuar= (Button) view.findViewById(R.id.boton_siguiente);
+        cantpin= (EditText) view.findViewById(R.id.cant_pin);
+        pin= (TextView) view.findViewById(R.id.pin);
+        titulo= (TextView) view.findViewById(R.id.titulo);
+        tiva = (TextView) view.findViewById(R.id.iva);
+        tmonto = (TextView) view.findViewById(R.id.monto_pin);
+        ttotal = (TextView) view.findViewById(R.id.total);
+        tcomision = (TextView) view.findViewById(R.id.comision);
+        tneto = (TextView) view.findViewById(R.id.neto);
+        boton_continuar.setEnabled(false);
+
+        boton_calcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View view){
+
+                if (!cantpin.getText().toString().equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Desea calcular el Monto?")
+                            .setCancelable(false)
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    boton_continuar.setEnabled(true);
+                                    //   new ProcessCalcular();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Ingrese cantidad de pines", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+        boton_continuar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View view) {
+
+                changeView(true);
+
+
+            }
+
+
+        });
+
             return view;
         }
+
 
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
@@ -197,11 +264,6 @@ public class Notificar extends Fragment {
 
             }
         });
-
-
-
-
-
 
 
     }
@@ -243,6 +305,77 @@ public class Notificar extends Fragment {
 
         }
     };
+
+
+    public void changeView( Boolean flag){
+
+        if (flag==true) {
+
+            montopin.setVisibility(View.INVISIBLE);
+            iva.setVisibility(View.INVISIBLE);
+            total.setVisibility(View.INVISIBLE);
+            comision.setVisibility(View.INVISIBLE);
+            neto.setVisibility(View.INVISIBLE);
+            boton_calcular.setVisibility(View.INVISIBLE);
+            boton_continuar.setVisibility(View.INVISIBLE);
+            cantpin.setVisibility(View.INVISIBLE);
+            boton_continuar.setVisibility(View.INVISIBLE);
+            pin.setVisibility(View.INVISIBLE);
+            titulo.setVisibility(View.INVISIBLE);
+            tiva.setVisibility(View.INVISIBLE);
+            tmonto.setVisibility(View.INVISIBLE);
+            ttotal.setVisibility(View.INVISIBLE);
+            tcomision.setVisibility(View.INVISIBLE);
+            tneto.setVisibility(View.INVISIBLE);
+
+            cuenta.setVisibility(View.VISIBLE);
+            referencia.setVisibility(View.VISIBLE);
+            monto.setVisibility(View.VISIBLE);
+            num_referencia.setVisibility(View.VISIBLE);
+            monto_deposito.setVisibility(View.VISIBLE);
+            fechadeposito.setVisibility(View.VISIBLE);
+            fechapicker.setVisibility(View.VISIBLE);
+            boton_notificar.setVisibility(View.VISIBLE);
+            banco.setVisibility(View.VISIBLE);
+            spnr.setVisibility(View.VISIBLE);
+            spinner.setVisibility(View.VISIBLE);
+            spinnerCta.setVisibility(View.VISIBLE);
+            ttipo.setVisibility(View.VISIBLE);
+        }else {
+            montopin.setVisibility(View.VISIBLE);
+            iva.setVisibility(View.VISIBLE);
+            total.setVisibility(View.VISIBLE);
+            comision.setVisibility(View.VISIBLE);
+            neto.setVisibility(View.VISIBLE);
+            boton_calcular.setVisibility(View.VISIBLE);
+            boton_continuar.setVisibility(View.VISIBLE);
+            cantpin.setVisibility(View.VISIBLE);
+            boton_continuar.setVisibility(View.VISIBLE);
+            pin.setVisibility(View.VISIBLE);
+            titulo.setVisibility(View.VISIBLE);
+            tiva.setVisibility(View.VISIBLE);
+            tmonto.setVisibility(View.VISIBLE);
+            ttotal.setVisibility(View.VISIBLE);
+            tcomision.setVisibility(View.VISIBLE);
+            tneto.setVisibility(View.VISIBLE);
+
+            cuenta.setVisibility(View.INVISIBLE);
+            referencia.setVisibility(View.INVISIBLE);
+            monto.setVisibility(View.INVISIBLE);
+            num_referencia.setVisibility(View.INVISIBLE);
+            monto_deposito.setVisibility(View.INVISIBLE);
+            fechadeposito.setVisibility(View.INVISIBLE);
+            fechapicker.setVisibility(View.INVISIBLE);
+            boton_notificar.setVisibility(View.INVISIBLE);
+            banco.setVisibility(View.INVISIBLE);
+            spnr.setVisibility(View.INVISIBLE);
+            spinner.setVisibility(View.INVISIBLE);
+            spinnerCta.setVisibility(View.INVISIBLE);
+            ttipo.setVisibility(View.INVISIBLE);
+
+        }
+
+    }
 
     private class getBancos extends AsyncTask<Void, Void, Void> {
         private ProgressDialog pDialog;
@@ -574,6 +707,7 @@ public class Notificar extends Fragment {
                             num_referencia.getText().clear();
                             monto_deposito.getText().clear();
                             fechapicker.getText().clear();
+                            changeView(false);
                                 pDialog.dismiss();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setMessage(json.getString("Descripcion_codigo")+'\n'+"Numero de pedido: "+json.getString("pedido"))

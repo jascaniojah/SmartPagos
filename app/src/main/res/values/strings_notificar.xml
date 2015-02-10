@@ -6,4 +6,16 @@
     <string name="monto_deposito">Monto Depositado: </string>
     <string name="boton_notificar">Notificar</string>
     <string name="spinner">Tipo: </string>
+    <string name="titulo">Calculo de Pago </string>
+    <string name="pin">Unidades PIN Requeridas </string>
+    <string name="monto_pin">Monto </string>
+    <string name="iva">IVA </string>
+    <string name="total">Total </string>
+    <string name="comision">Su Comisión </string>
+    <string name="neto">Neto a Pagar </string>
+    <string name="boton_calcular">Calcular</string>
+    <string name="boton_siguiente">Continuar</string>
+
+
+
 </resources>

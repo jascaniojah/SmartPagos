@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="530dp">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/titulo"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/pin"
+        android:layout_below="@+id/titulo"
+        />
+
+    <EditText
+        android:id="@+id/cant_pin"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/pin"
+        android:singleLine="true"
+        android:theme="@android:style/Animation.InputMethod"
+        android:focusable="true"
+        android:inputType="numberDecimal"
+        android:layout_toRightOf="@+id/pin"
+        android:layout_below="@+id/titulo"
+        android:padding="5dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        />
+
+
+    <TextView
+        android:id="@+id/monto_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/monto_pin"
+        android:layout_below="@+id/pin"
+        />
+    <TextView
+        android:id="@+id/resp_monto_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
+        android:layout_toEndOf="@+id/monto_pin"
+        android:layout_toRightOf="@+id/monto_pin"
+        android:layout_below="@+id/cant_pin"
+        />
+
+
+    <TextView
+        android:id="@+id/iva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/iva"
+        android:layout_below="@+id/monto_pin"
+
+        />
+
+    <TextView
+        android:id="@+id/resp_iva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_toEndOf="@+id/iva"
+        android:layout_toRightOf="@+id/iva"
+        android:layout_below="@+id/resp_monto_pin"
+        />
+
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/total"
+        android:layout_below="@+id/iva"
+
+        />
+    <TextView
+        android:id="@+id/resp_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_toEndOf="@+id/total"
+        android:layout_toRightOf="@+id/total"
+        android:layout_below="@+id/resp_iva" />
+
+    <TextView
+        android:id="@+id/comision"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/comision"
+        android:layout_below="@+id/total"
+
+        />
+    <TextView
+        android:id="@+id/resp_comision"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_toEndOf="@+id/comision"
+        android:layout_toRightOf="@+id/comision"
+        android:layout_below="@+id/resp_total" />
+    <TextView
+        android:id="@+id/neto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/neto"
+        android:layout_below="@+id/comision"
+
+        />
+    <TextView
+        android:id="@+id/resp_neto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_toEndOf="@+id/neto"
+        android:layout_toRightOf="@+id/neto"
+        android:layout_below="@+id/resp_comision" />
+
+    <Button
+        android:id="@+id/boton_calcular"
+        style="@style/btnStyleBlackpearl"
+        android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+        android:text="@string/boton_calcular"
+        android:layout_below="@+id/neto"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20sp"
+        />
+
+    <Button
+        android:id="@+id/boton_siguiente"
+        style="@style/btnStyleBlackpearl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/boton_siguiente"
+        android:layout_below="@+id/boton_calcular"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70sp"
+        />
+
+</RelativeLayout>

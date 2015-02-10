@@ -4,12 +4,168 @@
     android:layout_height="430dp">
 
     <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/titulo"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/pin"
+        android:layout_below="@+id/titulo"
+        />
+
+    <EditText
+        android:id="@+id/cant_pin"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/pin"
+        android:singleLine="true"
+        android:theme="@android:style/Animation.InputMethod"
+        android:focusable="true"
+        android:inputType="numberDecimal"
+        android:layout_toRightOf="@+id/pin"
+        android:layout_below="@+id/titulo"
+        android:padding="5dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        />
+
+
+    <TextView
+        android:id="@+id/monto_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/monto_pin"
+        android:layout_below="@+id/pin"
+        />
+    <TextView
+        android:id="@+id/resp_monto_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
+        android:layout_toEndOf="@+id/monto_pin"
+        android:layout_toRightOf="@+id/monto_pin"
+        android:layout_below="@+id/cant_pin"
+        />
+
+
+    <TextView
+        android:id="@+id/iva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/iva"
+        android:layout_below="@+id/monto_pin"
+
+        />
+
+    <TextView
+        android:id="@+id/resp_iva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_toEndOf="@+id/iva"
+        android:layout_toRightOf="@+id/iva"
+        android:layout_below="@+id/resp_monto_pin"
+        />
+
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/total"
+        android:layout_below="@+id/iva"
+
+        />
+    <TextView
+        android:id="@+id/resp_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_toEndOf="@+id/total"
+        android:layout_toRightOf="@+id/total"
+        android:layout_below="@+id/resp_iva" />
+
+    <TextView
+        android:id="@+id/comision"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/comision"
+        android:layout_below="@+id/total"
+
+        />
+    <TextView
+        android:id="@+id/resp_comision"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_toEndOf="@+id/comision"
+        android:layout_toRightOf="@+id/comision"
+        android:layout_below="@+id/resp_total" />
+    <TextView
+        android:id="@+id/neto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/neto"
+        android:layout_below="@+id/comision"
+
+        />
+    <TextView
+        android:id="@+id/resp_neto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_toEndOf="@+id/neto"
+        android:layout_toRightOf="@+id/neto"
+        android:layout_below="@+id/resp_comision" />
+
+    <Button
+        android:id="@+id/boton_calcular"
+        style="@style/btnStyleBlackpearl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/boton_calcular"
+        android:layout_below="@+id/neto"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20sp"
+        />
+
+    <Button
+        android:id="@+id/boton_siguiente"
+        style="@style/btnStyleBlackpearl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/boton_siguiente"
+        android:layout_below="@+id/boton_calcular"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70sp"
+        />
+
+
+
+
+
+    <TextView
         android:id="@+id/banco"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/banco"
         android:padding="5dp"
         android:layout_marginTop="15dp"
+        android:visibility="invisible"
         />
     <Spinner
         android:id="@+id/BancoSp"
@@ -21,8 +177,11 @@
         android:padding="5dp"
         android:theme="@android:style/Animation.InputMethod"
         android:focusable="true"
-        android:layout_marginLeft="5dp"/>
-    />
+        android:layout_marginLeft="5dp"
+        android:visibility="invisible"
+        />
+
+
 
 
     <TextView
@@ -33,6 +192,7 @@
             android:padding="5dp"
             android:layout_below="@+id/BancoSp"
             android:layout_marginTop="15dp"
+        android:visibility="invisible"
             />
     <Spinner
         android:id="@+id/CuentaSp"
@@ -44,7 +204,8 @@
         android:layout_below="@+id/BancoSp"
         android:padding="5dp"
         android:theme="@android:style/Animation.InputMethod"
-        android:focusable="true"/>
+        android:focusable="true"
+        android:visibility="invisible"/>
     />
 
          <TextView
@@ -55,6 +216,7 @@
             android:padding="5dp"
             android:layout_below="@+id/CuentaSp"
              android:layout_marginTop="15dp"
+             android:visibility="invisible"
             />
 
         <EditText
@@ -69,7 +231,9 @@
             android:layout_toRightOf="@+id/referencia"
             android:padding="5dp"
             android:inputType="numberDecimal"
-            android:layout_marginLeft="30dp"/>
+            android:layout_marginLeft="30dp"
+            android:visibility="invisible"
+            />
 
 
 
@@ -81,6 +245,7 @@
             android:layout_below="@+id/num_referencia"
             android:padding="5dp"
             android:layout_marginTop="15dp"
+            android:visibility="invisible"
             />
 
         <EditText
@@ -93,7 +258,9 @@
             android:layout_toEndOf="@+id/monto"
             android:layout_toRightOf="@+id/monto"
             android:theme="@android:style/Animation.InputMethod"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:visibility="invisible"
+            />
         />
 
     <TextView
@@ -105,7 +272,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="15dp"
-        android:padding="5dp"/>
+        android:padding="5dp"
+        android:visibility="invisible"
+        />
 
 
     <Spinner
@@ -117,6 +286,7 @@
         android:layout_toRightOf="@+id/tipo"
         android:padding="5dp"
         android:layout_marginLeft="15dp"
+        android:visibility="invisible"
         />
 
     <TextView
@@ -127,6 +297,7 @@
         android:layout_below="@+id/spinner"
         android:padding="5dp"
         android:layout_marginTop="15dp"
+        android:visibility="invisible"
         />
 
     <EditText
@@ -137,7 +308,9 @@
         android:inputType="date"
         android:layout_toEndOf="@+id/fechadeposito"
         android:layout_toRightOf="@+id/fechadeposito"
-        android:layout_below="@+id/spinner"/>
+        android:layout_below="@+id/spinner"
+        android:visibility="invisible"
+        />
     />
 
     <Button
@@ -149,6 +322,7 @@
     android:layout_below="@+id/fechapicker"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="20sp"
+        android:visibility="invisible"
         />
 
 

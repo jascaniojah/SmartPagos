@@ -20,6 +20,7 @@ public class UserFunctions {
     private static String transURL = "http://ifweb.dlinkddns.com/test/api/Transacciones/Consulta_Transacciones";
     private static String cambioPassURL = "http://ifweb.dlinkddns.com/test/api/CambioClave/CambioClave";
     private static String ecURL="http://ifweb.dlinkddns.com/test/api/Movimientos/Consulta_Movimientos";
+    private static String pinURL="http://ifweb.dlinkddns.com/test/api/Movimientos/Consulta_Movimientos";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -139,6 +140,22 @@ public class UserFunctions {
         json1.accumulate("trace",100000+rnd.nextInt(900000));
 
         JSONObject json = jsonParser.getJSON(recargaURL, json1);
+        return json;
+    }
+
+    public JSONObject calculoPin(String usuario, String password, String imei, String numero, String fechahora,String pin ) throws JSONException {
+        // Building Parameters
+        JSONObject json1 = new JSONObject();
+        json1.accumulate("telefono", numero);
+        json1.accumulate("servicio", "001");
+        json1.accumulate("origen", "004");
+        json1.accumulate("ime", imei);
+        json1.accumulate("fechahora_disp", fechahora);
+        json1.accumulate("usuario", usuario);
+        json1.accumulate("password", password);
+        json1.accumulate("pines",pin);
+
+        JSONObject json = jsonParser.getJSON(pinURL, json1);
         return json;
     }
 
