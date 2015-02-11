@@ -20,7 +20,8 @@ public class UserFunctions {
     private static String transURL = "http://ifweb.dlinkddns.com/test/api/Transacciones/Consulta_Transacciones";
     private static String cambioPassURL = "http://ifweb.dlinkddns.com/test/api/CambioClave/CambioClave";
     private static String ecURL="http://ifweb.dlinkddns.com/test/api/Movimientos/Consulta_Movimientos";
-    private static String pinURL="http://ifweb.dlinkddns.com/test/api/Movimientos/Consulta_Movimientos";
+    private static String pinURL="http://ifweb.dlinkddns.com/test/api/CalculoMontosPin/CalculoMontosPin";
+    private static String notificar2URL="http://ifweb.dlinkddns.com/test/api/NotificarDeposito_V2/NotificarDeposito_v2";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -177,6 +178,34 @@ public class UserFunctions {
         JSONObject json = jsonParser.getJSON(notificarURL, json1);
         return json;
     }
+
+    public JSONObject notificarDeposito2(String cuenta, String imei, String monto, String fechahora, String referencia, String tipo,String banco,String usuario, String password, String fechadep, String numero,String nominal, String venta, String iva, String descuento, String retiva, String deposito, String pines ) throws JSONException {
+        // Building Parameters
+        JSONObject json1 = new JSONObject();
+        json1.accumulate("telefono", numero);
+        json1.accumulate("servicio", "001");
+        json1.accumulate("origen", "004");
+        json1.accumulate("ime", imei);
+        json1.accumulate("fechahora_disp",fechahora);
+        json1.accumulate("usuario", usuario);
+        json1.accumulate("password", password);
+        json1.accumulate("cuenta",cuenta);
+        json1.accumulate("referencia",referencia);
+        json1.accumulate("tipo",tipo);
+        json1.accumulate("fecha_deposito",fechadep);
+        json1.accumulate("monto",monto);
+        json1.accumulate("nominal",nominal);
+        json1.accumulate("venta",venta);
+        json1.accumulate("iva",iva);
+        json1.accumulate("retiva",retiva);
+        json1.accumulate("descuento",descuento);
+        json1.accumulate("deposito",deposito);
+        json1.accumulate("pines",pines);
+
+        JSONObject json = jsonParser.getJSON(notificar2URL, json1);
+        return json;
+    }
+
     public JSONObject getTransacciones(String telefono, String imei, String fechahora_disp, String fechainicio, String fechafin,String usuario,String password ) throws JSONException {
         JSONObject json1 = new JSONObject();
         json1.accumulate("telefono", telefono);

@@ -39,6 +39,9 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,14 +57,16 @@ public class Notificar extends Fragment {
     private ArrayList<Bancos> banksList;
     private ArrayList<Cuentas> cuentasList;
     SimpleDateFormat df3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-    TextView cuenta, referencia, monto,banco,ttipo,fechadeposito,montopin,iva,total,comision,neto,pin,titulo,tmonto,tiva,ttotal,tcomision,tneto;
+    TextView cuenta, referencia, monto,banco,ttipo,fechadeposito,montopin,iva,total,comision,neto,retencion,pin,titulo,tmonto,tiva,ttotal,tcomision,tneto;
     EditText num_referencia, monto_deposito,fechapicker,cantpin;
     Button boton_notificar,boton_calcular,boton_continuar;
 
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    DecimalFormat decimalFormat = new DecimalFormat();
 
 
     Spinner spnr,spinner,spinnerCta;
-    String mBanco,mCuenta,codigo,numero,imei,fecha,usuario,tipo,fechadep;
+    String mBanco,mCuenta,codigo,numero,imei,fecha,usuario,tipo,fechadep,pines;
     String[] caso = {
             "Deposito",
             "Transferencia Electronica",
@@ -193,7 +198,6 @@ public class Notificar extends Fragment {
         comision= (TextView) view.findViewById(R.id.resp_comision);
         neto= (TextView) view.findViewById(R.id.resp_neto);
         boton_calcular= (Button) view.findViewById(R.id.boton_calcular);
-        boton_continuar= (Button) view.findViewById(R.id.boton_siguiente);
         cantpin= (EditText) view.findViewById(R.id.cant_pin);
         pin= (TextView) view.findViewById(R.id.pin);
         titulo= (TextView) view.findViewById(R.id.titulo);
@@ -202,7 +206,7 @@ public class Notificar extends Fragment {
         ttotal = (TextView) view.findViewById(R.id.total);
         tcomision = (TextView) view.findViewById(R.id.comision);
         tneto = (TextView) view.findViewById(R.id.neto);
-        boton_continuar.setEnabled(false);
+        retencion = (TextView) view.findViewById(R.id.resp_retencion);
 
         boton_calcular.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,8 +218,7 @@ public class Notificar extends Fragment {
                             .setCancelable(false)
                             .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    boton_continuar.setEnabled(true);
-                                    //   new ProcessCalcular();
+                                    new ProcessCalcular().execute();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -233,18 +236,6 @@ public class Notificar extends Fragment {
 
 
             }
-        });
-
-        boton_continuar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-
-                changeView(true);
-
-
-            }
-
-
         });
 
             return view;
@@ -307,74 +298,132 @@ public class Notificar extends Fragment {
     };
 
 
-    public void changeView( Boolean flag){
 
-        if (flag==true) {
 
-            montopin.setVisibility(View.INVISIBLE);
-            iva.setVisibility(View.INVISIBLE);
-            total.setVisibility(View.INVISIBLE);
-            comision.setVisibility(View.INVISIBLE);
-            neto.setVisibility(View.INVISIBLE);
-            boton_calcular.setVisibility(View.INVISIBLE);
-            boton_continuar.setVisibility(View.INVISIBLE);
-            cantpin.setVisibility(View.INVISIBLE);
-            boton_continuar.setVisibility(View.INVISIBLE);
-            pin.setVisibility(View.INVISIBLE);
-            titulo.setVisibility(View.INVISIBLE);
-            tiva.setVisibility(View.INVISIBLE);
-            tmonto.setVisibility(View.INVISIBLE);
-            ttotal.setVisibility(View.INVISIBLE);
-            tcomision.setVisibility(View.INVISIBLE);
-            tneto.setVisibility(View.INVISIBLE);
+    private class ProcessCalcular extends AsyncTask<String,Void,JSONObject> {
+        /**
+         * Defining Process dialog
+         **/
+        private ProgressDialog pDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
-            cuenta.setVisibility(View.VISIBLE);
-            referencia.setVisibility(View.VISIBLE);
-            monto.setVisibility(View.VISIBLE);
-            num_referencia.setVisibility(View.VISIBLE);
-            monto_deposito.setVisibility(View.VISIBLE);
-            fechadeposito.setVisibility(View.VISIBLE);
-            fechapicker.setVisibility(View.VISIBLE);
-            boton_notificar.setVisibility(View.VISIBLE);
-            banco.setVisibility(View.VISIBLE);
-            spnr.setVisibility(View.VISIBLE);
-            spinner.setVisibility(View.VISIBLE);
-            spinnerCta.setVisibility(View.VISIBLE);
-            ttipo.setVisibility(View.VISIBLE);
-        }else {
-            montopin.setVisibility(View.VISIBLE);
-            iva.setVisibility(View.VISIBLE);
-            total.setVisibility(View.VISIBLE);
-            comision.setVisibility(View.VISIBLE);
-            neto.setVisibility(View.VISIBLE);
-            boton_calcular.setVisibility(View.VISIBLE);
-            boton_continuar.setVisibility(View.VISIBLE);
-            cantpin.setVisibility(View.VISIBLE);
-            boton_continuar.setVisibility(View.VISIBLE);
-            pin.setVisibility(View.VISIBLE);
-            titulo.setVisibility(View.VISIBLE);
-            tiva.setVisibility(View.VISIBLE);
-            tmonto.setVisibility(View.VISIBLE);
-            ttotal.setVisibility(View.VISIBLE);
-            tcomision.setVisibility(View.VISIBLE);
-            tneto.setVisibility(View.VISIBLE);
-
-            cuenta.setVisibility(View.INVISIBLE);
-            referencia.setVisibility(View.INVISIBLE);
-            monto.setVisibility(View.INVISIBLE);
-            num_referencia.setVisibility(View.INVISIBLE);
-            monto_deposito.setVisibility(View.INVISIBLE);
-            fechadeposito.setVisibility(View.INVISIBLE);
-            fechapicker.setVisibility(View.INVISIBLE);
-            boton_notificar.setVisibility(View.INVISIBLE);
-            banco.setVisibility(View.INVISIBLE);
-            spnr.setVisibility(View.INVISIBLE);
-            spinner.setVisibility(View.INVISIBLE);
-            spinnerCta.setVisibility(View.INVISIBLE);
-            ttipo.setVisibility(View.INVISIBLE);
-
+            pines = cantpin.getText().toString();
+            fecha = df3.format(c.getTime());
+            pDialog = new ProgressDialog(getActivity());
+            pDialog.setTitle("Contactando Servidores");
+            pDialog.setMessage("Registrando ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
         }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            DataBaseHandler db = new DataBaseHandler(getActivity().getApplicationContext());
+            HashMap dato = new HashMap();
+            dato = db.getUser();
+            numero= dato.get("telefono").toString();
+            imei= dato.get("imei").toString();
+            String usuario=dato.get("usuario").toString();
+            String password=dato.get("password").toString();
+            UserFunctions userFunction = new UserFunctions();
+            JSONObject json = null;
+            try {
+                json = userFunction.calculoPin(usuario,password, imei, numero, fecha, pines );
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            /**
+             * Checks for success message.
+             **/
+            try {
+                if (json.getString(KEY_ERROR) != null) {
 
+                    String red = json.getString(KEY_ERROR);
+                    if(Integer.parseInt(red) == 000){
+                        //fechapicker.getText().clear();
+                        pDialog.dismiss();
+                        try{
+                            NumberFormat df = NumberFormat.getCurrencyInstance();
+                            DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+                            dfs.setCurrencySymbol("BsF.");
+                            dfs.setGroupingSeparator('.');
+                            dfs.setMonetaryDecimalSeparator(',');
+                            ((DecimalFormat) df).setDecimalFormatSymbols(dfs);
+                            Double cant = Double.valueOf(json.getString("Venta"));
+                        montopin.setText(df.format(cant));
+                            cant=Double.valueOf(json.getString("Iva"));
+                        iva.setText(df.format(cant));
+                            cant=Double.valueOf(json.getString("Nominal"));
+                        total.setText(df.format(cant));
+                            cant=Double.valueOf(json.getString("Descuento"));
+                        comision.setText(df.format(cant));
+                            Double numero = Double.valueOf(json.getString("RetIva"));
+                            retencion.setText(df.format(numero));
+                            cant=Double.valueOf(json.getString("Deposito"));
+                        neto.setText(df.format(cant));
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                            // This will catch any exception, because they are all descended from Exception
+                        }
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage(json.getString("Descripcion_codigo"))
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
+
+                        /**
+                         * Removes all the previous data in the SQlite database
+                         **/
+
+                    }
+                    else if (Integer.parseInt(red) !=000){
+                        pDialog.dismiss();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage(json.getString("Descripcion_codigo"))
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
+
+                    }
+
+                }
+                else{
+                    pDialog.dismiss();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Error de Registro")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private class getBancos extends AsyncTask<Void, Void, Void> {
@@ -653,7 +702,7 @@ public class Notificar extends Fragment {
              * Defining Process dialog
              **/
             private ProgressDialog pDialog;
-            String monto,referencia,imei,fecha;
+            String monto,referencia,imei,fecha,nnominal,venta,niva,retiva,ndescuento,ndeposito;
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -680,6 +729,15 @@ public class Notificar extends Fragment {
                 String usuario=dato.get("usuario").toString();
                 String password=dato.get("password").toString();
                 UserFunctions userFunction = new UserFunctions();
+                nnominal = total.getText().toString().replace("BsF.", "").replace(".","");
+                venta= montopin.getText().toString().replace("BsF.", "").replace(".","");
+                niva= iva.getText().toString().replace("BsF.", "").replace(".","");
+                retiva= retencion.getText().toString().replace("BsF.", "").replace(".","");
+                ndescuento= comision.getText().toString().replace("BsF.", "").replace(".","");
+                ndeposito= neto.getText().toString().replace("BsF.", "").replace(".","");
+
+                 Log.e("Total",nnominal);
+
 
                 try {
                     fechadep= DateParser.StringToISO(fechapicker.getText().toString());
@@ -688,7 +746,7 @@ public class Notificar extends Fragment {
                 }
                 JSONObject json = null;
                 try {
-                    json = userFunction.notificarDeposito(mCuenta, imei, monto, fecha, referencia,tipo,mBanco,usuario,password,fechadep,numero);
+                    json = userFunction.notificarDeposito2(mCuenta, imei, monto, fecha, referencia,tipo,mBanco,usuario,password,fechadep,numero,nnominal, venta, niva, ndescuento, retiva, ndeposito, pines );
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -707,8 +765,15 @@ public class Notificar extends Fragment {
                             num_referencia.getText().clear();
                             monto_deposito.getText().clear();
                             fechapicker.getText().clear();
-                            changeView(false);
-                                pDialog.dismiss();
+                            cantpin.getText().clear();
+                            total.setText("");
+                            montopin.setText("");
+                            iva.setText("");
+                            retencion.setText("");
+                            comision.setText("");
+                            neto.setText("");
+
+                            pDialog.dismiss();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setMessage(json.getString("Descripcion_codigo")+'\n'+"Numero de pedido: "+json.getString("pedido"))
                                     .setCancelable(false)
