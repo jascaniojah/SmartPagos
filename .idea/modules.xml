@@ -3,9 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SmartPagosExp.iml" filepath="$PROJECT_DIR$/SmartPagosExp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SmartPagosV1.2.iml" filepath="$PROJECT_DIR$/SmartPagosV1.2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SmartPagosV1.3.iml" filepath="$PROJECT_DIR$/SmartPagosV1.3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Smartpagos.iml" filepath="$PROJECT_DIR$/Smartpagos.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

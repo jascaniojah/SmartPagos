@@ -23,13 +23,13 @@
 
     <ScrollView
         android:id="@+id/login_form"
-        android:layout_width="348dp"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
             <LinearLayout
                 android:id="@+id/email_login_form"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
@@ -51,8 +51,8 @@
 
                 <EditText
                     android:id="@+id/usuario"
-                    android:layout_width="302dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
@@ -60,12 +60,12 @@
                     android:focusable="true"
                     android:textStyle="bold"
                     android:theme="@android:style/Animation.InputMethod"
-                    android:textColorHint="#ff000000"
+                    android:textColorHint="#ffffffff"
                     android:background="@drawable/textview_selector"
-                    android:layout_margin="8dp"
                     android:paddingLeft="3dp"
-
-                    >
+                    android:layout_marginBottom="5dp"
+                    android:textSize="18dp"
+                    android:textColor="#ffffffff">
 
                     <requestFocus />
                 </EditText>
@@ -73,8 +73,8 @@
                  <EditText
                      android:textStyle="bold"
                     android:id="@+id/password"
-                    android:layout_width="302dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
                     android:hint="@string/prompt_password"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
@@ -86,13 +86,13 @@
                     android:background="@drawable/textview_selector"
                     android:paddingLeft="3dp"
                     android:layout_marginBottom="5dp"
-
+                    android:textSize="18dp"
                      />
 
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:textAppearanceSmall"
-                    android:layout_width="294dp"
+                    android:layout_width="260dp"
                     android:layout_height="wrap_content"
                     android:text="@string/action_sign_in"
                     android:textStyle="bold"
@@ -100,6 +100,7 @@
                     android:textColor="#ffffffff"
                     android:textSize="20dp"
                     android:background="#747375"
+                    android:layout_marginTop="10dp"
                     />
 
 
