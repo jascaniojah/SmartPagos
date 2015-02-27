@@ -54,11 +54,11 @@ public class Trans extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.trans_frag, container, false);
-
         desde_fecha = (TextView) view.findViewById(R.id.desde_fecha);
         hasta_fecha = (TextView) view.findViewById(R.id.hasta_fecha);
         fecha_desde = (EditText) view.findViewById(R.id.fecha_desde);
         fecha_hasta = (EditText) view.findViewById(R.id.fecha_hasta);
+
         fecha_desde.setFocusableInTouchMode(false);
         fecha_hasta.setFocusableInTouchMode(false);
         myCalendar = Calendar.getInstance();

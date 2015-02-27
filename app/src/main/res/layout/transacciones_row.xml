@@ -26,16 +26,28 @@
        android:textSize="12sp" />
 
     <TextView
-        android:layout_width="28dp"
+
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/fechaTransaccion"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/iconoTransaccion"
         android:gravity="center_vertical"
         android:textSize="16sp"
         android:id="@+id/numeroTelTransaccion"
         android:text="04249474436" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/montoSaldo"
+        android:layout_alignBottom="@+id/fechaTransaccion"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -62,6 +63,7 @@ public class Recarga extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.recarga_frag, container, false);
         fecha_consulta= (TextView) view.findViewById(R.id.fecha_consulta);
         numero_recarga = (TextView) view.findViewById(R.id.numero_recarga);
@@ -84,10 +86,10 @@ public class Recarga extends Fragment {
         productsList = new ArrayList<Productos>();
         productsp = (Spinner) view.findViewById(R.id.spinner_producto);
 
-
         productsp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
 
                 producto = productsList.get(productsp.getSelectedItemPosition()).getCodigo();
             }

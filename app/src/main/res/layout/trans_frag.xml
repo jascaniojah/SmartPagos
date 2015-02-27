@@ -70,8 +70,17 @@
         android:layout_marginTop="8sp"/>
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Monto      Saldo"
+        android:id="@+id/montosaldotitle"
+        android:layout_gravity="right"
+        android:layout_marginRight="8dp"
+        android:visibility="invisible"/>
 
-        <ListView
+    <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/transacciones_list"

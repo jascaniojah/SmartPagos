@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -109,7 +110,7 @@ public class Notificar extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                 mBanco =spinner.getSelectedItem().toString();
                 codigo = banksList.get(spinner.getSelectedItemPosition()).getCodigo();
                 cuentasList.clear();
@@ -125,6 +126,7 @@ public class Notificar extends Fragment {
         spinnerCta.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
 
                 mCuenta =spinnerCta.getSelectedItem().toString();
                             }

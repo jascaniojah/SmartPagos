@@ -40,6 +40,7 @@ public class ECAdapter  extends ArrayAdapter<Movimientos> {
         ImageView icono=(ImageView) convertView.findViewById(R.id.iconoTransaccion);
         TextView numero=(TextView)convertView.findViewById(R.id.numeroTelTransaccion);
         TextView info=(TextView)convertView.findViewById(R.id.fechaTransaccion);
+        TextView monto_saldo=(TextView)convertView.findViewById(R.id.montoSaldo);
         numero.setText(movimiento.getTelefono());
         Drawable nc=convertView.getResources().getDrawable(R.drawable.ic_action_registrar_pago);
         Drawable nd=convertView.getResources().getDrawable(R.drawable.iconsheet);
@@ -61,37 +62,20 @@ public class ECAdapter  extends ArrayAdapter<Movimientos> {
 
         Log.i("TransaccionesAdapter", "Numero " + movimiento.getTelefono());
 
-
+        DecimalFormat formato = new DecimalFormat("#,###.###");
         String s= DateParser.DateTimeToString(movimiento.getFechaHora());
-        String saldo=movimiento.getSaldo();
-        String ln1=printTxt("ln1",movimiento.getProducto());
+        String saldo=formato.format(Float.parseFloat(movimiento.getSaldo()));
+        String monto=formato.format(movimiento.getMonto());
+        String ln1=movimiento.getProducto();
         String ln2=printTxt("ln2",movimiento.getProducto(),movimiento.getMonto(),movimiento.getSaldo(),movimiento.getTelefono(),s);
         numero.setText(ln1);
         info.setText(ln2);
+        monto_saldo.setText(monto+"    "+saldo);
         return convertView;
 
 
     }
-    public String printTxt(String ln,String producto)
-    {
 
-        String s=null;
-        String line=null;
-        String spcs="";
-        if (ln.equals("ln1"))
-        {
-         int spaces=14+10-producto.length();
-         Log.i("ECADAPTER","Longitud "+producto.length())   ;
-         for(int i=0; i<spaces;i++) {
-             spcs+=" ";
-             Log.i("ECADAPTER","*"+i)  ;
-         }
-
-        }
-        line=producto+spcs+"Monto         Saldo";
-
-        return line;
-    }
     public String printTxt(String ln,String producto,Float monto,String saldo,String serial,String fecha)
     {
 
@@ -116,7 +100,7 @@ public class ECAdapter  extends ArrayAdapter<Movimientos> {
         DecimalFormat formato = new DecimalFormat("#,###.###");
         String Monto=formato.format(monto);
         String Saldo=formato.format(Float.parseFloat(saldo));
-        line=s+spcs+Monto+"                    "+spcs2+Saldo+"\n"+"Serial: "+serial;
+        line=s+spcs+"\n"+"Serial: "+serial;
 
         return line;
     }

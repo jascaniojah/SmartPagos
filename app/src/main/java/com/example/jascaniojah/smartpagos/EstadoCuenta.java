@@ -188,8 +188,10 @@ public class EstadoCuenta extends Fragment {
             if (movimientosArray.size()>0) {
                 ECAdapter adapter = new ECAdapter(getActivity(), movimientosArray);
                 ListView lv = (ListView) getActivity().findViewById(R.id.transacciones_list);
+                TextView titulo=(TextView) getActivity().findViewById(R.id.montosaldotitle);
                 lv.setAdapter(adapter);
                 lv.setVisibility(View.VISIBLE);
+                titulo.setVisibility(View.VISIBLE);
             }
             else
             {
