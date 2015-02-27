@@ -5,11 +5,19 @@
     android:weightSum="1"
     android:orientation="vertical">
 
+
+    <ScrollView
+        android:id="@+id/pines"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:layout_weight="0.5"
+        android:fadeScrollbars="false"
+        >
+
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:id="@+id/pines"
-        android:layout_weight="0.5">
+        android:layout_height="fill_parent">
         <TextView
             android:id="@+id/titulo"
             android:layout_width="wrap_content"
@@ -57,10 +65,10 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:padding="1dp"
-
-            android:layout_below="@+id/cant_pin"
-            android:layout_alignLeft="@+id/resp_iva"
-            android:layout_alignStart="@+id/resp_iva" />
+            android:gravity="right"
+            android:layout_alignTop="@+id/monto_pin"
+            android:layout_toRightOf="@+id/comision"
+            android:layout_toEndOf="@+id/comision" />
 
 
         <TextView
@@ -80,7 +88,9 @@
             android:padding="1dp"
             android:layout_above="@+id/resp_total"
             android:layout_alignLeft="@+id/resp_total"
-            android:layout_alignStart="@+id/resp_total" />
+            android:layout_alignStart="@+id/resp_total"
+            android:gravity="right"
+            />
 
 
         <TextView
@@ -99,7 +109,9 @@
             android:padding="1dp"
             android:layout_alignTop="@+id/total"
             android:layout_toRightOf="@+id/comision"
-            android:layout_toEndOf="@+id/comision" />
+            android:layout_toEndOf="@+id/comision"
+            android:gravity="right"
+            />
 
         <View
             android:id="@+id/line1"
@@ -127,7 +139,9 @@
             android:padding="1dp"
             android:layout_toEndOf="@+id/comision"
             android:layout_toRightOf="@+id/comision"
-            android:layout_below="@+id/resp_total" />
+            android:layout_below="@+id/resp_total"
+            android:gravity="right"
+            />
 
         <TextView
             android:id="@+id/retencion"
@@ -142,10 +156,11 @@
             android:id="@+id/resp_retencion"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:padding="1dp"
-            android:layout_below="@+id/resp_comision"
-            android:layout_alignLeft="@+id/resp_neto"
-            android:layout_alignStart="@+id/resp_neto" />
+            android:padding="0dp"
+            android:gravity="right"
+            android:layout_alignTop="@+id/retencion"
+            android:layout_toRightOf="@+id/comision"
+            android:layout_toEndOf="@+id/comision" />
 
         <View
             android:id="@+id/line"
@@ -153,8 +168,8 @@
             android:layout_height="1dp"
             android:background="#c0c0c0"
             android:layout_below="@+id/resp_retencion"
-            android:layout_alignLeft="@+id/resp_neto"
-            android:layout_alignStart="@+id/resp_neto"
+            android:layout_alignLeft="@+id/resp_retencion"
+            android:layout_alignStart="@+id/resp_retencion"
             />
 
         <TextView
@@ -171,10 +186,10 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:padding="1dp"
-            android:layout_toEndOf="@+id/neto"
-            android:layout_toRightOf="@+id/neto"
+            android:gravity="right"
             android:layout_below="@+id/resp_retencion"
-            />
+            android:layout_toLeftOf="@+id/boton_calcular"
+            android:layout_toStartOf="@+id/boton_calcular" />
 
         <Button
             android:id="@+id/boton_calcular"
@@ -187,7 +202,7 @@
             android:layout_toEndOf="@+id/resp_retencion" />
     </RelativeLayout>
 
-
+    </ScrollView>
 
     <ScrollView
         android:id="@+id/contenedor"
@@ -252,7 +267,7 @@
                 android:theme="@android:style/Animation.InputMethod"
                 android:focusable="true"
                 />
-            />
+
 
             <TextView
                 android:id="@+id/referencia"
@@ -297,13 +312,14 @@
                 android:layout_height="50dp"
                 android:singleLine="true"
                 android:inputType="numberDecimal"
+                android:digits="0123456789.,"
                 android:layout_below="@+id/num_referencia"
                 android:layout_toEndOf="@+id/monto"
                 android:layout_toRightOf="@+id/monto"
                 android:theme="@android:style/Animation.InputMethod"
                 android:focusable="true"
                 />
-            />
+
 
             <TextView
                 android:id="@+id/tipo"

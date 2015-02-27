@@ -75,6 +75,7 @@
             android:theme="@android:style/Animation.InputMethod"
             android:focusable="true"
             android:inputType="numberDecimal"
+            android:digits="0123456789.,"
             android:layout_toRightOf="@+id/monto"
             android:layout_below="@+id/resp_conf_numero"
             android:padding="5dp"

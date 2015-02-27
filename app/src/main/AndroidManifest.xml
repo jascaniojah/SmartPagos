@@ -38,7 +38,9 @@
         <activity
             android:name=".Principal"
             android:label="@string/title_activity_principal"
-            android:theme="@style/Theme.CustomActionBarTheme" >
+            android:theme="@style/Theme.CustomActionBarTheme"
+            android:windowSoftInputMode="adjustPan">
+
         </activity>
         <activity
             android:name=".CambioPass"

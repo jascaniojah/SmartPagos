@@ -261,7 +261,7 @@ public class Recarga extends Fragment {
                 monto_recarga.removeTextChangedListener(this);
                 monto_recarga.setText(cashAmountBuilder.toString());
 
-                monto_recarga.setTextKeepState("BsF." + cashAmountBuilder.toString());
+                monto_recarga.setTextKeepState("BsF." + cashAmountBuilder.toString().replace(',', '.'));
                 Selection.setSelection(monto_recarga.getText(), cashAmountBuilder.toString().length() + 4);
 
                 monto_recarga.addTextChangedListener(this);
