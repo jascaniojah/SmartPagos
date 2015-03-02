@@ -143,6 +143,7 @@ public class Notificar extends Fragment {
                         @Override
                     public void onItemSelected(AdapterView<?> arg0, View arg1,
                                                int arg2, long arg3) {
+                            ((TextView) arg0.getChildAt(0)).setTextColor(Color.WHITE);
                         int position = spnr.getSelectedItemPosition();
 
                         if(position==0){
@@ -741,7 +742,7 @@ public class Notificar extends Fragment {
                 ndescuento= comision.getText().toString().replace("BsF.", "").replace(".","");
                 ndeposito= neto.getText().toString().replace("BsF.", "").replace(".","");
 
-                 Log.e("Total",nnominal);
+                 Log.e("Total",total.getText().toString());
 
 
                 try {
