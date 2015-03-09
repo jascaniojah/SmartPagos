@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Monto      Saldo"
+        android:text="Monto         Saldo"
         android:id="@+id/montosaldotitle"
         android:layout_gravity="right"
         android:layout_marginRight="8dp"

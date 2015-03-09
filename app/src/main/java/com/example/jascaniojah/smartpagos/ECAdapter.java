@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.jascaniojah.libraries.DateParser;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,8 +62,10 @@ public class ECAdapter  extends ArrayAdapter<Movimientos> {
 
 
         Log.i("TransaccionesAdapter", "Numero " + movimiento.getTelefono());
-
-        DecimalFormat formato = new DecimalFormat("#,###.###");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        symbols.setDecimalSeparator(',');
+        DecimalFormat formato = new DecimalFormat("#,###.00",symbols);
         String s= DateParser.DateTimeToString(movimiento.getFechaHora());
         String saldo=formato.format(Float.parseFloat(movimiento.getSaldo()));
         String monto=formato.format(movimiento.getMonto());

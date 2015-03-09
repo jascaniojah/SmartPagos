@@ -63,7 +63,7 @@ public class Saldo extends Fragment {
         symbols.setGroupingSeparator('.');
         symbols.setDecimalSeparator(',');
 
-            DecimalFormat decimalFormat = new DecimalFormat("$ #,###.00", symbols);
+             decimalFormat = new DecimalFormat("#,###.00", symbols);
 
             saldo_boton.setOnClickListener(new View.OnClickListener() {
             @Override

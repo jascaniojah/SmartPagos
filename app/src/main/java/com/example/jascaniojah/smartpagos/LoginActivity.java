@@ -170,9 +170,9 @@ private String mPassword;
         pDialog = new ProgressDialog(LoginActivity.this);
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
       imei=telephonyManager.getDeviceId().toString();
-        imei = "A0000043676E29";
+     //  imei = "A0000043676E29";
         numero=telephonyManager.getLine1Number().toString();
-        //numero = "04142222222";
+        numero = "0000000000";
         if (numero==null)
         {
             numero="0000000000";
