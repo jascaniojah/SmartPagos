@@ -172,7 +172,7 @@ private String mPassword;
       imei=telephonyManager.getDeviceId().toString();
      //  imei = "A0000043676E29";
         numero=telephonyManager.getLine1Number().toString();
-        numero = "0000000000";
+      //  numero = "0000000000";
         if (numero==null)
         {
             numero="0000000000";

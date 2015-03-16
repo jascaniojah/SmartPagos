@@ -1,10 +1,16 @@
 package com.example.jascaniojah.libraries;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class UserFunctions {
@@ -13,7 +19,7 @@ public class UserFunctions {
     private static String loginURL = "http://ifweb.dlinkddns.com/test/api/login/login";
     private static String saldoURL = "http://ifweb.dlinkddns.com/test/api/ConsultaSaldo/SaldoOperador";
     private static String recargaURL = "http://ifweb.dlinkddns.com/test/api/Recarga/Recarga";
-    private static String notificarURL = "http://ifweb.dlinkddns.com/test/api/NotificarDeposito/NotificarDeposito";
+    private static String notificarURL = "http://ifweb.dlinkddns.com/test/api/NotificarDeposito_V2/NotificarDeposito_v2";
     private static String bancosURL =  "http://ifweb.dlinkddns.com/test/api/Bancos/Consulta_Bancos";
     private static String cuentasURL = "http://ifweb.dlinkddns.com/test/api/Cuentas/Consulta_Cuentas";
     private static String productosURL = "http://ifweb.dlinkddns.com/test/api/Productos/Consulta_Productos";
@@ -21,7 +27,7 @@ public class UserFunctions {
     private static String cambioPassURL = "http://ifweb.dlinkddns.com/test/api/CambioClave/CambioClave";
     private static String ecURL="http://ifweb.dlinkddns.com/test/api/Movimientos/Consulta_Movimientos";
     private static String pinURL="http://ifweb.dlinkddns.com/test/api/CalculoMontosPin/CalculoMontosPin";
-    private static String notificar2URL="http://ifweb.dlinkddns.com/test/api/NotificarDeposito_V2/NotificarDeposito_v2";
+    private static String notificar2URL="http://ifweb.dlinkddns.com/test/api/NotificarDeposito/NotificarDeposito";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -179,7 +185,7 @@ public class UserFunctions {
         return json;
     }
 
-    public JSONObject notificarDeposito2(String cuenta, String imei, String monto, String fechahora, String referencia, String tipo,String banco,String usuario, String password, String fechadep, String numero,String nominal, String venta, String iva, String descuento, String retiva, String deposito, String pines ) throws JSONException {
+    public JSONObject notificarDeposito2(String cuenta, String imei, String monto, String fechahora, String referencia, String tipo,String banco,String usuario, String password, String fechadep, String numero,String nominal, String venta, String iva, String descuento, String retiva, String deposito, String pines) throws JSONException {
         // Building Parameters
         JSONObject json1 = new JSONObject();
         json1.accumulate("telefono", numero);
@@ -203,6 +209,8 @@ public class UserFunctions {
         json1.accumulate("pines",pines);
 
         JSONObject json = jsonParser.getJSON(notificar2URL, json1);
+        Log.i("UserFunctions.java","JSON ARRAY NOTIFICACION: "+json1.toString());
+        addTextToFile("ARRAY JSON ENVIADO: "+json1.toString());
         return json;
     }
 
@@ -258,5 +266,23 @@ public class UserFunctions {
         DataBaseHandler db = new DataBaseHandler(context);
         db.resetTables();
         return true;
+    }
+    public void addTextToFile(String text) {
+        File logFile = new File("sdcard/" + "LOG.txt");
+        if (!logFile.exists()) {
+            try {
+                logFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+            buf.append(text);
+            buf.newLine();
+            buf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

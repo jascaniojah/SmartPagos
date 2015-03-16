@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
@@ -37,6 +38,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -53,6 +57,7 @@ import java.util.List;
 
 
 public class Notificar extends Fragment {
+    String mJsonEnviado;
     Calendar c = Calendar.getInstance();
     SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
     private static String KEY_ERROR = "Codigo";
@@ -752,10 +757,11 @@ public class Notificar extends Fragment {
                 }
                 JSONObject json = null;
                 try {
-                    json = userFunction.notificarDeposito2(mCuenta, imei, monto, fecha, referencia,tipo,mBanco,usuario,password,fechadep,numero,nnominal, venta, niva, ndescuento, retiva, ndeposito, pines );
+                    json = userFunction.notificarDeposito2(mCuenta, imei, monto, fecha, referencia,tipo,mBanco,usuario,password,fechadep,numero,nnominal, venta, niva, ndescuento, retiva, ndeposito, pines);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                mJsonEnviado=json.toString();
                 return json;
             }
             @Override
@@ -794,7 +800,7 @@ public class Notificar extends Fragment {
                             /**
                              * Removes all the previous data in the SQlite database
                              **/
-
+                           // Toast.makeText(getActivity(),"JSON ARRAY ENVIADO:"+json.toString(),Toast.LENGTH_LONG).show();
                         }
                         else if (Integer.parseInt(red) !=000){
                             pDialog.dismiss();
@@ -834,4 +840,7 @@ public class Notificar extends Fragment {
             }}
     public void NetAsync(){
         new NetCheck().execute();
-    }}
+    }
+
+
+}
