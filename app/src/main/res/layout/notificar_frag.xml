@@ -312,7 +312,7 @@
                 android:layout_height="50dp"
                 android:singleLine="true"
                 android:inputType="numberDecimal"
-                android:digits="0123456789.,"
+                android:digits="0123456789,"
                 android:layout_below="@+id/num_referencia"
                 android:layout_toEndOf="@+id/monto"
                 android:layout_toRightOf="@+id/monto"

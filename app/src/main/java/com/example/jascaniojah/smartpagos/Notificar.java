@@ -92,7 +92,6 @@ public class Notificar extends Fragment {
         monto = (TextView) view.findViewById(R.id.monto);
         num_referencia = (EditText) view.findViewById(R.id.num_referencia);
         monto_deposito = (EditText) view.findViewById(R.id.monto_deposito);
-        monto_deposito.addTextChangedListener(tw);
         fechadeposito= (TextView) view.findViewById(R.id.fechadeposito);
         fechapicker= (EditText) view.findViewById(R.id.fechapicker);
         fechapicker.setFocusableInTouchMode(false);
@@ -621,41 +620,6 @@ public class Notificar extends Fragment {
 
 
 
-    TextWatcher tw = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-            if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
-                String userInput = "" + s.toString().replaceAll("[^\\d]", "");
-                StringBuilder cashAmountBuilder = new StringBuilder(userInput);
-
-                while (cashAmountBuilder.length() > 3 && cashAmountBuilder.charAt(0) == '0') {
-                    cashAmountBuilder.deleteCharAt(0);
-                }
-                while (cashAmountBuilder.length() < 3) {
-                    cashAmountBuilder.insert(0, '0');
-                }
-                cashAmountBuilder.insert(cashAmountBuilder.length() - 2, ',');
-
-                monto_deposito.removeTextChangedListener(this);
-                monto_deposito.setText(cashAmountBuilder.toString());
-
-                monto_deposito.setTextKeepState("BsF." + cashAmountBuilder.toString());
-                Selection.setSelection(monto_deposito.getText(), cashAmountBuilder.toString().length() + 1);
-
-                monto_deposito.addTextChangedListener(this);
-            }
-        }
-    };
 
         protected class NetCheck extends AsyncTask<String,Void,Boolean>
         {
