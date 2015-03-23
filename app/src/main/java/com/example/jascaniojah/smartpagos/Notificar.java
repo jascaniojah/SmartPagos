@@ -72,6 +72,7 @@ public class Notificar extends Fragment {
     DecimalFormat decimalFormat = new DecimalFormat();
 
 
+
     Spinner spnr,spinner,spinnerCta;
     String mBanco,mCuenta,codigo,numero,imei,fecha,usuario,tipo,fechadep,pines;
     String[] caso = {
@@ -719,6 +720,7 @@ public class Notificar extends Fragment {
                 super.onPreExecute();
 
                 monto = monto_deposito.getText().toString().replace("BsF.", "");
+                monto=monto.replace(",",".");
                 referencia = num_referencia.getText().toString();
 
 
@@ -757,7 +759,7 @@ public class Notificar extends Fragment {
                 }
                 JSONObject json = null;
                 try {
-                    json = userFunction.notificarDeposito2(mCuenta, imei, monto, fecha, referencia,tipo,mBanco,usuario,password,fechadep,numero,nnominal, venta, niva, ndescuento, retiva, ndeposito, pines);
+                    json = userFunction.notificarDeposito2(mCuenta, imei, monto.replace(",",".").trim(), fecha, referencia,tipo,mBanco,usuario,password,fechadep,numero,nnominal.trim().replace(",","."), venta.trim().replace(",","."), niva.trim().replace(",","."), ndescuento.trim().replace(",","."), retiva.trim().replace(",","."), ndeposito.trim().replace(",","."), pines.trim());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
