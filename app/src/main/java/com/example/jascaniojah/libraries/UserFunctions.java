@@ -199,14 +199,14 @@ public class UserFunctions {
         json1.accumulate("referencia",referencia);
         json1.accumulate("tipo",tipo);
         json1.accumulate("fecha_deposito",fechadep);
-        json1.accumulate("monto",monto);
-        json1.accumulate("nominal",nominal);
-        json1.accumulate("venta",venta);
-        json1.accumulate("iva",iva);
-        json1.accumulate("retiva",retiva);
-        json1.accumulate("descuento",descuento);
-        json1.accumulate("deposito",deposito);
-        json1.accumulate("pines",pines);
+        json1.accumulate("monto",monto.replaceAll("[^0-9.]", ""));
+        json1.accumulate("nominal",nominal.replaceAll("[^0-9.]", ""));
+        json1.accumulate("venta",venta.replaceAll("[^0-9.]", ""));
+        json1.accumulate("iva",iva.replaceAll("[^0-9.]", ""));
+        json1.accumulate("retiva",retiva.replaceAll("[^0-9.]", ""));
+        json1.accumulate("descuento",descuento.replaceAll("[^0-9.]", ""));
+        json1.accumulate("deposito",deposito.replaceAll("[^0-9.]", ""));
+        json1.accumulate("pines",pines.replaceAll("[^0-9.]", ""));
 
         JSONObject json = jsonParser.getJSON(notificar2URL, json1);
         Log.i("UserFunctions.java","JSON ARRAY NOTIFICACION: "+json1.toString());
