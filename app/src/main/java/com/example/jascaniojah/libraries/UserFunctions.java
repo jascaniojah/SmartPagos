@@ -27,7 +27,6 @@ public class UserFunctions {
     private static String cambioPassURL = "http://ifweb.dlinkddns.com/test/api/CambioClave/CambioClave";
     private static String ecURL="http://ifweb.dlinkddns.com/test/api/Movimientos/Consulta_Movimientos";
     private static String pinURL="http://ifweb.dlinkddns.com/test/api/CalculoMontosPin/CalculoMontosPin";
-    private static String notificar2URL="http://ifweb.dlinkddns.com/test/api/NotificarDeposito/NotificarDeposito";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -147,6 +146,8 @@ public class UserFunctions {
         json1.accumulate("trace",100000+rnd.nextInt(900000));
 
         JSONObject json = jsonParser.getJSON(recargaURL, json1);
+        addTextToFile("ARRAY JSON ENVIADO OPERACION VENTA: "+json1.toString());
+
         return json;
     }
 
@@ -208,9 +209,9 @@ public class UserFunctions {
         json1.accumulate("deposito",deposito.replaceAll("[^0-9.]", ""));
         json1.accumulate("pines",pines.replaceAll("[^0-9.]", ""));
 
-        JSONObject json = jsonParser.getJSON(notificar2URL, json1);
+        JSONObject json = jsonParser.getJSON(notificarURL, json1);
         Log.i("UserFunctions.java","JSON ARRAY NOTIFICACION: "+json1.toString());
-        addTextToFile("ARRAY JSON ENVIADO: "+json1.toString());
+        addTextToFile("ARRAY JSON ENVIADO OPERACION NOTIFICACION: "+json1.toString());
         return json;
     }
 
