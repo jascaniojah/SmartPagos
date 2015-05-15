@@ -148,7 +148,7 @@ public class Notificar extends Fragment {
                         @Override
                     public void onItemSelected(AdapterView<?> arg0, View arg1,
                                                int arg2, long arg3) {
-                            ((TextView) arg0.getChildAt(0)).setTextColor(Color.WHITE);
+//AQUI ME LANZABA EL ERROR              ((TextView) arg0.getChildAt(0)).setTextColor(Color.WHITE);
                         int position = spnr.getSelectedItemPosition();
 
                         if(position==0){
