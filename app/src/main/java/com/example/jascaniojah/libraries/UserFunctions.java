@@ -16,17 +16,17 @@ import java.util.Random;
 public class UserFunctions {
     private JSONParser jsonParser;
     //URL of the PHP API
-    private static String loginURL = "http://ifweb.dlinkddns.com/test/api/login/login";
-    private static String saldoURL = "http://ifweb.dlinkddns.com/test/api/ConsultaSaldo/SaldoOperador";
-    private static String recargaURL = "http://ifweb.dlinkddns.com/test/api/Recarga/Recarga";
-    private static String notificarURL = "http://ifweb.dlinkddns.com/test/api/NotificarDeposito_V2/NotificarDeposito_v2";
-    private static String bancosURL =  "http://ifweb.dlinkddns.com/test/api/Bancos/Consulta_Bancos";
-    private static String cuentasURL = "http://ifweb.dlinkddns.com/test/api/Cuentas/Consulta_Cuentas";
-    private static String productosURL = "http://ifweb.dlinkddns.com/test/api/Productos/Consulta_Productos";
-    private static String transURL = "http://ifweb.dlinkddns.com/test/api/Transacciones/Consulta_Transacciones";
-    private static String cambioPassURL = "http://ifweb.dlinkddns.com/test/api/CambioClave/CambioClave";
-    private static String ecURL="http://ifweb.dlinkddns.com/test/api/Movimientos/Consulta_Movimientos";
-    private static String pinURL="http://ifweb.dlinkddns.com/test/api/CalculoMontosPin/CalculoMontosPin";
+    private static String loginURL = "http://grupoariesco.no-ip.org:8091/api/login/login";
+    private static String saldoURL = "http://grupoariesco.no-ip.org:8091/api/ConsultaSaldo/SaldoOperador";
+    private static String recargaURL = "http://grupoariesco.no-ip.org:8091/api/Recarga/Recarga";
+    private static String notificarURL = "http://grupoariesco.no-ip.org:8091/api/NotificarDeposito_V2/NotificarDeposito_v2";
+    private static String bancosURL =  "http://grupoariesco.no-ip.org:8091/api/Bancos/Consulta_Bancos";
+    private static String cuentasURL = "http://grupoariesco.no-ip.org:8091/api/Cuentas/Consulta_Cuentas";
+    private static String productosURL = "http://grupoariesco.no-ip.org:8091/api/Productos/Consulta_Productos";
+    private static String transURL = "http://grupoariesco.no-ip.org:8091/api/Transacciones/Consulta_Transacciones";
+    private static String cambioPassURL = "http://grupoariesco.no-ip.org:8091/api/CambioClave/CambioClave";
+    private static String ecURL="http://grupoariesco.no-ip.org:8091/api/Movimientos/Consulta_Movimientos";
+    private static String pinURL="http://grupoariesco.no-ip.org:8091/api/CalculoMontosPin/CalculoMontosPin";
         // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
@@ -48,6 +48,7 @@ public class UserFunctions {
         json1.accumulate("password", password);
         JSONObject json = jsonParser.getJSON(loginURL, json1);
         //jsonParser.post(loginURL,json1);
+        Log.i("LoginActivity","Json= "+json1.toString());
         return json;
     }
 
@@ -114,17 +115,6 @@ public class UserFunctions {
         JSONObject json = jsonParser.getJSON(saldoURL, json1);
         return json;
     }
-    /**
-     * Function to change password
-     **/
-
-    /**
-     * Function to reset the password
-     **/
-
-    /**
-     * Function to  Register
-     **/
 
     public JSONObject registrarVenta(String usuario, String imei, String monto, String fechahora, String numero, String producto, String password, String telefono) throws JSONException {
         // Building Parameters
